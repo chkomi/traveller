@@ -117,3 +117,6 @@ $RECYCLE.BIN/
 .*.sw[a-z]
 *.un~
 Session.vim
+
+# Claude Code settings
+.claude/
