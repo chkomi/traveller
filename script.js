@@ -50,19 +50,10 @@ function initMap() {
     // 기본 타일 (Positron) 추가
     tileLayers.positron.addTo(map);
 
-    // 마커 클러스터 그룹 생성
-    markerCluster = L.markerClusterGroup({
-        maxClusterRadius: 50,        // 클러스터링 반경
-        spiderfyOnMaxZoom: true,     // 최대 줌에서 마커 펼치기
-        showCoverageOnHover: false,  // hover 시 범위 표시 안함
-        zoomToBoundsOnClick: true,   // 클릭 시 해당 영역으로 줌
-        disableClusteringAtZoom: 13  // 줌 레벨 13부터는 클러스터링 해제
-    });
-
     // 줌 레벨에 따라 마커 크기 조절
     map.on('zoomend', updateMarkerSize);
 
-    console.log('✅ 지도 초기화 완료 (Positron + 마커 클러스터링)');
+    console.log('✅ 지도 초기화 완료 (Positron)');
 }
 
 // ========================================
@@ -89,19 +80,17 @@ async function loadData() {
 // ========================================
 function displayMarkers(data) {
     // 기존 마커 제거
-    markerCluster.clearLayers();
+    allMarkers.forEach(({ marker }) => map.removeLayer(marker));
     allMarkers = [];
 
     data.forEach(place => {
         // 마커 아이콘 생성
         const icon = getMarkerIcon(place.type);
 
-        // 마커 생성
+        // 마커 생성하고 지도에 바로 추가
         const marker = L.marker([place.latitude, place.longitude], { icon })
+            .addTo(map)
             .bindPopup(createPopupContent(place));
-
-        // 마커를 클러스터 그룹에 추가
-        markerCluster.addLayer(marker);
 
         // 마커 저장
         allMarkers.push({
@@ -110,34 +99,70 @@ function displayMarkers(data) {
         });
     });
 
-    // 클러스터 그룹을 지도에 추가
-    map.addLayer(markerCluster);
-
     // 초기 마커 크기 설정
     updateMarkerSize();
 
-    console.log(`✅ ${allMarkers.length}개 마커 생성 완료 (클러스터링 활성화)`);
+    console.log(`✅ ${allMarkers.length}개 마커 생성 완료`);
 }
 
 // ========================================
-// 줌 레벨에 따라 마커 크기 조절
+// 줌 레벨에 따라 마커 크기 조절 (실제 겹침 감지)
 // ========================================
 function updateMarkerSize() {
     const currentZoom = map.getZoom();
 
-    allMarkers.forEach(({ marker }) => {
-        const iconElement = marker.getElement();
-        if (iconElement) {
-            const circleMarker = iconElement.querySelector('.circle-marker');
-            if (circleMarker) {
-                // 줌 13-14: 작은 점 5px
-                // 줌 15 이상: 일반 마커 25px
-                if (currentZoom >= 13 && currentZoom < 15) {
+    // 줌이 너무 낮으면 모두 작은 점으로
+    if (currentZoom < 11) {
+        allMarkers.forEach(({ marker }) => {
+            const iconElement = marker.getElement();
+            if (iconElement) {
+                const circleMarker = iconElement.querySelector('.circle-marker');
+                if (circleMarker) {
                     circleMarker.classList.add('small-dot');
-                } else {
-                    circleMarker.classList.remove('small-dot');
                 }
             }
+        });
+        return;
+    }
+
+    // 줌 11 이상: 실제로 겹치는지 확인
+    allMarkers.forEach(({ marker, data }, index) => {
+        const iconElement = marker.getElement();
+        if (!iconElement) return;
+
+        const circleMarker = iconElement.querySelector('.circle-marker');
+        if (!circleMarker) return;
+
+        // 현재 마커의 화면 좌표
+        const markerPos = map.latLngToContainerPoint([data.latitude, data.longitude]);
+
+        // 주변에 겹치는 마커가 있는지 확인
+        let hasNearbyMarker = false;
+        const checkRadius = 40; // 40px 반경 내 체크
+
+        for (let i = 0; i < allMarkers.length; i++) {
+            if (i === index) continue; // 자기 자신은 제외
+
+            const otherData = allMarkers[i].data;
+            const otherPos = map.latLngToContainerPoint([otherData.latitude, otherData.longitude]);
+
+            // 거리 계산
+            const distance = Math.sqrt(
+                Math.pow(markerPos.x - otherPos.x, 2) +
+                Math.pow(markerPos.y - otherPos.y, 2)
+            );
+
+            if (distance < checkRadius) {
+                hasNearbyMarker = true;
+                break;
+            }
+        }
+
+        // 겹치면 작은 점, 안 겹치면 일반 마커
+        if (hasNearbyMarker) {
+            circleMarker.classList.add('small-dot');
+        } else {
+            circleMarker.classList.remove('small-dot');
         }
     });
 }
@@ -343,15 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 데이터 로드
     loadData();
 
-    // 타일 선택 버튼
-    document.querySelectorAll('.tile-option').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.tile-option').forEach(b => b.classList.remove('active'));
-            e.currentTarget.classList.add('active');
-
-            const tileName = e.currentTarget.dataset.tile;
-            changeTile(tileName);
-        });
+    // 타일 선택 콤보박스
+    document.getElementById('tile-select').addEventListener('change', (e) => {
+        const tileName = e.target.value;
+        changeTile(tileName);
     });
 
     // 범례 체크박스
