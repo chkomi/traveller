@@ -30,22 +30,16 @@
 
     <!-- 지도 타일 선택 -->
     <div class="tile-selector">
-        <div class="tile-option active" data-tile="positron">
+        <label for="tile-select">
             <i class="fas fa-map"></i>
-            <span>간결</span>
-        </div>
-        <div class="tile-option" data-tile="streets">
-            <i class="fas fa-road"></i>
-            <span>거리</span>
-        </div>
-        <div class="tile-option" data-tile="satellite">
-            <i class="fas fa-satellite"></i>
-            <span>위성</span>
-        </div>
-        <div class="tile-option" data-tile="transit">
-            <i class="fas fa-bus"></i>
-            <span>교통</span>
-        </div>
+            <span>지도 스타일</span>
+        </label>
+        <select id="tile-select" class="tile-select">
+            <option value="positron" selected>간결</option>
+            <option value="streets">거리</option>
+            <option value="satellite">위성</option>
+            <option value="transit">교통</option>
+        </select>
     </div>
 
     <!-- 범례 (Legend) -->
