@@ -395,6 +395,24 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
+/* 마커 라벨 */
+.marker-label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    white-space: nowrap;
+    font-weight: 600;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 3px rgba(255, 255, 255, 0.9);
+    margin-top: 2px;
+    pointer-events: none;
+}
+
+.circle-marker.small-dot ~ .marker-label {
+    display: none;
+}
+
 /* ====================
    마커 클러스터 커스터마이징
    ==================== */
@@ -500,26 +518,26 @@ body {
 /* 커스텀 팝업 (스크린샷 스타일) */
 .custom-popup {
     background: #FFF5EB;
-    border: 3px solid #7D2E3D;
-    border-radius: 20px;
-    max-width: 400px;
-    min-width: 320px;
+    border: 2px solid #7D2E3D;
+    border-radius: 15px;
+    max-width: 300px;
+    min-width: 240px;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 
 /* 닫기 버튼 */
 .popup-close-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
+    top: 9px;
+    right: 9px;
+    width: 21px;
+    height: 21px;
     background: transparent;
     border: none;
     color: #7D2E3D;
-    font-size: 18px;
+    font-size: 14px;
     cursor: pointer;
     z-index: 10;
     transition: all 0.3s ease;
@@ -533,7 +551,7 @@ body {
 /* 팝업 헤더 (3x1 세로 구조) */
 .popup-header {
     background: #FFF5EB;
-    padding: 18px 20px 12px;
+    padding: 14px 15px 9px;
     text-align: center;
     border-bottom: 2px solid #7D2E3D;
     display: flex;
@@ -543,7 +561,7 @@ body {
 }
 
 .popup-title {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     color: #7D2E3D;
     line-height: 1.0;
@@ -552,7 +570,7 @@ body {
 }
 
 .popup-subtitle {
-    font-size: 14px;
+    font-size: 11px;
     color: #7D2E3D;
     opacity: 0.8;
     line-height: 1.0;
@@ -562,47 +580,47 @@ body {
 
 .type-badge {
     display: block;
-    padding: 5px 18px;
+    padding: 4px 14px;
     background: #7D2E3D;
     color: #FFF5EB;
-    border-radius: 18px;
-    font-size: 13px;
+    border-radius: 14px;
+    font-size: 10px;
     font-weight: 600;
     margin: 0 auto;
 }
 
 /* 팝업 본문 */
 .popup-body {
-    padding: 20px;
+    padding: 15px;
     background: #FFF5EB;
 }
 
 .popup-row {
-    margin-bottom: 14px;
+    margin-bottom: 11px;
     line-height: 1.6;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 9px;
 }
 
 .popup-icon {
     color: #7D2E3D;
-    margin-top: 3px;
+    margin-top: 2px;
     flex-shrink: 0;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .popup-row span {
     color: #333;
-    font-size: 14px;
+    font-size: 11px;
 }
 
 /* 팝업 푸터 */
 .popup-footer {
-    padding: 16px;
+    padding: 12px;
     background: #FFF5EB;
     display: flex;
-    gap: 12px;
+    gap: 9px;
 }
 
 .map-btn {
@@ -610,26 +628,26 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 10px 14px;
+    gap: 5px;
+    padding: 8px 11px;
     background: #FFF5EB;
     color: #7D2E3D;
     text-decoration: none;
     border: 2px solid #7D2E3D;
-    border-radius: 10px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 10px;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .map-btn:hover {
     opacity: 0.8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1.5px);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.2);
 }
 
 .map-btn i {
-    font-size: 14px;
+    font-size: 11px;
     color: #7D2E3D;
 }
 
@@ -650,7 +668,7 @@ body {
     }
 
     .tile-selector {
-        bottom: 200px;
+        bottom: 20px;
         left: 12px;
         min-width: 160px;
         padding: 10px 12px;
@@ -666,7 +684,7 @@ body {
     }
 
     .legend-box {
-        bottom: 200px;
+        bottom: 20px;
         right: 12px;
         padding: 12px;
         min-width: 140px;

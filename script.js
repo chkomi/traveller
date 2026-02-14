@@ -84,8 +84,11 @@ function displayMarkers(data) {
     allMarkers = [];
 
     data.forEach(place => {
-        // 마커 아이콘 생성
-        const icon = getMarkerIcon(place.type);
+        // 한글 이름 추출
+        const koreanName = extractKorean(place.name);
+
+        // 마커 아이콘 생성 (한글 이름 포함)
+        const icon = getMarkerIcon(place.type, koreanName);
 
         // 마커 생성하고 지도에 바로 추가
         const marker = L.marker([place.latitude, place.longitude], { icon })
@@ -170,7 +173,7 @@ function updateMarkerSize() {
 // ========================================
 // 마커 아이콘 생성 (KRC-Global 스타일)
 // ========================================
-function getMarkerIcon(type) {
+function getMarkerIcon(type, koreanName) {
     const iconMap = {
         attractions: 'fa-landmark',
         restaurants: 'fa-utensils',
@@ -178,9 +181,23 @@ function getMarkerIcon(type) {
         airports: 'fa-plane'
     };
 
+    const typeColors = {
+        attractions: '#8B5A6B',
+        restaurants: '#6B8E5A',
+        hotels: '#7B9EA8',
+        airports: '#B87A8F'
+    };
+
+    const color = typeColors[type] || typeColors.attractions;
+
     return L.divIcon({
         className: 'custom-marker-icon',
-        html: `<div class="circle-marker ${type}-bg"><i class="fas ${iconMap[type] || 'fa-landmark'}"></i></div>`,
+        html: `
+            <div class="circle-marker ${type}-bg">
+                <i class="fas ${iconMap[type] || 'fa-landmark'}"></i>
+            </div>
+            <div class="marker-label" style="color: ${color};">${koreanName}</div>
+        `,
         iconSize: [25, 25],
         iconAnchor: [12, 12],
         popupAnchor: [0, -12]
