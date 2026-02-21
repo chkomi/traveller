@@ -402,5 +402,162 @@
     "visitTime": "1-2시간",
     "openingHours": "11:00-22:00",
     "phone": "051-745-1234"
+  },
+  {
+    "name": "이케아 동부산점 (IKEA East Busan, 宜家东釜山店)",
+    "latitude": 35.1905,
+    "longitude": 129.2101,
+    "address": "부산광역시 기장군 기장읍 동부산관광3로 17",
+    "description": "국내 최대 규모 이케아 매장. 쇼룸, 레스토랑, 비스트로, 스몰란드 키즈 놀이 공간을 갖추고 있습니다.",
+    "features": [
+      "가구",
+      "쇼핑",
+      "키즈존"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.3,
+    "visitTime": "2-3시간",
+    "openingHours": "10:00-22:00",
+    "transport": "동해선 오시리아역 도보 10분"
+  },
+  {
+    "name": "누리마루 APEC하우스 (Nurimaru APEC House, 世峰楼)",
+    "latitude": 35.1524,
+    "longitude": 129.1513,
+    "address": "부산광역시 해운대구 동백로 116",
+    "description": "2005년 APEC 정상회의 개최 장소. 동백섬 끝자락에 위치한 현대식 건축물로 아름다운 해안 경관을 감상할 수 있습니다.",
+    "features": [
+      "APEC",
+      "전망대",
+      "동백섬"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "1-2시간",
+    "openingHours": "09:00-18:00",
+    "transport": "지하철 2호선 동백역 1번 출구 도보 20분"
+  },
+  {
+    "name": "달맞이길 (Dalmaji-gil, 迎月路)",
+    "latitude": 35.1577,
+    "longitude": 129.1825,
+    "address": "부산광역시 해운대구 달맞이길 190 일대",
+    "description": "해운대에서 송정까지 와우산을 넘는 약 8km 해안 도로. 벚나무와 소나무가 늘어서 있고 카페, 갤러리가 즐비합니다.",
+    "features": [
+      "해안도로",
+      "카페거리",
+      "벚꽃"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "1-2시간"
+  },
+  {
+    "name": "더파티 프리미엄 해운대 (The Party Premium Haeundae, The Party自助餐)",
+    "latitude": 35.1602,
+    "longitude": 129.1666,
+    "address": "부산광역시 해운대구 해운대해변로298번길 24 팔레드시즈 B1F",
+    "description": "부산 인기 프리미엄 뷔페. 스시, 사시미, BBQ, 이탈리안, 한식 등 다양한 요리를 즐길 수 있습니다.",
+    "features": [
+      "뷔페",
+      "프리미엄",
+      "해운대"
+    ],
+    "price": "50000",
+    "type": "restaurants",
+    "rating": 4.4,
+    "visitTime": "2시간",
+    "phone": "051-744-7711"
+  },
+  {
+    "name": "국회도서관 부산분관 (National Assembly Library Busan, 国会图书馆釜山分馆)",
+    "latitude": 35.1035,
+    "longitude": 128.9044,
+    "address": "부산광역시 강서구 명지국제1로 161",
+    "description": "2022년 개관한 국회도서관 부산분관. 일반 시민에게도 개방되어 있으며 전시, 독서문화 프로그램 등을 운영합니다.",
+    "features": [
+      "도서관",
+      "전시",
+      "독서"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.3,
+    "visitTime": "1-2시간",
+    "phone": "051-608-8114"
+  },
+  {
+    "name": "블루라인파크 (Blue Line Park, 蓝线公园)",
+    "latitude": 35.1595,
+    "longitude": 129.1714,
+    "address": "부산광역시 해운대구 달맞이길62번길 13 (미포역)",
+    "description": "폐선된 동해남부선 철로를 활용한 해안 관광열차. 미포~청사포~송정 4.8km 구간을 운행하며 스카이캡슐과 해변열차를 즐길 수 있습니다.",
+    "features": [
+      "스카이캡슐",
+      "해변열차",
+      "해안절경"
+    ],
+    "price": "35000",
+    "type": "attractions",
+    "rating": 4.7,
+    "visitTime": "1-2시간",
+    "openingHours": "09:00-18:00 (계절별 상이)",
+    "transport": "지하철 2호선 해운대역 → 미포 도보 15분"
+  },
+  {
+    "name": "영도박물관 (Yeongdo Museum, 影岛博物馆)",
+    "latitude": 35.0854,
+    "longitude": 129.0583,
+    "address": "부산광역시 영도구 벚꽃길 75",
+    "description": "영도의 역사와 문화를 전시하는 박물관. 체험 활동과 전시를 통해 영도의 이야기를 만날 수 있습니다.",
+    "features": [
+      "박물관",
+      "역사",
+      "문화체험"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.2,
+    "visitTime": "1-2시간",
+    "openingHours": "10:00-18:00 (월요일 휴관)",
+    "phone": "051-419-4047"
+  },
+  {
+    "name": "신세계백화점 센텀시티점 (Shinsegae Centum City, 新世界百货Centum City店)",
+    "latitude": 35.1676,
+    "longitude": 129.1298,
+    "address": "부산광역시 해운대구 센텀남대로 35",
+    "description": "기네스북 등재 세계 최대 백화점. 약 700개 매장, 스파, 아이스링크, 골프연습장, 영화관 등을 갖추고 있습니다.",
+    "features": [
+      "백화점",
+      "쇼핑",
+      "기네스"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "2-3시간",
+    "openingHours": "10:30-20:00",
+    "transport": "지하철 2호선 센텀시티역 연결"
+  },
+  {
+    "name": "벡스코 (BEXCO, 釜山会展中心)",
+    "latitude": 35.1689,
+    "longitude": 129.1362,
+    "address": "부산광역시 해운대구 APEC로 55",
+    "description": "부산 대표 전시·컨벤션 센터. 국제 컨퍼런스, 전시회, 콘서트 등 다양한 행사가 열리는 복합 문화공간입니다.",
+    "features": [
+      "전시",
+      "컨벤션",
+      "공연"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.4,
+    "visitTime": "1-3시간",
+    "transport": "지하철 2호선 벡스코역 연결"
   }
 ]
