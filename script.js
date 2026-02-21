@@ -128,7 +128,35 @@ function updateMarkerSize() {
         return;
     }
 
-    // 줌 11 이상: 실제로 겹치는지 확인
+    // 줌이 16 이상이면 모든 마커를 아이콘으로 표시 (같은 위치에 있어도)
+    if (currentZoom >= 16) {
+        allMarkers.forEach(({ marker }) => {
+            const iconElement = marker.getElement();
+            if (iconElement) {
+                const circleMarker = iconElement.querySelector('.circle-marker');
+                if (circleMarker) {
+                    circleMarker.classList.remove('small-dot');
+                }
+            }
+        });
+        return;
+    }
+
+    // 줌 11-15: 먼저 모든 마커를 일반 마커로 초기화
+    allMarkers.forEach(({ marker }) => {
+        const iconElement = marker.getElement();
+        if (iconElement) {
+            const circleMarker = iconElement.querySelector('.circle-marker');
+            if (circleMarker) {
+                circleMarker.classList.remove('small-dot');
+            }
+        }
+    });
+
+    // 줌 레벨에 따라 체크 반경 조정 (줌이 높을수록 더 가까이 있어야 겹침으로 판단)
+    const checkRadius = Math.max(15, 60 - (currentZoom * 3)); // 줌 11: 27px, 줌 15: 15px
+
+    // 그 다음 실제로 겹치는 마커만 작은 점으로 변경
     allMarkers.forEach(({ marker, data }, index) => {
         const iconElement = marker.getElement();
         if (!iconElement) return;
@@ -141,7 +169,6 @@ function updateMarkerSize() {
 
         // 주변에 겹치는 마커가 있는지 확인
         let hasNearbyMarker = false;
-        const checkRadius = 40; // 40px 반경 내 체크
 
         for (let i = 0; i < allMarkers.length; i++) {
             if (i === index) continue; // 자기 자신은 제외
@@ -161,11 +188,9 @@ function updateMarkerSize() {
             }
         }
 
-        // 겹치면 작은 점, 안 겹치면 일반 마커
+        // 겹치면 작은 점으로 변경
         if (hasNearbyMarker) {
             circleMarker.classList.add('small-dot');
-        } else {
-            circleMarker.classList.remove('small-dot');
         }
     });
 }
@@ -264,6 +289,14 @@ function createPopupContent(place) {
         html += `<div class='popup-row'>`;
         html += `<i class="fas fa-star popup-icon" style='color: ${signatureColor};'></i>`;
         html += `<span>${features}</span>`;
+        html += `</div>`;
+    }
+
+    // 행사 정보 (2026년 2월 27일 ~ 3월 1일)
+    if (place.event) {
+        html += `<div class='popup-row' style='background: #fff9e6; padding: 8px; border-radius: 4px; margin-top: 8px;'>`;
+        html += `<i class="fas fa-calendar-check popup-icon" style='color: ${signatureColor};'></i>`;
+        html += `<span>${place.event}</span>`;
         html += `</div>`;
     }
 

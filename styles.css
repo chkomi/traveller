@@ -564,18 +564,18 @@ body {
     font-size: 15px;
     font-weight: 700;
     color: #7D2E3D;
-    line-height: 1.0;
+    line-height: 1.1;
     width: 100%;
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 }
 
 .popup-subtitle {
     font-size: 11px;
     color: #7D2E3D;
     opacity: 0.8;
-    line-height: 1.0;
+    line-height: 1.1;
     width: 100%;
-    margin-bottom: 1px;
+    margin-bottom: 3px;
 }
 
 .type-badge {
