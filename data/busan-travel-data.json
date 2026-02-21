@@ -119,25 +119,6 @@
     "ageGroup": "4세, 7세"
   },
   {
-    "name": "부산 어린이대공원 (Busan Children's Grand Park, 釜山儿童大公园)",
-    "latitude": 35.167787,
-    "longitude": 129.059589,
-    "address": "부산광역시 부산진구 새싹로 295",
-    "description": "백양산 기슭의 종합 공원. 동물원, 놀이기구, 산책로를 무료로 즐길 수 있어 4세, 7세 아이들과 가족 나들이에 최적입니다.",
-    "features": [
-      "공원",
-      "동물원",
-      "놀이기구"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "3-4시간",
-    "openingHours": "09:00-18:00",
-    "phone": "051-860-7848",
-    "ageGroup": "4세, 7세"
-  },
-  {
     "name": "롯데월드 어드벤처 부산 (Lotte World Adventure Busan, 乐天世界釜山)",
     "latitude": 35.18902,
     "longitude": 129.212286,
@@ -287,23 +268,6 @@
     "phone": "051-744-7711"
   },
   {
-    "name": "국회도서관 부산분관 (National Assembly Library Busan, 国会图书馆釜山分馆)",
-    "latitude": 35.103485,
-    "longitude": 128.904383,
-    "address": "부산광역시 강서구 명지국제1로 161",
-    "description": "2022년 개관한 국회도서관 부산분관. 일반 시민에게도 개방되어 있으며 전시, 독서문화 프로그램 등을 운영합니다.",
-    "features": [
-      "도서관",
-      "전시",
-      "독서"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.3,
-    "visitTime": "1-2시간",
-    "phone": "051-608-8114"
-  },
-  {
     "name": "블루라인파크 (Blue Line Park, 蓝线公园)",
     "latitude": 35.158245,
     "longitude": 129.180516,
@@ -320,24 +284,6 @@
     "visitTime": "1-2시간",
     "openingHours": "09:00-18:00 (계절별 상이)",
     "transport": "지하철 2호선 해운대역 → 미포 도보 15분"
-  },
-  {
-    "name": "영도박물관 (Yeongdo Museum, 影岛博物馆)",
-    "latitude": 35.085382,
-    "longitude": 129.05829,
-    "address": "부산광역시 영도구 벚꽃길 75",
-    "description": "영도의 역사와 문화를 전시하는 박물관. 체험 활동과 전시를 통해 영도의 이야기를 만날 수 있습니다.",
-    "features": [
-      "박물관",
-      "역사",
-      "문화체험"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.2,
-    "visitTime": "1-2시간",
-    "openingHours": "10:00-18:00 (월요일 휴관)",
-    "phone": "051-419-4047"
   },
   {
     "name": "신세계백화점 센텀시티점 (Shinsegae Centum City, 新世界百货Centum City店)",
