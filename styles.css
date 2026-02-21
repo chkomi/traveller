@@ -550,43 +550,40 @@ body {
 
 /* 팝업 헤더 (3x1 세로 구조) */
 .popup-header {
-    background: #FFF5EB;
-    padding: 14px 15px 9px;
-    text-align: center;
-    border-bottom: 2px solid #7D2E3D;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
+    background: #FFF5EB !important;
+    padding: 12px 15px 8px !important;
+    text-align: center !important;
+    border-bottom: 2px solid #7D2E3D !important;
 }
 
 .popup-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #7D2E3D;
-    line-height: 1.1;
-    width: 100%;
-    margin-bottom: 2px;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #7D2E3D !important;
+    line-height: 1.0 !important;
+    margin: 0 0 1px 0 !important;
+    padding: 0 !important;
 }
 
 .popup-subtitle {
-    font-size: 11px;
-    color: #7D2E3D;
-    opacity: 0.8;
-    line-height: 1.1;
-    width: 100%;
-    margin-bottom: 3px;
+    font-size: 11px !important;
+    color: #7D2E3D !important;
+    opacity: 0.8 !important;
+    line-height: 1.0 !important;
+    margin: 0 0 2px 0 !important;
+    padding: 0 !important;
 }
 
 .type-badge {
-    display: block;
-    padding: 4px 14px;
-    background: #7D2E3D;
-    color: #FFF5EB;
-    border-radius: 14px;
-    font-size: 10px;
-    font-weight: 600;
-    margin: 0 auto;
+    display: inline-block !important;
+    padding: 4px 14px !important;
+    background: #7D2E3D !important;
+    color: #FFF5EB !important;
+    border-radius: 14px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    line-height: 1.0 !important;
+    margin: 0 !important;
 }
 
 /* 팝업 본문 */
