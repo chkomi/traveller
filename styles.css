@@ -554,6 +554,9 @@ body {
     padding: 12px 15px 8px !important;
     text-align: center !important;
     border-bottom: 2px solid #7D2E3D !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
 
 .popup-title {
@@ -561,7 +564,7 @@ body {
     font-weight: 700 !important;
     color: #7D2E3D !important;
     line-height: 1.0 !important;
-    margin: 0 0 1px 0 !important;
+    margin: 0 0 3px 0 !important;
     padding: 0 !important;
 }
 
@@ -570,7 +573,7 @@ body {
     color: #7D2E3D !important;
     opacity: 0.8 !important;
     line-height: 1.0 !important;
-    margin: 0 0 2px 0 !important;
+    margin: 0 0 3px 0 !important;
     padding: 0 !important;
 }
 
