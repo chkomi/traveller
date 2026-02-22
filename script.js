@@ -11,6 +11,36 @@ let busanData = [];
 let tileLayers = {};
 let currentTile = 'positron';
 
+// 경로 관련
+let routeLayers = {};   // { 1: L.polyline, 2: L.polyline, 3: L.polyline }
+let routeCache = {};    // OSRM 응답 캐시
+
+const DAY_COLORS = { 1: '#D4634A', 2: '#4A7FB5', 3: '#8B6D3F' };
+
+const DAY_ROUTES = {
+    1: [
+        { name: '브라운스위트', lat: 35.11639, lng: 129.046002 },
+        { name: '국제시장', lat: 35.101256, lng: 129.027896 },
+        { name: '하이디라오', lat: 35.113075, lng: 129.038314 },
+        { name: '브라운스위트', lat: 35.11639, lng: 129.046002 }
+    ],
+    2: [
+        { name: '브라운스위트', lat: 35.11639, lng: 129.046002 },
+        { name: '안목', lat: 35.116591, lng: 129.041367 },
+        { name: '씨라이프', lat: 35.159162, lng: 129.160875 },
+        { name: '더파티', lat: 35.141646, lng: 129.061149 },
+        { name: '블루라인파크', lat: 35.160298, lng: 129.188111 },
+        { name: '롯데월드', lat: 35.196048, lng: 129.214977 },
+        { name: '딘타이펑', lat: 35.097535, lng: 129.036834 },
+        { name: '브라운스위트', lat: 35.11639, lng: 129.046002 }
+    ],
+    3: [
+        { name: '브라운스위트', lat: 35.11639, lng: 129.046002 },
+        { name: '태종대', lat: 35.052872, lng: 129.087329 },
+        { name: '국제시장', lat: 35.101256, lng: 129.027896 }
+    ]
+};
+
 // ========================================
 // 지도 초기화
 // ========================================
@@ -68,6 +98,9 @@ async function loadData() {
 
         // 마커 생성
         displayMarkers(busanData);
+
+        // 경로 로드
+        loadAllRoutes();
 
     } catch (error) {
         console.error('❌ 데이터 로드 실패:', error);
@@ -378,6 +411,174 @@ function filterMarkers() {
 }
 
 // ========================================
+// 경로 관련 함수
+// ========================================
+async function fetchRouteForDay(day) {
+    const waypoints = DAY_ROUTES[day];
+    if (!waypoints || waypoints.length < 2) return null;
+
+    const coordStr = waypoints.map(wp => `${wp.lng},${wp.lat}`).join(';');
+    const url = `https://routing.openstreetmap.de/routed-car/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+
+        const data = await response.json();
+        if (data.code === 'Ok' && data.routes.length > 0) {
+            const route = data.routes[0];
+            const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+            const segments = route.legs.map((leg, i) => ({
+                from: waypoints[i].name,
+                to: waypoints[i + 1].name,
+                distance: leg.distance,
+                duration: leg.duration
+            }));
+            return { coords, segments, totalDistance: route.distance, totalDuration: route.duration };
+        }
+    } catch (error) {
+        console.warn(`⚠️ ${day}일차 경로 API 실패, 직선 폴백:`, error.message);
+    }
+
+    return createFallbackRoute(waypoints);
+}
+
+function createFallbackRoute(waypoints) {
+    const coords = waypoints.map(wp => [wp.lat, wp.lng]);
+    const segments = [];
+    for (let i = 0; i < waypoints.length - 1; i++) {
+        const dist = haversineDistance(waypoints[i].lat, waypoints[i].lng, waypoints[i + 1].lat, waypoints[i + 1].lng);
+        segments.push({
+            from: waypoints[i].name,
+            to: waypoints[i + 1].name,
+            distance: dist,
+            duration: dist * 0.12
+        });
+    }
+    return {
+        coords,
+        segments,
+        totalDistance: segments.reduce((sum, s) => sum + s.distance, 0),
+        totalDuration: segments.reduce((sum, s) => sum + s.duration, 0)
+    };
+}
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function drawRoute(day, coords) {
+    if (routeLayers[day]) {
+        map.removeLayer(routeLayers[day]);
+    }
+    routeLayers[day] = L.polyline(coords, {
+        color: DAY_COLORS[day],
+        weight: 4,
+        opacity: 0.75,
+        lineJoin: 'round',
+        lineCap: 'round'
+    }).addTo(map);
+}
+
+async function loadAllRoutes() {
+    const days = Object.keys(DAY_ROUTES).map(Number);
+    await Promise.allSettled(
+        days.map(async (day) => {
+            const result = await fetchRouteForDay(day);
+            if (result) {
+                routeCache[day] = result;
+                drawRoute(day, result.coords);
+            }
+        })
+    );
+    populateRoutePanel();
+    console.log('✅ 모든 경로 로드 완료');
+}
+
+function populateRoutePanel() {
+    const container = document.getElementById('route-days-container');
+    container.innerHTML = '';
+
+    Object.keys(DAY_ROUTES).forEach(dayKey => {
+        const day = Number(dayKey);
+        const data = routeCache[day];
+        if (!data) return;
+
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'route-day';
+
+        const header = document.createElement('label');
+        header.className = 'route-day-header';
+        header.innerHTML = `
+            <input type="checkbox" class="route-checkbox" data-day="${day}" checked>
+            <span class="route-dot" style="background: ${DAY_COLORS[day]};"></span>
+            <span class="route-day-title">${day}일차</span>
+            <span class="route-day-summary">${formatDistance(data.totalDistance)} · ${formatDuration(data.totalDuration)}</span>
+        `;
+
+        const segmentsDiv = document.createElement('div');
+        segmentsDiv.className = 'route-segments';
+        data.segments.forEach((seg, i) => {
+            const segDiv = document.createElement('div');
+            segDiv.className = 'route-segment';
+            segDiv.innerHTML = `
+                <span class="segment-order">${i + 1}</span>
+                <span class="segment-names">${seg.from} → ${seg.to}</span>
+                <span class="segment-info">${formatDistance(seg.distance)} · ${formatDuration(seg.duration)}</span>
+            `;
+            segmentsDiv.appendChild(segDiv);
+        });
+
+        dayDiv.appendChild(header);
+        dayDiv.appendChild(segmentsDiv);
+        container.appendChild(dayDiv);
+    });
+
+    container.querySelectorAll('.route-checkbox').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+            const day = Number(e.target.dataset.day);
+            toggleRoute(day, e.target.checked);
+        });
+    });
+}
+
+function toggleRoute(day, visible) {
+    if (visible && routeCache[day]) {
+        if (!routeLayers[day] || !map.hasLayer(routeLayers[day])) {
+            drawRoute(day, routeCache[day].coords);
+        }
+    } else if (routeLayers[day]) {
+        map.removeLayer(routeLayers[day]);
+    }
+}
+
+function formatDistance(meters) {
+    if (meters >= 1000) {
+        return (meters / 1000).toFixed(1) + 'km';
+    }
+    return Math.round(meters) + 'm';
+}
+
+function formatDuration(seconds) {
+    const minutes = Math.round(seconds / 60);
+    if (minutes >= 60) {
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return mins > 0 ? `${hours}시간 ${mins}분` : `${hours}시간`;
+    }
+    return `${minutes}분`;
+}
+
+// ========================================
 // 내 위치 찾기
 // ========================================
 function findMyLocation() {
@@ -431,6 +632,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 내 위치 찾기 버튼
     document.getElementById('locate-btn').addEventListener('click', findMyLocation);
+
+    // 경로 패널 토글
+    document.getElementById('route-panel-toggle').addEventListener('click', () => {
+        document.getElementById('route-panel').classList.toggle('collapsed');
+    });
 
     // 타임라인 닫기
     document.querySelector('.timeline-close')?.addEventListener('click', () => {

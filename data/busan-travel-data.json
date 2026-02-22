@@ -63,23 +63,6 @@
     "parking": "무료"
   },
   {
-    "name": "자갈치시장 (Jagalchi Market, 札嘎其市场)",
-    "latitude": 35.096586,
-    "longitude": 129.030678,
-    "address": "부산광역시 중구 자갈치해안로 52",
-    "description": "대한민국 최대 수산시장. 신선한 해산물을 직접 구매하고 즉석에서 회를 즐길 수 있습니다.",
-    "features": [
-      "수산시장",
-      "해산물",
-      "현지체험"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "1-2시간",
-    "transport": "지하철 1호선 남포역 2번 출구/자갈치역 10번 출구 도보 6분, 버스 27/41/5-1/61/113/30/6/7/71/86"
-  },
-  {
     "name": "국제시장 (Gukje Market, 国际市场)",
     "latitude": 35.101256,
     "longitude": 129.027896,
@@ -136,25 +119,6 @@
     "transport": "동해선 오시리아역 1번 출구 도보 10분, 버스 139/183/185/1001",
     "ageGroup": "4세, 7세",
     "event": "❄️ <strong>겨울시즌 축제</strong> (아이스 캐슬, 퍼레이드 ~ 3/1)"
-  },
-  {
-    "name": "국립부산과학관 (National Science Museum Busan, 国立釜山科学馆)",
-    "latitude": 35.204517,
-    "longitude": 129.212721,
-    "address": "부산광역시 기장군 기장읍 동부산관광6로 59",
-    "description": "어린이 과학체험 박물관. 다양한 과학 체험 프로그램으로 4세, 7세 아이들의 과학적 호기심을 자극합니다.",
-    "features": [
-      "과학관",
-      "체험학습",
-      "교육"
-    ],
-    "price": "4000",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "2-3시간",
-    "openingHours": "09:30-17:30 (입장마감 16:30), 월요일·1월1일·명절 당일 휴관",
-    "transport": "동해선 오시리아역 1번 출구 → 버스 185번",
-    "ageGroup": "4세, 7세"
   },
   {
     "name": "태종대 유원지 (Taejongdae Resort Park, 太宗台游园地)",

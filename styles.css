@@ -149,16 +149,26 @@ body {
 /* ====================
    범례 (Legend)
    ==================== */
-.legend-box {
+/* 우측 하단 컨트롤 컨테이너 */
+.right-controls {
     position: fixed;
     bottom: 30px;
     right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: calc(100vh - 60px);
+    align-items: stretch;
+}
+
+.legend-box {
     background: white;
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
     padding: 16px;
-    z-index: 1000;
     min-width: 160px;
+    flex-shrink: 0;
 }
 
 .legend-box h3 {
@@ -656,6 +666,151 @@ body {
 }
 
 /* ====================
+   경로 패널
+   ==================== */
+.route-panel {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 12px 14px;
+    min-width: 220px;
+    max-width: 280px;
+    overflow-y: auto;
+    flex-shrink: 1;
+}
+
+.route-panel h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+}
+
+.route-panel h3 i:first-child {
+    color: var(--primary-burgundy);
+    font-size: 13px;
+}
+
+.route-toggle-icon {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-light);
+    transition: transform 0.3s ease;
+    transform: rotate(180deg);
+}
+
+.route-panel.collapsed .route-toggle-icon {
+    transform: rotate(0deg);
+}
+
+.route-days-container {
+    margin-top: 10px;
+}
+
+.route-panel.collapsed .route-days-container {
+    display: none;
+}
+
+.route-loading {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: center;
+    padding: 8px 0;
+}
+
+.route-day {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.route-day:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.route-day-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 0;
+}
+
+.route-day-header input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--primary-burgundy);
+    flex-shrink: 0;
+}
+
+.route-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.route-day-title {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.route-day-summary {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.route-segments {
+    margin-top: 6px;
+    margin-left: 22px;
+}
+
+.route-segment {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 2px 0;
+    font-size: 11px;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+.segment-order {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--text-dark);
+    flex-shrink: 0;
+}
+
+.segment-names {
+    flex: 1;
+    word-break: keep-all;
+}
+
+.segment-info {
+    font-size: 10px;
+    white-space: nowrap;
+    color: var(--text-light);
+    opacity: 0.8;
+}
+
+/* ====================
    반응형 디자인
    ==================== */
 @media (max-width: 768px) {
@@ -683,9 +838,13 @@ body {
         padding: 6px 10px;
     }
 
-    .legend-box {
+    .right-controls {
         bottom: 20px;
         right: 12px;
+        max-height: calc(100vh - 80px);
+    }
+
+    .legend-box {
         padding: 12px;
         min-width: 140px;
     }
@@ -696,6 +855,20 @@ body {
 
     .legend-box label {
         font-size: 12px;
+    }
+
+    .route-panel {
+        min-width: 180px;
+        max-width: 240px;
+        padding: 10px 12px;
+    }
+
+    .route-panel h3 {
+        font-size: 13px;
+    }
+
+    .route-segment {
+        font-size: 10px;
     }
 }
 
