@@ -829,57 +829,52 @@ function populateRemarksPanel() {
     if (!container) return;
     container.innerHTML = '';
 
-    const title = document.createElement('div');
-    title.className = 'remarks-title';
-    title.textContent = '비고';
-    container.appendChild(title);
-
     const families = ['나주팀', '광주팀', 'TW팀'];
 
-    families.forEach((family, index) => {
-        const gKey = `1-${index}`;
-        const dKey = `3-${index}`;
-        const gData = gatheringCache[gKey];
-        const dData = dispersalCache[dKey];
-
-        const gDist = gData?.distance || 0;
-        const dDist = dData?.distance || 0;
+    // 팀별 데이터 수집
+    const teamData = families.map((family, index) => {
+        const gDist = gatheringCache[`1-${index}`]?.distance || 0;
+        const dDist = dispersalCache[`3-${index}`]?.distance || 0;
         const totalDist = gDist + dDist;
-
-        // 하이패스 추정: 편도 각각 47원/km (고속도로 1종 기준), 100원 단위 반올림
-        const gToll = Math.round(gDist / 1000 * 47 / 100) * 100;
-        const dToll = Math.round(dDist / 1000 * 47 / 100) * 100;
-        const totalToll = gToll + dToll;
-
-        if (index > 0) {
-            const divider = document.createElement('div');
-            divider.className = 'remarks-divider';
-            container.appendChild(divider);
-        }
-
-        const block = document.createElement('div');
-        block.className = 'remarks-team-block';
-        block.innerHTML = `
-            <div class="remarks-team-name">${family}</div>
-            <div class="remarks-team-info">
-                <span class="remarks-label">집결</span>
-                <span class="remarks-value">${gDist ? formatDistance(gDist) : '-'}</span>
-            </div>
-            <div class="remarks-team-info">
-                <span class="remarks-label">해산</span>
-                <span class="remarks-value">${dDist ? formatDistance(dDist) : '-'}</span>
-            </div>
-            <div class="remarks-team-info">
-                <span class="remarks-label">왕복합계</span>
-                <span class="remarks-value">${totalDist ? formatDistance(totalDist) : '-'}</span>
-            </div>
-            <div class="remarks-team-info">
-                <span class="remarks-label">하이패스</span>
-                <span class="remarks-value toll">~${totalToll ? totalToll.toLocaleString() + '원' : '-'}</span>
-            </div>
-        `;
-        container.appendChild(block);
+        const totalToll = (Math.round(gDist / 1000 * 47 / 100) + Math.round(dDist / 1000 * 47 / 100)) * 100;
+        return { family, gDist, dDist, totalDist, totalToll };
     });
+
+    // 그리드: 비고 | 나주팀 | 광주팀 | TW팀
+    const grid = document.createElement('div');
+    grid.className = 'remarks-grid';
+
+    // 헤더 행
+    ['비고', ...families].forEach(text => {
+        const cell = document.createElement('div');
+        cell.className = 'remarks-header';
+        cell.textContent = text;
+        grid.appendChild(cell);
+    });
+
+    // 데이터 행 정의
+    const rows = [
+        { label: '집결',    getValue: td => td.gDist     ? formatDistance(td.gDist)     : '-' },
+        { label: '해산',    getValue: td => td.dDist     ? formatDistance(td.dDist)     : '-' },
+        { label: '왕복',    getValue: td => td.totalDist ? formatDistance(td.totalDist) : '-' },
+        { label: '하이패스', getValue: td => td.totalToll ? '~' + td.totalToll.toLocaleString() + '원' : '-', toll: true },
+    ];
+
+    rows.forEach(row => {
+        const labelCell = document.createElement('div');
+        labelCell.className = 'remarks-label';
+        labelCell.textContent = row.label;
+        grid.appendChild(labelCell);
+
+        teamData.forEach(td => {
+            const valueCell = document.createElement('div');
+            valueCell.className = 'remarks-value' + (row.toll ? ' toll' : '');
+            valueCell.textContent = row.getValue(td);
+            grid.appendChild(valueCell);
+        });
+    });
+
+    container.appendChild(grid);
 
     const note = document.createElement('div');
     note.className = 'remarks-note';

@@ -709,10 +709,9 @@ body {
 
 .route-panel-body {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 10px;
     gap: 0;
-    overflow: hidden;
     min-height: 0;
 }
 
@@ -725,83 +724,69 @@ body {
     flex-direction: row;
     gap: 0;
     overflow-x: auto;
-    flex: 1;
     min-width: 0;
 }
 
 /* ====================
-   비고 (Remarks) 패널
+   비고 (Remarks) 패널 - 가로 그리드
    ==================== */
 .route-remarks {
-    width: 148px;
-    flex-shrink: 0;
-    border-left: 1px solid #eee;
-    padding: 0 0 0 12px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    border-top: 1px solid #eee;
+    margin-top: 8px;
+    padding-top: 8px;
+    overflow-x: auto;
 }
 
-.remarks-title {
+.remarks-grid {
+    display: grid;
+    grid-template-columns: 52px repeat(3, 1fr);
+    gap: 3px 8px;
+    align-items: center;
+    min-width: 260px;
+}
+
+.remarks-header {
     font-size: 11px;
     font-weight: 700;
-    color: var(--text-light);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    color: var(--text-dark);
     padding-bottom: 4px;
     border-bottom: 1px solid #eee;
-    flex-shrink: 0;
+    white-space: nowrap;
+    text-align: center;
 }
 
-.remarks-team-block {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.remarks-team-name {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-dark);
-}
-
-.remarks-team-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 4px;
+.remarks-header:first-child {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-light);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: left;
 }
 
 .remarks-label {
     font-size: 10px;
     color: var(--text-light);
-    flex-shrink: 0;
+    padding: 1px 0;
 }
 
 .remarks-value {
     font-size: 11px;
     font-weight: 600;
     color: var(--text-dark);
-    text-align: right;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .remarks-value.toll {
     color: var(--primary-burgundy);
 }
 
-.remarks-divider {
-    height: 1px;
-    background: #f0f0f0;
-    margin: 2px 0;
-}
-
 .remarks-note {
     font-size: 9px;
     color: var(--text-light);
     opacity: 0.7;
-    margin-top: auto;
-    padding-top: 4px;
+    margin-top: 5px;
 }
 
 .route-panel.collapsed .route-days-container {
