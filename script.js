@@ -42,6 +42,8 @@ const GATHERING_ROUTES = {
             family: 'TW팀',
             waypoints: [
                 { name: 'TW바이오매스에너지', lat: 34.808775, lng: 127.655259 },
+                { name: '순천', lat: 34.934311, lng: 127.488927 },
+                { name: '광양', lat: 34.915321, lng: 127.639434 },
                 { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
             ]
         }
@@ -69,6 +71,8 @@ const DISPERSAL_ROUTES = {
             family: 'TW팀',
             waypoints: [
                 { name: '일신명품한우', lat: 35.101948, lng: 129.025667 },
+                { name: '광양', lat: 34.915321, lng: 127.639434 },
+                { name: '순천', lat: 34.934311, lng: 127.488927 },
                 { name: 'TW바이오매스에너지', lat: 34.808775, lng: 127.655259 }
             ]
         }
