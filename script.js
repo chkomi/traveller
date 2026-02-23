@@ -14,8 +14,66 @@ let currentTile = 'positron';
 // 경로 관련
 let routeLayers = {};   // { 1: L.polyline, 2: L.polyline, 3: L.polyline }
 let routeCache = {};    // OSRM 응답 캐시
+let gatheringLayers = {};  // { '1-0': L.polyline, '1-1': L.polyline, ... }
+let gatheringCache = {};   // { '1-0': { coords, distance, duration, ... }, ... }
+let dispersalLayers = {};  // { '3-0': L.polyline, '3-1': L.polyline, ... }
+let dispersalCache = {};   // { '3-0': { coords, distance, duration, ... }, ... }
 
 const DAY_COLORS = { 1: '#D4634A', 2: '#4A7FB5', 3: '#8B6D3F' };
+
+// 3가족 집결 경로 (각 출발지 → 산해회식당)
+const GATHERING_ROUTES = {
+    1: [
+        {
+            family: '나주팀',
+            waypoints: [
+                { name: '나주 빛가람코오롱하늘채', lat: 35.031807, lng: 126.773710 },
+                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+            ]
+        },
+        {
+            family: '광주팀',
+            waypoints: [
+                { name: '광주 그랜드센트럴', lat: 35.156172, lng: 126.915643 },
+                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+            ]
+        },
+        {
+            family: 'TW팀',
+            waypoints: [
+                { name: 'TW바이오매스에너지', lat: 34.808775, lng: 127.655259 },
+                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+            ]
+        }
+    ]
+};
+
+// 3가족 해산 경로 (일신명품한우 → 각 귀가지)
+const DISPERSAL_ROUTES = {
+    3: [
+        {
+            family: '나주팀',
+            waypoints: [
+                { name: '일신명품한우', lat: 35.101948, lng: 129.025667 },
+                { name: '나주 빛가람코오롱하늘채', lat: 35.031807, lng: 126.773710 }
+            ]
+        },
+        {
+            family: '광주팀',
+            waypoints: [
+                { name: '일신명품한우', lat: 35.101948, lng: 129.025667 },
+                { name: '광주 그랜드센트럴', lat: 35.156172, lng: 126.915643 }
+            ]
+        },
+        {
+            family: 'TW팀',
+            waypoints: [
+                { name: '일신명품한우', lat: 35.101948, lng: 129.025667 },
+                { name: 'TW바이오매스에너지', lat: 34.808775, lng: 127.655259 }
+            ]
+        }
+    ]
+};
 
 const DAY_ROUTES = {
     1: [
@@ -474,17 +532,145 @@ function drawRoute(day, coords) {
     }).addTo(map);
 }
 
+// ========================================
+// 집결/해산 경로 공통 유틸
+// ========================================
+async function fetchFanRoute(waypoints, logLabel) {
+    const coordStr = waypoints.map(wp => `${wp.lng},${wp.lat}`).join(';');
+    const url = `https://routing.openstreetmap.de/routed-car/route/v1/driving/${coordStr}?overview=full&geometries=geojson`;
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+        const data = await response.json();
+        if (data.code === 'Ok' && data.routes.length > 0) {
+            const r = data.routes[0];
+            return { coords: r.geometry.coordinates.map(c => [c[1], c[0]]), distance: r.distance, duration: r.duration };
+        }
+    } catch (error) {
+        console.warn(`⚠️ ${logLabel} 경로 API 실패:`, error.message);
+    }
+    const coords = waypoints.map(wp => [wp.lat, wp.lng]);
+    const dist = haversineDistance(waypoints[0].lat, waypoints[0].lng, waypoints[1].lat, waypoints[1].lng);
+    return { coords, distance: dist, duration: dist * 0.12 };
+}
+
+// ========================================
+// 집결 경로 (각 출발지 → 산해회식당)
+// ========================================
+async function fetchRouteForFamily(day, index) {
+    const route = GATHERING_ROUTES[day]?.[index];
+    if (!route) return null;
+    return fetchFanRoute(route.waypoints, '집결');
+}
+
+function drawGatheringRoute(day, index, coords) {
+    const key = `${day}-${index}`;
+    if (gatheringLayers[key]) map.removeLayer(gatheringLayers[key]);
+    gatheringLayers[key] = L.polyline(coords, {
+        color: DAY_COLORS[day],
+        weight: 2,
+        opacity: 0.55,
+        dashArray: '6, 8',
+        lineJoin: 'round',
+        lineCap: 'round'
+    }).addTo(map);
+}
+
+function addDepartureMarker(waypoint, day) {
+    const color = DAY_COLORS[day];
+    L.marker([waypoint.lat, waypoint.lng], {
+        icon: L.divIcon({
+            className: 'custom-marker-icon',
+            html: `
+                <div class="departure-marker" style="border-color: ${color};">
+                    <i class="fas fa-house" style="color: ${color};"></i>
+                </div>
+                <div class="marker-label" style="color: ${color};">${waypoint.name}</div>
+            `,
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            popupAnchor: [0, -11]
+        })
+    }).addTo(map);
+}
+
+// ========================================
+// 해산 경로 (일신명품한우 → 각 귀가지)
+// ========================================
+async function fetchRouteForDispersal(day, index) {
+    const route = DISPERSAL_ROUTES[day]?.[index];
+    if (!route) return null;
+    return fetchFanRoute(route.waypoints, '해산');
+}
+
+function drawDispersalRoute(day, index, coords) {
+    const key = `${day}-${index}`;
+    if (dispersalLayers[key]) map.removeLayer(dispersalLayers[key]);
+    dispersalLayers[key] = L.polyline(coords, {
+        color: DAY_COLORS[day],
+        weight: 2,
+        opacity: 0.55,
+        dashArray: '3, 7',
+        lineJoin: 'round',
+        lineCap: 'round'
+    }).addTo(map);
+}
+
+function addArrivalMarker(waypoint, day) {
+    const color = DAY_COLORS[day];
+    L.marker([waypoint.lat, waypoint.lng], {
+        icon: L.divIcon({
+            className: 'custom-marker-icon',
+            html: `
+                <div class="arrival-marker" style="border-color: ${color};">
+                    <i class="fas fa-house" style="color: ${color};"></i>
+                </div>
+                <div class="marker-label" style="color: ${color};">${waypoint.name}</div>
+            `,
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            popupAnchor: [0, -11]
+        })
+    }).addTo(map);
+}
+
 async function loadAllRoutes() {
     const days = Object.keys(DAY_ROUTES).map(Number);
-    await Promise.allSettled(
-        days.map(async (day) => {
+    await Promise.allSettled([
+        ...days.map(async (day) => {
             const result = await fetchRouteForDay(day);
             if (result) {
                 routeCache[day] = result;
                 drawRoute(day, result.coords);
             }
+        }),
+        ...Object.keys(GATHERING_ROUTES).flatMap(dayKey => {
+            const day = Number(dayKey);
+            return GATHERING_ROUTES[day].map(async (route, index) => {
+                const result = await fetchRouteForFamily(day, index);
+                if (result) {
+                    const key = `${day}-${index}`;
+                    gatheringCache[key] = { ...result, ...route };
+                    drawGatheringRoute(day, index, result.coords);
+                    addDepartureMarker(route.waypoints[0], day);
+                }
+            });
+        }),
+        ...Object.keys(DISPERSAL_ROUTES).flatMap(dayKey => {
+            const day = Number(dayKey);
+            return DISPERSAL_ROUTES[day].map(async (route, index) => {
+                const result = await fetchRouteForDispersal(day, index);
+                if (result) {
+                    const key = `${day}-${index}`;
+                    dispersalCache[key] = { ...result, ...route };
+                    drawDispersalRoute(day, index, result.coords);
+                    addArrivalMarker(route.waypoints[1], day);
+                }
+            });
         })
-    );
+    ]);
     populateRoutePanel();
     console.log('✅ 모든 경로 로드 완료');
 }
@@ -512,6 +698,41 @@ function populateRoutePanel() {
 
         const segmentsDiv = document.createElement('div');
         segmentsDiv.className = 'route-segments';
+
+        // 1일차: 집결 경로 먼저 표시
+        if (day === 1 && GATHERING_ROUTES[1]) {
+            const gatherLabel = document.createElement('div');
+            gatherLabel.className = 'route-segment-label';
+            gatherLabel.textContent = '집결';
+            segmentsDiv.appendChild(gatherLabel);
+
+            GATHERING_ROUTES[1].forEach((route, index) => {
+                const key = `1-${index}`;
+                const gData = gatheringCache[key];
+                const segDiv = document.createElement('div');
+                segDiv.className = 'route-segment gathering-segment';
+                segDiv.innerHTML = `
+                    <span class="segment-order gathering-order"><i class="fas fa-house"></i></span>
+                    <span class="segment-names">${route.family} → 산해회식당</span>
+                    <span class="segment-info">${gData ? formatDistance(gData.distance) + ' · ' + formatDuration(gData.duration) : '-'}</span>
+                `;
+                segmentsDiv.appendChild(segDiv);
+            });
+
+            const mainLabel = document.createElement('div');
+            mainLabel.className = 'route-segment-label';
+            mainLabel.textContent = '본 경로';
+            segmentsDiv.appendChild(mainLabel);
+        }
+
+        // 3일차: 본 경로 먼저, 해산 경로 나중
+        if (day === 3 && DISPERSAL_ROUTES[3]) {
+            const mainLabel = document.createElement('div');
+            mainLabel.className = 'route-segment-label';
+            mainLabel.textContent = '본 경로';
+            segmentsDiv.appendChild(mainLabel);
+        }
+
         data.segments.forEach((seg, i) => {
             const segDiv = document.createElement('div');
             segDiv.className = 'route-segment';
@@ -522,6 +743,27 @@ function populateRoutePanel() {
             `;
             segmentsDiv.appendChild(segDiv);
         });
+
+        // 3일차: 해산 경로 표시
+        if (day === 3 && DISPERSAL_ROUTES[3]) {
+            const dispersalLabel = document.createElement('div');
+            dispersalLabel.className = 'route-segment-label';
+            dispersalLabel.textContent = '해산';
+            segmentsDiv.appendChild(dispersalLabel);
+
+            DISPERSAL_ROUTES[3].forEach((route, index) => {
+                const key = `3-${index}`;
+                const dData = dispersalCache[key];
+                const segDiv = document.createElement('div');
+                segDiv.className = 'route-segment dispersal-segment';
+                segDiv.innerHTML = `
+                    <span class="segment-order dispersal-order"><i class="fas fa-house"></i></span>
+                    <span class="segment-names">일신명품한우 → ${route.family}</span>
+                    <span class="segment-info">${dData ? formatDistance(dData.distance) + ' · ' + formatDuration(dData.duration) : '-'}</span>
+                `;
+                segmentsDiv.appendChild(segDiv);
+            });
+        }
 
         dayDiv.appendChild(header);
         dayDiv.appendChild(segmentsDiv);
@@ -543,6 +785,34 @@ function toggleRoute(day, visible) {
         }
     } else if (routeLayers[day]) {
         map.removeLayer(routeLayers[day]);
+    }
+
+    // 집결 경로도 함께 토글
+    if (GATHERING_ROUTES[day]) {
+        GATHERING_ROUTES[day].forEach((_, index) => {
+            const key = `${day}-${index}`;
+            if (visible && gatheringCache[key]) {
+                if (!gatheringLayers[key] || !map.hasLayer(gatheringLayers[key])) {
+                    drawGatheringRoute(day, index, gatheringCache[key].coords);
+                }
+            } else if (gatheringLayers[key]) {
+                map.removeLayer(gatheringLayers[key]);
+            }
+        });
+    }
+
+    // 해산 경로도 함께 토글
+    if (DISPERSAL_ROUTES[day]) {
+        DISPERSAL_ROUTES[day].forEach((_, index) => {
+            const key = `${day}-${index}`;
+            if (visible && dispersalCache[key]) {
+                if (!dispersalLayers[key] || !map.hasLayer(dispersalLayers[key])) {
+                    drawDispersalRoute(day, index, dispersalCache[key].coords);
+                }
+            } else if (dispersalLayers[key]) {
+                map.removeLayer(dispersalLayers[key]);
+            }
+        });
     }
 }
 

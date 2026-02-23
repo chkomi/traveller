@@ -827,6 +827,86 @@ body {
     opacity: 0.8;
 }
 
+/* 집결 경로 레이블 */
+.route-segment-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 0 2px 0;
+    margin-top: 2px;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.route-segment-label:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 2px;
+}
+
+/* 집결 구간 아이템 */
+.gathering-segment {
+    opacity: 0.75;
+}
+
+.gathering-order {
+    background: white !important;
+    border: 1.5px dashed #aaa !important;
+}
+
+.gathering-order i {
+    font-size: 7px;
+}
+
+/* 출발지 마커 (집결 - 점선 테두리) */
+.departure-marker {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px dashed;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.departure-marker i {
+    font-size: 9px;
+}
+
+/* 도착지 마커 (해산 - 실선 테두리) */
+.arrival-marker {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrival-marker i {
+    font-size: 9px;
+}
+
+/* 해산 구간 아이템 */
+.dispersal-segment {
+    opacity: 0.75;
+}
+
+.dispersal-order {
+    background: white !important;
+    border: 1.5px solid #aaa !important;
+}
+
+.dispersal-order i {
+    font-size: 7px;
+}
+
 /* ====================
    반응형 디자인
    ==================== */
