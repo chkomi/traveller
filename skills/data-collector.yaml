@@ -1,0 +1,551 @@
+---
+# 한국여행 데이터 수집 Skill
+command: "/data-collector"
+category: "Data & Analysis"
+purpose: "한국 관광지, 맛집, 숙소 데이터 자동 수집 및 JSON 생성"
+wave-enabled: true
+performance-profile: "complex"
+
+# Skill 메타데이터
+metadata:
+  version: "1.0.0"
+  author: "SuperClaude Korea Travel Team"
+  last_updated: "2026-02-14"
+  dependencies:
+    - requests: "^2.31.0"
+    - beautifulsoup4: "^4.12.0"
+
+# 자동 활성화 조건
+auto_activation:
+  keywords:
+    - "데이터 수집"
+    - "관광지 추가"
+    - "맛집 정보"
+    - "collect data"
+    - "크롤링"
+  file_patterns:
+    - "*-data.json"
+    - "/data/*.json"
+  operations:
+    - data_collection
+    - web_scraping
+  confidence_threshold: 0.80
+
+# 페르소나 및 MCP 설정
+auto_persona:
+  - analyzer       # 데이터 분석
+  - scribe         # 데이터 정리 및 문서화
+
+mcp_servers:
+  primary: Sequential  # 체계적 데이터 수집
+  secondary: Context7  # API 문서 참조
+
+# 사용 가능한 도구
+tools:
+  - WebFetch       # 웹 데이터 수집
+  - WebSearch      # 검색 엔진 활용
+  - Write          # JSON 파일 생성
+  - Read           # 기존 데이터 읽기
+  - Edit           # 데이터 업데이트
+  - Bash           # 이미지 다운로드, 파일 처리
+  - Grep           # 데이터 검색
+
+# Flags
+default_flags:
+  - --seq          # Sequential MCP 활성화
+  - --validate     # 데이터 검증 활성화
+  - --uc           # 압축 모드
+
+# Arguments 정의
+arguments:
+  - name: type
+    type: string
+    required: true
+    description: "수집할 데이터 타입"
+    options:
+      - attractions   # 관광지
+      - restaurants   # 맛집
+      - hotels        # 숙소
+      - all           # 전체
+
+  - name: region
+    type: string
+    required: false
+    default: "seoul"
+    description: "수집 대상 지역"
+    options:
+      - seoul
+      - busan
+      - jeju
+      - gyeongju
+      - incheon
+      - gangneung
+      - jeonju
+      - sokcho
+
+  - name: count
+    type: integer
+    required: false
+    default: 10
+    description: "수집할 데이터 개수"
+    range: [1, 100]
+
+  - name: keyword
+    type: string
+    required: false
+    description: "검색 키워드 (예: '부산 해운대 맛집')"
+
+  - name: auto-geocode
+    type: boolean
+    required: false
+    default: true
+    description: "주소 → 위도/경도 자동 변환"
+
+  - name: download-images
+    type: boolean
+    required: false
+    default: false
+    description: "이미지 자동 다운로드"
+
+  - name: validate
+    type: boolean
+    required: false
+    default: true
+    description: "데이터 검증 활성화"
+
+  - name: append
+    type: boolean
+    required: false
+    default: false
+    description: "기존 데이터에 추가 (덮어쓰지 않음)"
+
+  - name: output
+    type: string
+    required: false
+    default: "data/korea-travel-data.json"
+    description: "출력 파일 경로"
+
+# 실행 워크플로우
+workflow:
+  steps:
+    - step: 1
+      name: "데이터 소스 식별"
+      description: "수집 대상 웹사이트 및 API 확인"
+      operations:
+        - identify_sources:
+            priority:
+              - "한국관광공사 Tour API"
+              - "네이버 지역 검색 API"
+              - "카카오 로컬 API"
+              - "공공데이터포털"
+        - check_api_availability:
+            timeout: 5000
+        - fallback_to_web_search: true
+
+    - step: 2
+      name: "데이터 수집"
+      description: "웹 스크래핑 또는 API 호출"
+      parallel: true
+      operations:
+        - action: fetch_from_api
+          api: "korea_tour_api"
+          parameters:
+            type: "{{ type }}"
+            region: "{{ region }}"
+            count: "{{ count }}"
+
+        - action: web_search
+          query: "{{ keyword || region + ' ' + type }}"
+          max_results: "{{ count }}"
+
+    - step: 3
+      name: "데이터 정제"
+      description: "수집한 데이터 표준화"
+      operations:
+        - normalize_place_names:
+            format: "한글명 (English Name, 中文名)"
+        - remove_duplicates:
+            key_fields: ["name", "latitude", "longitude"]
+        - validate_coordinates:
+            bounds:
+              latitude: [33.0, 38.5]
+              longitude: [124.0, 132.0]
+
+    - step: 4
+      name: "주소 → 좌표 변환"
+      description: "Geocoding 수행"
+      condition: "{{ auto_geocode }}"
+      operations:
+        - action: geocode_addresses
+          api: "kakao_local"
+          fallback: "google_geocoding"
+          batch_size: 10
+          rate_limit: 500  # ms
+
+    - step: 5
+      name: "이미지 수집"
+      description: "대표 이미지 다운로드 및 최적화"
+      condition: "{{ download_images }}"
+      operations:
+        - action: download_images
+          source: "web_search"
+          save_to: "images/{{ type }}/"
+          optimize:
+            format: "webp"
+            max_size: 200  # KB
+            dimensions: [800, 600]
+
+    - step: 6
+      name: "데이터 검증"
+      description: "JSON 스키마 검증"
+      condition: "{{ validate }}"
+      operations:
+        - action: validate_schema
+          schema: "korea-travel-schema.json"
+        - check_required_fields:
+            - name
+            - latitude
+            - longitude
+            - type
+        - validate_price_format: true
+
+    - step: 7
+      name: "데이터 저장"
+      description: "JSON 파일 생성/업데이트"
+      operations:
+        - action: merge_or_create
+          mode: "{{ 'append' if append else 'overwrite' }}"
+          file: "{{ output }}"
+        - pretty_print: true
+        - backup_existing: true
+
+# 데이터 소스 설정
+data_sources:
+  korea_tour_api:
+    name: "한국관광공사 Tour API"
+    base_url: "http://api.visitkorea.or.kr/openapi/service/rest/KorService"
+    endpoints:
+      attractions: "areaBasedList"
+      restaurants: "searchStay"
+    auth_required: true
+    rate_limit: 1000  # requests per day
+
+  kakao_local:
+    name: "카카오 로컬 API"
+    base_url: "https://dapi.kakao.com/v2/local"
+    endpoints:
+      search: "search/keyword.json"
+      geocode: "geo/coord2address.json"
+    auth_required: true
+    rate_limit: 100000  # requests per day
+
+  naver_local:
+    name: "네이버 지역 검색 API"
+    base_url: "https://openapi.naver.com/v1/search"
+    endpoints:
+      local: "local.json"
+    auth_required: true
+    rate_limit: 25000  # requests per day
+
+  web_search:
+    name: "웹 검색 (백업)"
+    sources:
+      - "visitkorea.or.kr"
+      - "tripadvisor.co.kr"
+      - "blog.naver.com"
+    scraping_rules:
+      allowed: true
+      respect_robots_txt: true
+      rate_limit: 1000  # ms between requests
+
+# JSON 스키마
+json_schema:
+  type: "object"
+  required:
+    - name
+    - latitude
+    - longitude
+    - type
+  properties:
+    name:
+      type: "string"
+      pattern: "^.+\\s*\\([^)]+\\).*$"
+      description: "한글명 (English Name, 中文名) 형식"
+
+    latitude:
+      type: "number"
+      minimum: 33.0
+      maximum: 38.5
+      description: "위도 (한국 영역)"
+
+    longitude:
+      type: "number"
+      minimum: 124.0
+      maximum: 132.0
+      description: "경도 (한국 영역)"
+
+    address:
+      type: "string"
+      description: "전체 주소"
+
+    description:
+      type: "string"
+      maxLength: 200
+      description: "장소 설명 (200자 이내)"
+
+    features:
+      type: "array"
+      items:
+        type: "string"
+      maxItems: 5
+      description: "특징 태그 (최대 5개)"
+
+    price:
+      type: "string"
+      pattern: "^\\d+$"
+      description: "가격 (원 단위, 문자열)"
+
+    type:
+      type: "string"
+      enum:
+        - "attractions"
+        - "restaurants"
+        - "hotels"
+        - "airports"
+      description: "장소 타입"
+
+    menu:
+      type: "array"
+      items:
+        type: "string"
+      description: "메뉴 (restaurants만 해당)"
+
+    image:
+      type: "string"
+      pattern: "^images/.+\\.(jpg|jpeg|png|webp)$"
+      description: "이미지 경로"
+
+# 지역별 검색 키워드 매핑
+region_keywords:
+  seoul:
+    attractions:
+      - "경복궁"
+      - "남산타워"
+      - "북촌한옥마을"
+      - "명동"
+      - "인사동"
+    restaurants:
+      - "광장시장"
+      - "종로 맛집"
+      - "강남 맛집"
+
+  busan:
+    attractions:
+      - "해운대"
+      - "감천문화마을"
+      - "태종대"
+      - "광안리"
+    restaurants:
+      - "자갈치시장"
+      - "해운대 맛집"
+      - "광안리 회"
+
+  jeju:
+    attractions:
+      - "한라산"
+      - "성산일출봉"
+      - "우도"
+      - "협재해수욕장"
+    restaurants:
+      - "제주 흑돼지"
+      - "해산물 맛집"
+      - "제주 카페"
+
+# 데이터 정제 규칙
+data_cleaning:
+  name_normalization:
+    - remove_emoji: true
+    - trim_whitespace: true
+    - fix_encoding: true
+    - standardize_parentheses: "()"  # () 형식으로 통일
+
+  address_normalization:
+    - remove_postcode: true
+    - standardize_format: "시/도 시/군/구 상세주소"
+    - remove_building_floor: false
+
+  price_normalization:
+    - remove_currency_symbol: true
+    - convert_to_string: true
+    - remove_decimal: true
+    - handle_range: "use_minimum"  # "10000-15000" → "10000"
+
+  feature_tags:
+    max_count: 5
+    allowed_chars: "가-힣a-zA-Z0-9 "
+    max_length: 15
+
+# Geocoding 설정
+geocoding:
+  provider: "kakao"
+  fallback: "google"
+  cache_enabled: true
+  cache_ttl: 86400  # 24 hours
+
+  error_handling:
+    on_failure: "use_approximate"
+    max_retries: 3
+    retry_delay: 1000  # ms
+
+  precision:
+    decimal_places: 4
+
+  validation:
+    check_bounds: true
+    check_reverse_geocode: false
+
+# 이미지 처리 설정
+image_processing:
+  download:
+    user_agent: "Mozilla/5.0 (compatible; KoreaTravelBot/1.0)"
+    timeout: 10000  # ms
+    max_file_size: 5  # MB
+
+  optimization:
+    format: "webp"
+    quality: 85
+    max_width: 800
+    max_height: 600
+    strip_metadata: true
+
+  naming:
+    pattern: "{region}-{type}-{index}.webp"
+    lowercase: true
+    replace_spaces: "-"
+
+# 데이터 검증 규칙
+validation_rules:
+  required_fields:
+    - name: "이름은 필수입니다"
+    - latitude: "위도는 필수입니다"
+    - longitude: "경도는 필수입니다"
+    - type: "타입은 필수입니다"
+
+  coordinate_validation:
+    latitude_range: [33.0, 38.5]
+    longitude_range: [124.0, 132.0]
+    precision: 4
+
+  name_validation:
+    min_length: 2
+    max_length: 100
+    require_parentheses: true
+
+  price_validation:
+    numeric_only: true
+    min_value: 0
+    max_value: 1000000
+
+  duplicate_detection:
+    check_fields:
+      - name
+      - coordinates  # lat+lng 조합
+    tolerance:
+      coordinate_difference: 0.001  # ~100m
+
+# 출력 형식
+output:
+  format: "json"
+  pretty_print: true
+  indent: 2
+  encoding: "utf-8"
+  ensure_ascii: false
+
+  structure:
+    version: "1.0"
+    metadata:
+      generated_at: "{{ timestamp }}"
+      source: "{{ data_source }}"
+      region: "{{ region }}"
+      count: "{{ actual_count }}"
+    data:
+      attractions: []
+      restaurants: []
+      hotels: []
+
+  backup:
+    enabled: true
+    pattern: "{{ filename }}.backup.{{ timestamp }}.json"
+    max_backups: 5
+
+# 성공 메시지
+success_message: |
+  ✅ 데이터 수집이 완료되었습니다!
+
+  📊 수집 결과:
+  - 총 {{ count }}개의 {{ type }} 데이터 수집
+  - 지역: {{ region }}
+  - 저장 위치: {{ output }}
+
+  📍 샘플 데이터:
+  {{ sample_entries }}
+
+  🔍 데이터 검증:
+  - 스키마 검증: {{ validation_status }}
+  - 좌표 유효성: {{ coordinate_validation }}
+  - 중복 제거: {{ duplicates_removed }}개
+
+  📝 다음 단계:
+  1. 데이터 파일 확인: {{ output }}
+  2. 이미지 확인 (다운로드한 경우): images/{{ type }}/
+  3. /map-designer로 지도에 표시
+
+# 에러 처리
+error_handling:
+  - condition: "api_unavailable"
+    message: "API 접근 불가. 웹 검색으로 전환합니다."
+    action: "fallback_to_web_search"
+
+  - condition: "geocoding_failed"
+    message: "주소 변환 실패. 수동 입력이 필요합니다."
+    action: "skip_entry"
+    log: true
+
+  - condition: "invalid_data"
+    message: "유효하지 않은 데이터가 감지되었습니다."
+    action: "show_validation_errors"
+
+  - condition: "duplicate_detected"
+    message: "중복된 데이터가 {{ count }}개 발견되었습니다."
+    action: "remove_duplicates"
+
+  - condition: "quota_exceeded"
+    message: "API 할당량 초과. 내일 다시 시도하세요."
+    action: "stop_collection"
+
+# 성능 메트릭
+performance:
+  expected_duration:
+    small: "30s-1m"     # count <= 10
+    medium: "1m-3m"     # count <= 50
+    large: "3m-10m"     # count > 50
+  token_budget: "15K"
+  rate_limiting: true
+  cache_strategy: "aggressive"
+
+# 예제 사용법
+examples:
+  - description: "서울 관광지 20개 수집"
+    command: "/data-collector --type attractions --region seoul --count 20"
+
+  - description: "부산 맛집 검색 (키워드 기반)"
+    command: "/data-collector --type restaurants --keyword '부산 해운대 맛집' --auto-geocode"
+
+  - description: "제주 숙소 수집 (이미지 포함)"
+    command: "/data-collector --type hotels --region jeju --count 10 --download-images"
+
+  - description: "기존 데이터에 추가"
+    command: "/data-collector --type attractions --region gyeongju --append"
+
+  - description: "전체 데이터 수집"
+    command: "/data-collector --type all --region seoul --count 15"

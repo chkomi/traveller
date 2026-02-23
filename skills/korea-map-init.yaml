@@ -1,0 +1,373 @@
+---
+# 한국여행 지도 프로젝트 초기화 Skill
+command: "/korea-map-init"
+category: "Development & Setup"
+purpose: "한국여행 지도 프로젝트 구조 자동 생성 및 기본 설정"
+wave-enabled: false
+performance-profile: "standard"
+
+# Skill 메타데이터
+metadata:
+  version: "1.0.0"
+  author: "SuperClaude Korea Travel Team"
+  last_updated: "2026-02-14"
+  dependencies:
+    - leaflet: "^1.9.4"
+    - font-awesome: "^6.0.0"
+
+# 자동 활성화 조건
+auto_activation:
+  keywords:
+    - "프로젝트 시작"
+    - "초기화"
+    - "setup"
+    - "새 프로젝트"
+    - "korea travel"
+  context_patterns:
+    - empty_directory: true
+    - new_repository: true
+  confidence_threshold: 0.85
+
+# 페르소나 및 MCP 설정
+auto_persona:
+  - architect    # 프로젝트 구조 설계
+  - frontend     # UI 기본 설정
+  - scribe       # 문서 작성
+
+mcp_servers:
+  primary: Context7      # 라이브러리 문서 참조
+  secondary: Sequential  # 프로젝트 설정 분석
+
+# 사용 가능한 도구
+tools:
+  - Write        # 파일 생성
+  - Bash         # 디렉토리 생성, 권한 설정
+  - Edit         # 기존 파일 수정
+  - Read         # 템플릿 읽기
+
+# Arguments 정의
+arguments:
+  - name: region
+    type: string
+    required: false
+    default: "seoul"
+    description: "초기 설정할 지역"
+    options:
+      - seoul
+      - busan
+      - jeju
+      - gyeongju
+      - incheon
+
+  - name: days
+    type: integer
+    required: false
+    default: 3
+    description: "기본 여행 일수"
+    range: [1, 14]
+
+  - name: theme
+    type: string
+    required: false
+    default: "korean-traditional"
+    description: "디자인 테마"
+    options:
+      - korean-traditional
+      - modern-minimal
+      - nature
+      - urban
+
+  - name: language
+    type: string
+    required: false
+    default: "ko"
+    description: "기본 언어"
+    options:
+      - ko
+      - en
+      - ja
+      - zh
+
+# 실행 워크플로우
+workflow:
+  steps:
+    - step: 1
+      name: "프로젝트 구조 생성"
+      description: "디렉토리 및 기본 파일 구조 생성"
+      operations:
+        - action: create_directory
+          paths:
+            - "/"
+            - "/data"
+            - "/images/attractions"
+            - "/images/restaurants"
+            - "/images/hotels"
+            - "/test"
+        - action: verify_structure
+          validation: "모든 디렉토리가 생성되었는지 확인"
+
+    - step: 2
+      name: "기본 HTML 파일 생성"
+      description: "index.html 템플릿 기반 생성"
+      template: "KRC-Global/index.html"
+      modifications:
+        - find: "상하이 11월 여행 계획"
+          replace: "한국 {{ region }} 여행 계획"
+        - find: "shanghai-data.json"
+          replace: "korea-travel-data.json"
+      output: "index.html"
+
+    - step: 3
+      name: "JavaScript 파일 생성"
+      description: "script.js 초기화"
+      template: "KRC-Global/script.js"
+      modifications:
+        - update_variable:
+            name: "shanghaiData"
+            new_name: "koreaData"
+        - update_coordinates:
+            center: "{{ region_coords }}"
+            zoom: 11
+      output: "script.js"
+
+    - step: 4
+      name: "CSS 파일 생성"
+      description: "styles.css 테마 적용"
+      template: "KRC-Global/styles.css"
+      apply_theme: "{{ theme }}"
+      output: "styles.css"
+
+    - step: 5
+      name: "샘플 데이터 생성"
+      description: "기본 JSON 데이터 생성"
+      action: generate_sample_data
+      parameters:
+        region: "{{ region }}"
+        count: 5
+        types:
+          - attractions
+          - restaurants
+      output: "data/korea-travel-data.json"
+
+    - step: 6
+      name: "문서 파일 생성"
+      description: "README 및 AGENTS.md 생성"
+      files:
+        - "README.md"
+        - "AGENTS.md"
+        - ".gitignore"
+      templates: "korea-travel-templates/"
+
+    - step: 7
+      name: "로컬 서버 설정"
+      description: "package.json 및 서버 스크립트 생성"
+      create_files:
+        - name: "package.json"
+          content:
+            name: "korea-travel-map"
+            version: "0.1.0"
+            scripts:
+              start: "python3 -m http.server 8000"
+              test: "python3 -m http.server 8000 --directory test"
+
+# 지역별 좌표 매핑
+region_coordinates:
+  seoul:
+    latitude: 37.5665
+    longitude: 126.9780
+  busan:
+    latitude: 35.1796
+    longitude: 129.0756
+  jeju:
+    latitude: 33.4996
+    longitude: 126.5312
+  gyeongju:
+    latitude: 35.8562
+    longitude: 129.2247
+  incheon:
+    latitude: 37.4563
+    longitude: 126.7052
+
+# 테마별 색상 정의
+themes:
+  korean-traditional:
+    primary: "#1E3A8A"      # 청색
+    secondary: "#DC2626"    # 단청 빨강
+    accent: "#F59E0B"       # 금빛
+    background: "#F8F9FA"   # 백자 흰색
+    text: "#1F2937"         # 먹색
+
+  modern-minimal:
+    primary: "#2563EB"      # 블루
+    secondary: "#64748B"    # 슬레이트
+    accent: "#10B981"       # 그린
+    background: "#FFFFFF"   # 화이트
+    text: "#0F172A"         # 다크
+
+  nature:
+    primary: "#059669"      # 에메랄드
+    secondary: "#84CC16"    # 라임
+    accent: "#FBBF24"       # 앰버
+    background: "#F0FDF4"   # 그린 50
+    text: "#064E3B"         # 그린 900
+
+  urban:
+    primary: "#7C3AED"      # 바이올렛
+    secondary: "#EC4899"    # 핑크
+    accent: "#06B6D4"       # 시안
+    background: "#F9FAFB"   # 그레이 50
+    text: "#111827"         # 그레이 900
+
+# 샘플 데이터 템플릿
+sample_data:
+  seoul:
+    attractions:
+      - name: "경복궁 (Gyeongbokgung Palace, 景福宮)"
+        latitude: 37.5796
+        longitude: 126.9770
+        address: "서울특별시 종로구 사직로 161"
+        description: "조선 왕조의 법궁으로 가장 아름다운 궁궐"
+        features: ["역사", "문화재", "포토스팟"]
+        price: "3000"
+        type: "attractions"
+
+      - name: "남산타워 (N Seoul Tower, 南山塔)"
+        latitude: 37.5512
+        longitude: 126.9882
+        address: "서울특별시 용산구 남산공원길 105"
+        description: "서울의 랜드마크, 야경 명소"
+        features: ["전망대", "야경", "데이트"]
+        price: "16000"
+        type: "attractions"
+
+    restaurants:
+      - name: "광장시장 (Gwangjang Market, 広蔵市場)"
+        latitude: 37.5703
+        longitude: 126.9995
+        address: "서울특별시 종로구 창경궁로 88"
+        description: "100년 전통의 재래시장 먹거리"
+        features: ["길거리음식", "현지식", "전통시장"]
+        menu: ["빈대떡", "마약김밥", "육회"]
+        price: "15000"
+        type: "restaurants"
+
+  busan:
+    attractions:
+      - name: "해운대 해수욕장 (Haeundae Beach, 海云台海水浴場)"
+        latitude: 35.1587
+        longitude: 129.1603
+        address: "부산광역시 해운대구 중동"
+        description: "한국 최고의 해변 휴양지"
+        features: ["해변", "야경", "축제"]
+        price: "0"
+        type: "attractions"
+
+  jeju:
+    attractions:
+      - name: "한라산 (Hallasan, 漢拏山)"
+        latitude: 33.3617
+        longitude: 126.5292
+        address: "제주특별자치도 제주시"
+        description: "한국 최고봉 화산섬"
+        features: ["등산", "자연", "국립공원"]
+        price: "0"
+        type: "attractions"
+
+# 출력 형식
+output:
+  format: "structured"
+  sections:
+    - name: "생성된 파일 목록"
+      type: "list"
+    - name: "프로젝트 구조"
+      type: "tree"
+    - name: "다음 단계"
+      type: "checklist"
+
+  success_message: |
+    ✅ 한국여행 지도 프로젝트가 성공적으로 초기화되었습니다!
+
+    📁 생성된 구조:
+    korea-travel-map/
+    ├── index.html
+    ├── script.js
+    ├── styles.css
+    ├── data/
+    │   └── korea-travel-data.json
+    ├── images/
+    │   ├── attractions/
+    │   ├── restaurants/
+    │   └── hotels/
+    └── test/
+
+    🚀 로컬 서버 실행:
+    ```bash
+    cd korea-travel-map
+    python3 -m http.server 8000
+    ```
+
+    🌐 브라우저에서 열기:
+    http://localhost:8000
+
+    📝 다음 단계:
+    1. /data-collector로 여행지 데이터 추가
+    2. /map-designer로 디자인 커스터마이징
+    3. /itinerary-builder로 일정 생성
+
+# 에러 처리
+error_handling:
+  - condition: "directory_exists"
+    message: "프로젝트 디렉토리가 이미 존재합니다. 덮어쓰시겠습니까?"
+    action: "ask_user"
+    options:
+      - "덮어쓰기"
+      - "병합"
+      - "취소"
+
+  - condition: "template_not_found"
+    message: "기본 템플릿을 찾을 수 없습니다."
+    action: "use_fallback"
+    fallback: "minimal_template"
+
+  - condition: "invalid_region"
+    message: "지원하지 않는 지역입니다. seoul, busan, jeju 중 선택하세요."
+    action: "use_default"
+    default: "seoul"
+
+# 검증 규칙
+validation:
+  - check: "directory_structure"
+    expected:
+      - "index.html"
+      - "script.js"
+      - "styles.css"
+      - "data/korea-travel-data.json"
+    required: true
+
+  - check: "json_validity"
+    files:
+      - "data/korea-travel-data.json"
+    schema: "korea-travel-schema.json"
+
+  - check: "html_syntax"
+    files:
+      - "index.html"
+    validator: "html5"
+
+# 성능 메트릭
+performance:
+  expected_duration: "10-30s"
+  token_budget: "5K"
+  file_operations: 15
+  cache_strategy: "template_cache"
+
+# 예제 사용법
+examples:
+  - description: "서울 3일 여행 프로젝트 초기화"
+    command: "/korea-map-init --region seoul --days 3"
+
+  - description: "제주도 전통 테마 프로젝트"
+    command: "/korea-map-init --region jeju --theme korean-traditional --days 5"
+
+  - description: "부산 영어 버전 프로젝트"
+    command: "/korea-map-init --region busan --language en --theme modern-minimal"
