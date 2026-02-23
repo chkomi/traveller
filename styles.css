@@ -707,12 +707,101 @@ body {
     transform: rotate(0deg);
 }
 
-.route-days-container {
+.route-panel-body {
+    display: flex;
+    flex-direction: row;
     margin-top: 10px;
+    gap: 0;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.route-panel.collapsed .route-panel-body {
+    display: none;
+}
+
+.route-days-container {
     display: flex;
     flex-direction: row;
     gap: 0;
     overflow-x: auto;
+    flex: 1;
+    min-width: 0;
+}
+
+/* ====================
+   비고 (Remarks) 패널
+   ==================== */
+.route-remarks {
+    width: 148px;
+    flex-shrink: 0;
+    border-left: 1px solid #eee;
+    padding: 0 0 0 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.remarks-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.remarks-team-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.remarks-team-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.remarks-team-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.remarks-label {
+    font-size: 10px;
+    color: var(--text-light);
+    flex-shrink: 0;
+}
+
+.remarks-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: right;
+}
+
+.remarks-value.toll {
+    color: var(--primary-burgundy);
+}
+
+.remarks-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 2px 0;
+}
+
+.remarks-note {
+    font-size: 9px;
+    color: var(--text-light);
+    opacity: 0.7;
+    margin-top: auto;
+    padding-top: 4px;
 }
 
 .route-panel.collapsed .route-days-container {

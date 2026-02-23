@@ -676,6 +676,7 @@ async function loadAllRoutes() {
         })
     ]);
     populateRoutePanel();
+    populateRemarksPanel();
     console.log('✅ 모든 경로 로드 완료');
 }
 
@@ -818,6 +819,72 @@ function toggleRoute(day, visible) {
             }
         });
     }
+}
+
+// ========================================
+// 비고 패널 (팀별 이동거리 & 하이패스 추정)
+// ========================================
+function populateRemarksPanel() {
+    const container = document.getElementById('route-remarks');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const title = document.createElement('div');
+    title.className = 'remarks-title';
+    title.textContent = '비고';
+    container.appendChild(title);
+
+    const families = ['나주팀', '광주팀', 'TW팀'];
+
+    families.forEach((family, index) => {
+        const gKey = `1-${index}`;
+        const dKey = `3-${index}`;
+        const gData = gatheringCache[gKey];
+        const dData = dispersalCache[dKey];
+
+        const gDist = gData?.distance || 0;
+        const dDist = dData?.distance || 0;
+        const totalDist = gDist + dDist;
+
+        // 하이패스 추정: 편도 각각 47원/km (고속도로 1종 기준), 100원 단위 반올림
+        const gToll = Math.round(gDist / 1000 * 47 / 100) * 100;
+        const dToll = Math.round(dDist / 1000 * 47 / 100) * 100;
+        const totalToll = gToll + dToll;
+
+        if (index > 0) {
+            const divider = document.createElement('div');
+            divider.className = 'remarks-divider';
+            container.appendChild(divider);
+        }
+
+        const block = document.createElement('div');
+        block.className = 'remarks-team-block';
+        block.innerHTML = `
+            <div class="remarks-team-name">${family}</div>
+            <div class="remarks-team-info">
+                <span class="remarks-label">집결</span>
+                <span class="remarks-value">${gDist ? formatDistance(gDist) : '-'}</span>
+            </div>
+            <div class="remarks-team-info">
+                <span class="remarks-label">해산</span>
+                <span class="remarks-value">${dDist ? formatDistance(dDist) : '-'}</span>
+            </div>
+            <div class="remarks-team-info">
+                <span class="remarks-label">왕복합계</span>
+                <span class="remarks-value">${totalDist ? formatDistance(totalDist) : '-'}</span>
+            </div>
+            <div class="remarks-team-info">
+                <span class="remarks-label">하이패스</span>
+                <span class="remarks-value toll">~${totalToll ? totalToll.toLocaleString() + '원' : '-'}</span>
+            </div>
+        `;
+        container.appendChild(block);
+    });
+
+    const note = document.createElement('div');
+    note.className = 'remarks-note';
+    note.textContent = '* 고속도로 1종 47원/km 추정';
+    container.appendChild(note);
 }
 
 function formatDistance(meters) {
