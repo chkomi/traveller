@@ -670,7 +670,7 @@ async function loadAllRoutes() {
                     const key = `${day}-${index}`;
                     dispersalCache[key] = { ...result, ...route };
                     drawDispersalRoute(day, index, result.coords);
-                    addArrivalMarker(route.waypoints[1], day);
+                    addArrivalMarker(route.waypoints[route.waypoints.length - 1], day);
                 }
             });
         })
