@@ -844,12 +844,14 @@ function populateRemarksPanel() {
     const families = ['나주팀', '광주팀', '광양팀', 'TW팀'];
 
     // 팀별 데이터 수집
+    const dayRouteDist = [1, 2, 3].reduce((sum, day) => sum + (routeCache[day]?.totalDistance || 0), 0);
     const teamData = families.map((family, index) => {
         const gDist = gatheringCache[`1-${index}`]?.distance || 0;
         const dDist = dispersalCache[`3-${index}`]?.distance || 0;
         const totalDist = gDist + dDist;
+        const totalTripDist = gDist + dayRouteDist + dDist;
         const totalToll = (Math.round(gDist / 1000 * 47 / 100) + Math.round(dDist / 1000 * 47 / 100)) * 100;
-        return { family, gDist, dDist, totalDist, totalToll };
+        return { family, gDist, dDist, totalDist, totalTripDist, totalToll };
     });
 
     // 그리드: 비고 | 나주팀 | 광주팀 | TW팀
@@ -870,6 +872,7 @@ function populateRemarksPanel() {
         { label: '해산',    getValue: td => td.dDist     ? formatDistance(td.dDist)     : '-' },
         { label: '왕복',    getValue: td => td.totalDist ? formatDistance(td.totalDist) : '-' },
         { label: '하이패스', getValue: td => td.totalToll ? '~' + td.totalToll.toLocaleString() + '원' : '-', toll: true },
+        { label: '총 거리',  getValue: td => td.totalTripDist ? formatDistance(td.totalTripDist) : '-' },
     ];
 
     rows.forEach(row => {
@@ -890,7 +893,7 @@ function populateRemarksPanel() {
 
     const note = document.createElement('div');
     note.className = 'remarks-note';
-    note.textContent = '* 고속도로 1종 47원/km 추정';
+    note.textContent = '* 하이패스: 고속도로 1종 47원/km 추정 | 총 거리: 집결+공동구간+해산';
     container.appendChild(note);
 }
 
@@ -956,11 +959,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tile-select').addEventListener('change', (e) => {
         const tileName = e.target.value;
         changeTile(tileName);
-    });
-
-    // 범례 체크박스
-    document.querySelectorAll('.legend-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', filterMarkers);
     });
 
     // 내 위치 찾기 버튼

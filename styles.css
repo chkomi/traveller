@@ -163,38 +163,35 @@ body {
 }
 
 .legend-box {
+    position: fixed;
+    top: 20px;
+    right: 76px;
+    z-index: 1000;
     background: white;
     border-radius: 12px;
-    box-shadow: var(--shadow-lg);
-    padding: 16px;
-    min-width: 160px;
-    flex-shrink: 0;
+    box-shadow: var(--shadow-md);
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
 }
 
-.legend-box h3 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--text-dark);
-}
-
-.legend-box label {
+.legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    font-size: 13px;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dark);
+    white-space: nowrap;
 }
 
 .legend-color {
-    width: 16px;
-    height: 16px;
-    border-radius: 3px;
-}
-
-.legend-checkbox {
-    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
 }
 
 /* ====================
@@ -672,7 +669,7 @@ body {
     box-shadow: var(--shadow-lg);
     padding: 12px 14px;
     min-width: 320px;
-    max-width: 560px;
+    max-width: calc(100vw - 40px);
     overflow-y: auto;
     overflow-x: hidden;
     flex-shrink: 1;
@@ -1013,26 +1010,22 @@ body {
         bottom: 20px;
         right: 12px;
         max-width: calc(100vw - 24px);
-        flex-wrap: wrap;
-        justify-content: flex-end;
     }
 
     .legend-box {
-        padding: 12px;
-        min-width: 130px;
+        top: 12px;
+        right: 64px;
+        padding: 6px 10px;
+        gap: 10px;
     }
 
-    .legend-box h3 {
-        font-size: 13px;
-    }
-
-    .legend-box label {
-        font-size: 12px;
+    .legend-item {
+        font-size: 11px;
     }
 
     .route-panel {
         min-width: 220px;
-        max-width: calc(100vw - 170px);
+        max-width: calc(100vw - 24px);
         padding: 10px 12px;
     }
 

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css?v=20260223a">
+    <link rel="stylesheet" href="styles.css?v=20260224a">
 </head>
 <body>
     <!-- 전체화면 지도 -->
@@ -42,6 +42,19 @@
         </select>
     </div>
 
+    <!-- 우측 상단 장소유형 범례 -->
+    <div class="legend-box">
+        <span class="legend-item">
+            <span class="legend-color" style="background: #8B5A6B;"></span>관광지
+        </span>
+        <span class="legend-item">
+            <span class="legend-color" style="background: #6B8E5A;"></span>맛집
+        </span>
+        <span class="legend-item">
+            <span class="legend-color" style="background: #7B9EA8;"></span>숙소
+        </span>
+    </div>
+
     <!-- 우측 하단 컨트롤 -->
     <div class="right-controls">
         <!-- 경로 패널 -->
@@ -59,26 +72,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- 범례 (Legend) -->
-        <div class="legend-box">
-            <h3>장소 유형</h3>
-            <label>
-                <input type="checkbox" class="legend-checkbox" data-type="attractions" checked>
-                <span class="legend-color" style="background: #8B5A6B;"></span>
-                관광지
-            </label>
-            <label>
-                <input type="checkbox" class="legend-checkbox" data-type="restaurants" checked>
-                <span class="legend-color" style="background: #6B8E5A;"></span>
-                맛집
-            </label>
-            <label>
-                <input type="checkbox" class="legend-checkbox" data-type="hotels" checked>
-                <span class="legend-color" style="background: #7B9EA8;"></span>
-                숙소
-            </label>
-        </div>
     </div>
 
 
@@ -89,6 +82,6 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
     <!-- Custom JS -->
-    <script src="script.js?v=20260222b"></script>
+    <script src="script.js?v=20260224b"></script>
 </body>
 </html>
