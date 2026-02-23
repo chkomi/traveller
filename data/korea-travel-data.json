@@ -1,0 +1,467 @@
+[
+  {
+    "name": "경복궁 (Gyeongbokgung Palace, 景福宮)",
+    "latitude": 37.5796,
+    "longitude": 126.977,
+    "address": "서울특별시 종로구 사직로 161",
+    "description": "조선 왕조의 법궁으로 가장 아름다운 궁궐입니다. 수문장 교대식과 전통 건축미를 감상할 수 있습니다.",
+    "features": [
+      "역사",
+      "문화재",
+      "포토스팟"
+    ],
+    "price": "3000",
+    "type": "attractions",
+    "rating": 4.7,
+    "visitTime": "2-3시간"
+  },
+  {
+    "name": "남산타워 (N Seoul Tower, 南山塔)",
+    "latitude": 37.5512,
+    "longitude": 126.9882,
+    "address": "서울특별시 용산구 남산공원길 105",
+    "description": "서울의 랜드마크이자 최고의 야경 명소입니다. 전망대에서 서울 전경을 한눈에 볼 수 있습니다.",
+    "features": [
+      "전망대",
+      "야경",
+      "데이트"
+    ],
+    "price": "16000",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "2시간"
+  },
+  {
+    "name": "광장시장 (Gwangjang Market, 広蔵市場)",
+    "latitude": 37.5703,
+    "longitude": 126.9995,
+    "address": "서울특별시 종로구 창경궁로 88",
+    "description": "100년 전통의 재래시장으로 빈대떡, 마약김밥 등 다양한 먹거리를 즐길 수 있습니다.",
+    "features": [
+      "길거리음식",
+      "현지식",
+      "전통시장"
+    ],
+    "menu": [
+      "빈대떡",
+      "마약김밥",
+      "육회"
+    ],
+    "price": "15000",
+    "type": "restaurants",
+    "rating": 4.6,
+    "visitTime": "1-2시간"
+  },
+  {
+    "name": "명동거리 (Myeongdong Street, 明洞)",
+    "latitude": 37.5636,
+    "longitude": 126.9853,
+    "address": "서울특별시 중구 명동길",
+    "description": "쇼핑과 먹거리의 천국! K-뷰티 제품과 다양한 길거리 음식을 즐길 수 있습니다.",
+    "features": [
+      "쇼핑",
+      "길거리음식",
+      "화장품"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.3,
+    "visitTime": "2-3시간"
+  },
+  {
+    "name": "북촌한옥마을 (Bukchon Hanok Village, 北村韓屋村)",
+    "latitude": 37.5822,
+    "longitude": 126.9831,
+    "address": "서울특별시 종로구 계동길 37",
+    "description": "전통 한옥이 보존된 마을로 한국 전통 문화를 체험할 수 있습니다.",
+    "features": [
+      "전통문화",
+      "한옥",
+      "포토스팟"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "1-2시간"
+  },
+  {
+    "name": "브라운스위트 부산역 (Brown Suite Busan Station, 布朗套房釜山站)",
+    "latitude": 35.1152,
+    "longitude": 129.041,
+    "address": "부산광역시 동구 충장대로 160 협성마리나G7 STORE B 2층",
+    "description": "KTX부산역 10번 출구 연결통로 도보 5분 거리의 오션뷰 레지던스 타입 숙박시설입니다.",
+    "features": [
+      "오션뷰",
+      "역세권",
+      "레지던스"
+    ],
+    "price": "0",
+    "type": "hotels",
+    "rating": 4.5,
+    "visitTime": "숙박",
+    "distance": "부산역 도보 5분"
+  },
+  {
+    "name": "안목 부산역점 (Anmok Busan Station, 安目釜山站店)",
+    "latitude": 35.1147,
+    "longitude": 129.0427,
+    "address": "부산 동구 중앙대로214번길 3-10 1층",
+    "description": "미쉐린 부산 선정 돼지국밥 맛집. 부산역에서 도보 5분 거리에 위치해 있습니다.",
+    "features": [
+      "미쉐린",
+      "돼지국밥",
+      "현지맛집"
+    ],
+    "menu": [
+      "돼지국밥"
+    ],
+    "price": "10000",
+    "type": "restaurants",
+    "rating": 4.7,
+    "visitTime": "1시간",
+    "openingHours": "11:00-21:00 (LO 20:30)",
+    "phone": "0507-1385-4515",
+    "distance": "부산역 도보 5분"
+  },
+  {
+    "name": "본전돼지국밥 (Bonjeon Pork Soup, 本钱猪肉汤饭)",
+    "latitude": 35.1148,
+    "longitude": 129.0428,
+    "address": "부산광역시 동구 중앙대로214번길 3-8",
+    "description": "45년 전통의 돼지국밥 전문점. 부산 대표 로컬 맛집으로 현지인들이 즐겨 찾는 곳입니다.",
+    "features": [
+      "전통맛집",
+      "돼지국밥",
+      "45년전통"
+    ],
+    "menu": [
+      "돼지국밥",
+      "수육"
+    ],
+    "price": "9000",
+    "type": "restaurants",
+    "rating": 4.6,
+    "visitTime": "1시간",
+    "openingHours": "09:00-20:30",
+    "phone": "051-441-2946",
+    "distance": "부산역 도보 4분"
+  },
+  {
+    "name": "초량밀면 본점 (Choryang Milmyeon Main, 草梁荞麦面本店)",
+    "latitude": 35.1153,
+    "longitude": 129.0435,
+    "address": "부산 동구 중앙대로 225",
+    "description": "부산 대표 밀면 맛집. 시원하고 담백한 밀면을 맛볼 수 있습니다.",
+    "features": [
+      "밀면",
+      "부산대표",
+      "현지맛집"
+    ],
+    "menu": [
+      "물밀면",
+      "비빔밀면",
+      "만두"
+    ],
+    "price": "8000",
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "1시간",
+    "openingHours": "10:00-22:00",
+    "phone": "051-462-1575",
+    "distance": "부산역 도보 5분",
+    "parking": "불가"
+  },
+  {
+    "name": "하이디라오 부산역점 (Haidilao Busan Station, 海底捞釜山站店)",
+    "latitude": 35.115,
+    "longitude": 129.042,
+    "address": "부산광역시 동구 중앙대로 175",
+    "description": "중국 훠궈 전문점. 다양한 식재료와 친절한 서비스로 유명합니다.",
+    "features": [
+      "훠궈",
+      "중식",
+      "24시"
+    ],
+    "menu": [
+      "훠궈",
+      "마라탕"
+    ],
+    "price": "30000",
+    "type": "restaurants",
+    "rating": 4.4,
+    "visitTime": "2시간",
+    "openingHours": "10:00-익일 03:00",
+    "phone": "051-466-8880",
+    "distance": "부산역 도보 1분",
+    "parking": "무료"
+  },
+  {
+    "name": "부산 차이나타운 상해거리 (Busan Chinatown Shanghai Street, 釜山中华街上海街)",
+    "latitude": 35.1168,
+    "longitude": 129.0419,
+    "address": "부산광역시 동구 중앙대로179번길 1",
+    "description": "2007년 국내 유일의 차이나타운특구 지정. 상해문 조형물과 중국 문화 및 먹거리를 즐길 수 있습니다.",
+    "features": [
+      "차이나타운",
+      "문화체험",
+      "먹거리"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.2,
+    "visitTime": "1-2시간",
+    "transport": "지하철 1호선 부산역 1/5번 출구, 버스 2/26/27/41/59/67/87/167"
+  },
+  {
+    "name": "용두산공원 (Yongdusan Park, 龙头山公园)",
+    "latitude": 35.0988,
+    "longitude": 129.0361,
+    "address": "부산광역시 중구 용두산길 37-55",
+    "description": "부산타워(120m)가 위치한 공원으로 부산 시내 전경을 한눈에 감상할 수 있습니다.",
+    "features": [
+      "부산타워",
+      "전망대",
+      "공원"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.4,
+    "visitTime": "1-2시간",
+    "phone": "051-860-7820"
+  },
+  {
+    "name": "영도대교 (Yeongdo Bridge, 影岛大桥)",
+    "latitude": 35.0964,
+    "longitude": 129.0353,
+    "address": "부산광역시 영도구 대교동1가",
+    "description": "부산 중구와 영도구를 연결하는 역사적인 교량. 도보로 걸으며 부산항 풍경을 감상할 수 있습니다.",
+    "features": [
+      "다리",
+      "야경",
+      "산책"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.3,
+    "visitTime": "30분-1시간",
+    "transport": "지하철 1호선 남포역 6/8번 출구 도보 4분, 버스 6/7/8/9/17/30/71/82/85/88/113/186/190/508",
+    "phone": "051-780-0062"
+  },
+  {
+    "name": "자갈치시장 (Jagalchi Market, 札嘎其市场)",
+    "latitude": 35.0967,
+    "longitude": 129.0306,
+    "address": "부산광역시 중구 자갈치해안로 52",
+    "description": "대한민국 최대 수산시장. 신선한 해산물을 직접 구매하고 즉석에서 회를 즐길 수 있습니다.",
+    "features": [
+      "수산시장",
+      "해산물",
+      "현지체험"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "1-2시간",
+    "transport": "지하철 1호선 남포역 2번 출구/자갈치역 10번 출구 도보 6분, 버스 27/41/5-1/61/113/30/6/7/71/86"
+  },
+  {
+    "name": "국제시장 (Gukje Market, 国际市场)",
+    "latitude": 35.0993,
+    "longitude": 129.03,
+    "address": "부산광역시 중구 신창로4가 일원",
+    "description": "전통시장으로 다양한 물품과 먹거리를 즐길 수 있습니다. 부산의 역사가 살아있는 곳입니다.",
+    "features": [
+      "전통시장",
+      "쇼핑",
+      "먹거리"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.4,
+    "visitTime": "1-2시간",
+    "openingHours": "09:30-19:30 (첫째/셋째 일요일 휴무)",
+    "phone": "051-245-7389",
+    "transport": "지하철 1호선 자갈치역 7번 출구 도보 4분"
+  },
+  {
+    "name": "BIFF광장 (BIFF Square, BIFF广场)",
+    "latitude": 35.0988,
+    "longitude": 129.0289,
+    "address": "부산광역시 중구 비프광장로 4",
+    "description": "부산국제영화제의 중심무대이자 남포동 대표 먹거리 거리. 호떡, 씨앗호떡 등 다양한 길거리 음식을 즐길 수 있습니다.",
+    "features": [
+      "영화제",
+      "길거리음식",
+      "관광명소"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.3,
+    "visitTime": "1시간",
+    "transport": "지하철 1호선 자갈치역"
+  },
+  {
+    "name": "감천문화마을 (Gamcheon Culture Village, 甘川文化村)",
+    "latitude": 35.0975,
+    "longitude": 129.0104,
+    "address": "부산광역시 사하구 감내2로 203",
+    "description": "연간 185만명이 방문하는 부산 대표 관광명소. 알록달록한 집들이 계단식으로 이루어진 예술마을입니다.",
+    "features": [
+      "예술마을",
+      "포토스팟",
+      "관광명소"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.6,
+    "visitTime": "2-3시간",
+    "openingHours": "3-10월 09:00-18:00, 11-2월 09:00-17:00",
+    "phone": "051-220-4000"
+  },
+  {
+    "name": "해운대해수욕장 (Haeundae Beach, 海云台海水浴场)",
+    "latitude": 35.1587,
+    "longitude": 129.1604,
+    "address": "부산광역시 해운대구 해운대해변로 264",
+    "description": "백사장 길이 1.5km, 너비 30-50m의 한국 대표 해수욕장. 여름철 피서지로 최고의 인기를 자랑합니다.",
+    "features": [
+      "해수욕장",
+      "백사장",
+      "여름"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.6,
+    "visitTime": "2-3시간",
+    "transport": "지하철 2호선 해운대역 5번 출구 도보 15분, 버스 139/307/1003"
+  },
+  {
+    "name": "송정해수욕장 (Songjeong Beach, 松亭海水浴场)",
+    "latitude": 35.1785,
+    "longitude": 129.1997,
+    "address": "부산광역시 해운대구 송정해변로 62",
+    "description": "백사장 길이 1.2km, 너비 57m. 서핑 명소로 유명하며 한적하게 바다를 즐기기 좋습니다.",
+    "features": [
+      "해수욕장",
+      "서핑",
+      "카페거리"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "2-3시간",
+    "phone": "051-749-5800"
+  },
+  {
+    "name": "씨라이프 부산 아쿠아리움 (SEA LIFE Busan Aquarium, 釜山海洋生物水族馆)",
+    "latitude": 35.1587,
+    "longitude": 129.1603,
+    "address": "부산광역시 해운대구 해운대해변로 266",
+    "description": "해운대 대표 아쿠아리움. 다양한 해양생물을 관람할 수 있으며 4세, 7세 아이들에게 특히 추천합니다.",
+    "features": [
+      "아쿠아리움",
+      "어린이",
+      "실내체험"
+    ],
+    "price": "29000",
+    "type": "attractions",
+    "rating": 4.4,
+    "visitTime": "2-3시간",
+    "openingHours": "평일 10:00-19:00, 주말 10:00-20:00 (입장마감 1시간 전)",
+    "phone": "051-740-1700",
+    "transport": "지하철 2호선 해운대역 3/5번 출구 도보 10분",
+    "ageGroup": "4세, 7세"
+  },
+  {
+    "name": "부산 어린이대공원 (Busan Children's Grand Park, 釜山儿童大公园)",
+    "latitude": 35.1678,
+    "longitude": 129.0596,
+    "address": "부산광역시 부산진구 새싹로 295",
+    "description": "백양산 기슭의 종합 공원. 동물원, 놀이기구, 산책로를 무료로 즐길 수 있어 4세, 7세 아이들과 가족 나들이에 최적입니다.",
+    "features": [
+      "공원",
+      "동물원",
+      "놀이기구"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "3-4시간",
+    "openingHours": "09:00-18:00",
+    "phone": "051-860-7848",
+    "ageGroup": "4세, 7세"
+  },
+  {
+    "name": "롯데월드 어드벤처 부산 (Lotte World Adventure Busan, 乐天世界釜山)",
+    "latitude": 35.1889,
+    "longitude": 129.2123,
+    "address": "부산광역시 기장군 기장읍 동부산관광로 42",
+    "description": "부산 대표 테마파크. 키즈존과 다양한 놀이기구로 4세, 7세 아이들에게 큰 인기입니다.",
+    "features": [
+      "테마파크",
+      "놀이기구",
+      "키즈존"
+    ],
+    "price": "56000",
+    "type": "attractions",
+    "rating": 4.6,
+    "visitTime": "4시간 이상",
+    "transport": "동해선 오시리아역 1번 출구 도보 10분, 버스 139/183/185/1001",
+    "ageGroup": "4세, 7세"
+  },
+  {
+    "name": "국립부산과학관 (National Science Museum Busan, 国立釜山科学馆)",
+    "latitude": 35.1892,
+    "longitude": 129.2085,
+    "address": "부산광역시 기장군 기장읍 동부산관광6로 59",
+    "description": "어린이 과학체험 박물관. 다양한 과학 체험 프로그램으로 4세, 7세 아이들의 과학적 호기심을 자극합니다.",
+    "features": [
+      "과학관",
+      "체험학습",
+      "교육"
+    ],
+    "price": "4000",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "2-3시간",
+    "openingHours": "09:30-17:30 (입장마감 16:30), 월요일·1월1일·명절 당일 휴관",
+    "transport": "동해선 오시리아역 1번 출구 → 버스 185번",
+    "ageGroup": "4세, 7세"
+  },
+  {
+    "name": "태종대 유원지 (Taejongdae Resort Park, 太宗台游园地)",
+    "latitude": 35.0514,
+    "longitude": 129.0831,
+    "address": "부산광역시 영도구 전망로 24",
+    "description": "등대, 전망대, 다누비열차가 있는 자연경관 명소. 가족 나들이 장소로 인기가 높습니다.",
+    "features": [
+      "자연경관",
+      "전망대",
+      "등대"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.6,
+    "visitTime": "2-3시간",
+    "openingHours": "하절기 04:00-24:00, 동절기 05:00-24:00",
+    "phone": "051-860-7866"
+  },
+  {
+    "name": "키위키즈랜드 (Kiwi Kids Land, 奇异果儿童乐园)",
+    "latitude": 35.2867,
+    "longitude": 129.2156,
+    "address": "부산광역시 기장군 장안읍 좌천리 497-9",
+    "description": "부산 최대 규모 키즈카페. 트램폴린, 정글짐, 범퍼카, 실내썰매 등 다양한 놀이시설을 추가요금 없이 즐길 수 있어 4세, 7세 아이들에게 최적입니다.",
+    "features": [
+      "키즈카페",
+      "실내놀이",
+      "트램폴린"
+    ],
+    "price": "15000",
+    "type": "attractions",
+    "rating": 4.5,
+    "visitTime": "2-3시간",
+    "openingHours": "평일 11:00-19:00, 주말 10:00-19:00",
+    "ageGroup": "4세, 7세"
+  }
+]
