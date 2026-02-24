@@ -214,5 +214,23 @@
     ],
     "type": "restaurants",
     "rating": 4.5
+  },
+  {
+    "name": "앙또르과자점",
+    "latitude": 35.1058030891303,
+    "longitude": 128.974475624365,
+    "address": "부산광역시 사하구 제석로 57-1 (당리동)",
+    "description": "부산 당리동의 유명 과자점·베이커리. 다양한 수제 과자와 빵으로 현지인에게 인기 있는 맛집입니다.",
+    "features": [
+      "과자점",
+      "베이커리",
+      "디저트"
+    ],
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "30분",
+    "openingHours": "월~토 06:00~24:00",
+    "phone": "051-202-4060",
+    "transport": "지하철 1호선 당리역 도보 5분"
   }
 ]
