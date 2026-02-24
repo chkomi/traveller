@@ -1,0 +1,32 @@
+{
+  "name": "korea-travel-map",
+  "version": "0.1.0",
+  "description": "한국여행 지도 프로젝트 - Leaflet 기반 인터랙티브 여행 지도",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "test": "python3 -m http.server 8000 --directory test"
+  },
+  "keywords": [
+    "korea",
+    "travel",
+    "map",
+    "leaflet",
+    "seoul",
+    "tourism"
+  ],
+  "author": "Korea Travel Team",
+  "license": "MIT",
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chkomi/traveller.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chkomi/traveller/issues"
+  },
+  "homepage": "https://chkomi.github.io/traveller/"
+}

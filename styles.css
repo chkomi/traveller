@@ -1,0 +1,1064 @@
+/* 부산 여행 지도 - CSS (KRC-Global Style) */
+
+/* ====================
+   변수 정의 (버건디/와인 톤)
+   ==================== */
+:root {
+    /* 메인 컬러 - 버건디/와인 */
+    --primary-burgundy: #8B1E3F;
+    --secondary-mauve: #B2455E;
+    --background-cream: #FFF8F0;
+    --ui-gray: #f4f7f6;
+
+    /* 마커 컬러 */
+    --marker-tourism: #8B5A6B;
+    --marker-restaurant: #6B8E5A;
+    --marker-hotel: #7B9EA8;
+    --marker-airport: #B87A8F;
+
+    /* 텍스트 */
+    --text-dark: #2c2c2c;
+    --text-light: #666;
+
+    /* 그림자 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ====================
+   기본 스타일
+   ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        'Noto Sans KR',
+        'Apple SD Gothic Neo',
+        'Malgun Gothic',
+        -apple-system,
+        sans-serif;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+    overflow: hidden;
+    background: var(--background-cream);
+    color: var(--text-dark);
+}
+
+/* ====================
+   전체화면 지도
+   ==================== */
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
+
+/* ====================
+   내 위치 찾기 버튼
+   ==================== */
+.locate-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--primary-burgundy);
+    transition: all 0.3s ease;
+}
+
+.locate-button:hover {
+    background: var(--primary-burgundy);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ====================
+   타일 선택기
+   ==================== */
+.tile-selector {
+    position: fixed;
+    top: 10px;
+    left: 52px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 6px 12px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.tile-selector label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.tile-selector label i {
+    font-size: 14px;
+    color: var(--primary-burgundy);
+}
+
+.tile-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dark);
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.tile-select:hover {
+    border-color: var(--primary-burgundy);
+    background: #FFF5F7;
+}
+
+.tile-select:focus {
+    border-color: var(--primary-burgundy);
+    box-shadow: 0 0 0 3px rgba(139, 30, 63, 0.1);
+}
+
+/* ====================
+   범례 (Legend)
+   ==================== */
+/* 우측 하단 컨트롤 컨테이너 */
+.right-controls {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: stretch;
+    max-width: calc(100vw - 40px);
+}
+
+.legend-box {
+    position: fixed;
+    top: 20px;
+    right: 76px;
+    z-index: 1000;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* ====================
+   모바일 타임라인 (가로 스크롤)
+   ==================== */
+.mobile-timeline {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, var(--primary-burgundy) 0%, var(--secondary-mauve) 100%);
+    color: white;
+    z-index: 2000;
+    max-height: 180px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.mobile-timeline.hidden {
+    transform: translateY(100%);
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timeline-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.timeline-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.timeline-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 16px 20px;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+/* ====================
+   하단 시트 (Bottom Sheet)
+   ==================== */
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1500;
+    max-height: 70vh;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.bottom-sheet.active {
+    transform: translateY(0);
+}
+
+.sheet-header {
+    position: relative;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: #d1d5db;
+    border-radius: 2px;
+    margin: 0 auto 12px;
+}
+
+.sheet-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.sheet-content {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(70vh - 60px);
+}
+
+/* ====================
+   일정 팝업
+   ==================== */
+.itinerary-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.itinerary-popup.active {
+    display: flex;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: var(--primary-burgundy);
+    color: white;
+    border-radius: 16px 16px 0 0;
+}
+
+.popup-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.popup-content {
+    background: white;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* ====================
+   커스텀 마커 (KRC-Global 원형 스타일)
+   ==================== */
+.circle-marker {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.circle-marker:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.circle-marker i {
+    font-size: 10px;
+    color: white;
+}
+
+/* 중간 줌 레벨에서 작은 점으로 표시 (줌 13-14) */
+.circle-marker.small-dot {
+    width: 5px;
+    height: 5px;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.circle-marker.small-dot i {
+    display: none;
+}
+
+.circle-marker.small-dot:hover {
+    transform: scale(1.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* 마커 라벨 */
+.marker-label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    white-space: nowrap;
+    font-weight: 600;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 3px rgba(255, 255, 255, 0.9);
+    margin-top: 2px;
+    pointer-events: none;
+}
+
+.circle-marker.small-dot ~ .marker-label {
+    display: none;
+}
+
+/* ====================
+   마커 클러스터 커스터마이징
+   ==================== */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+    background-color: rgba(139, 30, 63, 0.6);
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+    background-color: rgba(139, 30, 63, 0.8);
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker-cluster {
+    background-clip: padding-box;
+    border-radius: 50%;
+}
+
+.marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.attractions-bg {
+    background: #8B5A6B;
+}
+
+.restaurants-bg {
+    background: #6B8E5A;
+}
+
+.hotels-bg {
+    background: #7B9EA8;
+}
+
+.airports-bg {
+    background: #B87A8F;
+}
+
+.my-location {
+    width: 24px;
+    height: 24px;
+    background: var(--primary-burgundy);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+.my-location i {
+    font-size: 12px;
+    color: white;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* ====================
+   Leaflet 팝업 커스터마이징 (KRC-Global 스타일)
+   ==================== */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+/* Leaflet 기본 닫기 버튼 숨기기 */
+.leaflet-popup-close-button {
+    display: none !important;
+}
+
+/* 커스텀 팝업 (스크린샷 스타일) */
+.custom-popup {
+    background: #FFF5EB;
+    border: 2px solid #7D2E3D;
+    border-radius: 15px;
+    max-width: 300px;
+    min-width: 240px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* 닫기 버튼 */
+.popup-close-btn {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 21px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    color: #7D2E3D;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.popup-close-btn:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+/* 팝업 헤더 (3x1 세로 구조) */
+.popup-header {
+    background: #FFF5EB !important;
+    padding: 12px 15px 8px !important;
+    text-align: center !important;
+    border-bottom-width: 2px !important;
+    border-bottom-style: solid !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.popup-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.0 !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+}
+
+.popup-subtitle {
+    font-size: 11px !important;
+    opacity: 0.8 !important;
+    line-height: 1.0 !important;
+    margin: 0 0 3px 0 !important;
+    padding: 0 !important;
+}
+
+.type-badge {
+    display: inline-block !important;
+    padding: 4px 14px !important;
+    color: #FFF5EB !important;
+    border-radius: 14px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    line-height: 1.0 !important;
+    margin: 0 !important;
+}
+
+/* 팝업 본문 */
+.popup-body {
+    padding: 15px;
+    background: #FFF5EB;
+}
+
+.popup-row {
+    margin-bottom: 11px;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.popup-icon {
+    color: #7D2E3D;
+    margin-top: 2px;
+    flex-shrink: 0;
+    font-size: 12px;
+}
+
+.popup-row span {
+    color: #333;
+    font-size: 11px;
+}
+
+/* 팝업 푸터 */
+.popup-footer {
+    padding: 12px;
+    background: #FFF5EB;
+    display: flex;
+    gap: 9px;
+}
+
+.map-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 11px;
+    background: #FFF5EB;
+    color: #7D2E3D;
+    text-decoration: none;
+    border: 2px solid #7D2E3D;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.map-btn:hover {
+    opacity: 0.8;
+    transform: translateY(-1.5px);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.2);
+}
+
+.map-btn i {
+    font-size: 11px;
+    color: #7D2E3D;
+}
+
+.map-btn:hover i {
+    color: #FFF5EB;
+}
+
+/* ====================
+   경로 패널
+   ==================== */
+.route-panel {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 12px 14px;
+    min-width: 320px;
+    max-width: calc(100vw - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 1;
+}
+
+.route-panel h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+}
+
+.route-panel h3 i:first-child {
+    color: var(--primary-burgundy);
+    font-size: 13px;
+}
+
+.route-toggle-icon {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-light);
+    transition: transform 0.3s ease;
+    transform: rotate(180deg);
+}
+
+.route-panel.collapsed .route-toggle-icon {
+    transform: rotate(0deg);
+}
+
+.route-panel-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 0;
+    min-height: 0;
+}
+
+.route-panel.collapsed .route-panel-body {
+    display: none;
+}
+
+.route-days-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    overflow-x: auto;
+    min-width: 0;
+}
+
+/* ====================
+   비고 (Remarks) 패널 - 가로 그리드
+   ==================== */
+.route-remarks {
+    border-top: 1px solid #eee;
+    margin-top: 8px;
+    padding-top: 8px;
+    overflow-x: auto;
+}
+
+.remarks-grid {
+    display: grid;
+    grid-template-columns: 52px repeat(4, 1fr);
+    gap: 3px 8px;
+    align-items: center;
+    min-width: 260px;
+}
+
+.remarks-header {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark);
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.remarks-header:first-child {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-light);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.remarks-label {
+    font-size: 10px;
+    color: var(--text-light);
+    padding: 1px 0;
+}
+
+.remarks-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.remarks-value.toll {
+    color: var(--primary-burgundy);
+}
+
+.remarks-note {
+    font-size: 9px;
+    color: var(--text-light);
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.route-panel.collapsed .route-days-container {
+    display: none;
+}
+
+.route-days-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.route-days-container::-webkit-scrollbar-thumb {
+    background: var(--primary-burgundy);
+    border-radius: 2px;
+}
+
+.route-loading {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: center;
+    padding: 8px 0;
+}
+
+.route-day {
+    margin-bottom: 0;
+    border-bottom: none;
+    border-right: 1px solid #eee;
+    padding-bottom: 0;
+    padding-right: 12px;
+    margin-right: 0;
+    min-width: 130px;
+    flex-shrink: 0;
+}
+
+.route-day:last-child {
+    border-right: none;
+    padding-right: 0;
+    margin-bottom: 0;
+}
+
+.route-day-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 0;
+}
+
+.route-day-header input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--primary-burgundy);
+    flex-shrink: 0;
+}
+
+.route-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.route-day-title {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.route-day-summary {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.route-segments {
+    margin-top: 6px;
+    margin-left: 22px;
+}
+
+.route-segment {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 2px 0;
+    font-size: 11px;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+.segment-order {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--text-dark);
+    flex-shrink: 0;
+}
+
+.segment-names {
+    flex: 1;
+    word-break: keep-all;
+}
+
+.segment-info {
+    font-size: 10px;
+    white-space: nowrap;
+    color: var(--text-light);
+    opacity: 0.8;
+}
+
+/* 집결 경로 레이블 */
+.route-segment-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 0 2px 0;
+    margin-top: 2px;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.route-segment-label:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 2px;
+}
+
+/* 집결 구간 아이템 */
+.gathering-segment {
+    opacity: 0.75;
+}
+
+.gathering-order {
+    background: white !important;
+    border: 1.5px dashed #aaa !important;
+}
+
+.gathering-order i {
+    font-size: 7px;
+}
+
+/* 출발지 마커 (집결 - 점선 테두리) */
+.departure-marker {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px dashed;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.departure-marker i {
+    font-size: 9px;
+}
+
+/* 도착지 마커 (해산 - 실선 테두리) */
+.arrival-marker {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrival-marker i {
+    font-size: 9px;
+}
+
+/* 해산 구간 아이템 */
+.dispersal-segment {
+    opacity: 0.75;
+}
+
+.dispersal-order {
+    background: white !important;
+    border: 1.5px solid #aaa !important;
+}
+
+.dispersal-order i {
+    font-size: 7px;
+}
+
+/* ====================
+   반응형 디자인
+   ==================== */
+@media (max-width: 768px) {
+    .locate-button {
+        top: 12px;
+        right: 12px;
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .tile-selector {
+        top: 10px;
+        left: 46px;
+        padding: 5px 10px;
+        gap: 6px;
+    }
+
+    .tile-selector label {
+        font-size: 12px;
+    }
+
+    .tile-select {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .right-controls {
+        bottom: 20px;
+        right: 12px;
+        max-width: calc(100vw - 24px);
+    }
+
+    .legend-box {
+        top: 12px;
+        right: 64px;
+        padding: 6px 10px;
+        gap: 10px;
+    }
+
+    .legend-item {
+        font-size: 11px;
+    }
+
+    .route-panel {
+        min-width: 220px;
+        max-width: calc(100vw - 24px);
+        padding: 10px 12px;
+    }
+
+    .route-panel h3 {
+        font-size: 13px;
+    }
+
+    .route-segment {
+        font-size: 10px;
+    }
+
+    .route-day {
+        min-width: 110px;
+    }
+}
+
+/* ====================
+   스크롤바 스타일
+   ==================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-burgundy);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-mauve);
+}

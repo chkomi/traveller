@@ -1,0 +1,236 @@
+[
+  {
+    "name": "브라운스위트 부산역 (Brown Suite Busan Station, 布朗套房釜山站)",
+    "latitude": 35.11639,
+    "longitude": 129.046002,
+    "address": "부산광역시 동구 충장대로 160 협성마리나G7 STORE B 2층",
+    "description": "KTX부산역 10번 출구 연결통로 도보 5분 거리의 오션뷰 레지던스 타입 숙박시설입니다.",
+    "features": [
+      "오션뷰",
+      "역세권",
+      "레지던스"
+    ],
+    "price": "0",
+    "type": "hotels",
+    "rating": 4.5,
+    "visitTime": "숙박",
+    "distance": "부산역 도보 5분"
+  },
+  {
+    "name": "하이디라오 부산역점 (Haidilao Busan Station, 海底捞釜山站店)",
+    "latitude": 35.113075,
+    "longitude": 129.038314,
+    "address": "부산광역시 동구 중앙대로 175",
+    "description": "중국 훠궈 전문점. 다양한 식재료와 친절한 서비스로 유명합니다.",
+    "features": [
+      "훠궈",
+      "중식",
+      "24시"
+    ],
+    "menu": [
+      "훠궈",
+      "마라탕"
+    ],
+    "price": "30000",
+    "type": "restaurants",
+    "rating": 4.4,
+    "visitTime": "2시간",
+    "openingHours": "10:00-익일 03:00",
+    "phone": "051-466-8880",
+    "distance": "부산역 도보 1분",
+    "parking": "무료"
+  },
+  {
+    "name": "씨라이프 부산 아쿠아리움 (SEA LIFE Busan Aquarium, 釜山海洋生物水族馆)",
+    "latitude": 35.159162,
+    "longitude": 129.160875,
+    "address": "부산광역시 해운대구 해운대해변로 266",
+    "description": "해운대 대표 아쿠아리움. 다양한 해양생물을 관람할 수 있으며 4세, 7세 아이들에게 특히 추천합니다.",
+    "features": [
+      "아쿠아리움",
+      "어린이",
+      "실내체험"
+    ],
+    "price": "29000",
+    "type": "attractions",
+    "rating": 4.4,
+    "visitTime": "2-3시간",
+    "openingHours": "평일 10:00-19:00, 주말 10:00-20:00 (입장마감 1시간 전)",
+    "phone": "051-740-1700",
+    "transport": "지하철 2호선 해운대역 3/5번 출구 도보 10분",
+    "ageGroup": "4세, 7세"
+  },
+  {
+    "name": "딘타이펑 광복점 (Din Tai Fung Gwangbok, 鼎泰豐光復店)",
+    "latitude": 35.097535,
+    "longitude": 129.036834,
+    "address": "부산 해운대구 센텀남대로 35 신세계백화점 센텀시티점 8층",
+    "description": "미쉐린 1스타 대만 딤섬 전문점. 얇은 피와 육즙이 풍부한 샤오롱바오로 유명합니다.",
+    "features": [
+      "샤오롱바오",
+      "딤섬",
+      "미쉐린"
+    ],
+    "menu": [
+      "샤오롱바오",
+      "새우볶음밥",
+      "딤섬",
+      "탕수육"
+    ],
+    "price": "20000",
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "1-2시간",
+    "openingHours": "11:00-22:00",
+    "phone": "051-745-1234"
+  },
+  {
+    "name": "블루라인파크 (Blue Line Park, 蓝线公园)",
+    "latitude": 35.160298,
+    "longitude": 129.188111,
+    "address": "부산광역시 해운대구 달맞이길62번길 13 (미포역)",
+    "description": "폐선된 동해남부선 철로를 활용한 해안 관광열차. 미포~청사포~송정 4.8km 구간을 운행하며 스카이캡슐과 해변열차를 즐길 수 있습니다.",
+    "features": [
+      "스카이캡슐",
+      "해변열차",
+      "해안절경"
+    ],
+    "price": "35000",
+    "type": "attractions",
+    "rating": 4.7,
+    "visitTime": "1-2시간",
+    "openingHours": "09:00-18:00 (계절별 상이)",
+    "transport": "지하철 2호선 해운대역 → 미포 도보 15분"
+  },
+  {
+    "name": "더파티 센텀점 (The Party Centum, 德派对Centum店)",
+    "latitude": 35.173989,
+    "longitude": 129.126247,
+    "address": "부산광역시 해운대구 센텀동로 일대",
+    "description": "다양한 요리를 즐길 수 있는 프리미엄 뷔페 레스토랑입니다.",
+    "features": [
+      "뷔페",
+      "프리미엄",
+      "센텀"
+    ],
+    "price": "50000",
+    "type": "restaurants",
+    "rating": 4.4,
+    "visitTime": "2시간"
+  },
+  {
+    "name": "부산근현대역사관 (Busan Museum of Modern History, 釜山近現代歷史館)",
+    "latitude": 35.102423,
+    "longitude": 129.032152,
+    "address": "부산광역시 중구 대청로 104",
+    "description": "일제강점기 미국문화원으로 사용된 건물을 리모델링한 역사박물관. 부산의 근현대 역사와 생활문화를 다양한 자료로 전시합니다.",
+    "features": [
+      "역사박물관",
+      "무료입장",
+      "근현대사"
+    ],
+    "price": "0",
+    "type": "attractions",
+    "rating": 4.4,
+    "visitTime": "1-2시간",
+    "openingHours": "화~일 09:00~18:00 (매주 월요일 휴관)",
+    "phone": "051-607-8001",
+    "transport": "지하철 1호선 중앙역 7번 출구 도보 5분"
+  },
+  {
+    "name": "피아크 카페385 (P.ARK Cafe & Bakery, 피아크카페베이커리)",
+    "latitude": 35.084237,
+    "longitude": 129.076404,
+    "address": "부산광역시 영도구 해양로195번길 180",
+    "description": "영도 해변에 위치한 6층 규모의 대형 베이커리 카페. 파노라마 오션뷰와 80여 종의 빵·음료를 제공하는 복합문화공간입니다.",
+    "features": [
+      "오션뷰",
+      "베이커리카페",
+      "복합문화공간"
+    ],
+    "price": "10000",
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "1-2시간",
+    "openingHours": "매일 10:00~23:00",
+    "transport": "버스 66, 186번 영도구청 방면"
+  },
+  {
+    "name": "송도해상케이블카 (Songdo Ocean Cable Car, 松島海上空中缆车)",
+    "latitude": 35.076833,
+    "longitude": 129.022845,
+    "address": "부산광역시 서구 송도해변로 171",
+    "description": "송도해수욕장과 암남공원을 잇는 국내 최초 해상 케이블카. 바다 위를 가로지르며 부산 서구의 아름다운 해안 전경을 감상할 수 있습니다.",
+    "features": [
+      "케이블카",
+      "오션뷰",
+      "해상어트랙션"
+    ],
+    "price": "17000",
+    "type": "attractions",
+    "rating": 4.6,
+    "visitTime": "1시간",
+    "openingHours": "09:00~20:00 (동절기) / 09:00~21:00 (봄·가을) / 09:00~22:00 (여름)",
+    "phone": "051-247-9900",
+    "transport": "버스 7, 71, 96번 송도해수욕장 정류장"
+  },
+  {
+    "name": "일신명품한우 (Ilsin Premium Korean Beef, 一信名品韓牛)",
+    "latitude": 35.101948,
+    "longitude": 129.025667,
+    "address": "부산광역시 중구 중구로43번길 42",
+    "description": "부평깡통시장 인근 최고급 암소 한우 1++(9)등급 전문점. 1층에서 직접 고기를 선택·구매 후 2층에서 식사하는 방식으로 운영됩니다.",
+    "features": [
+      "한우 1++ 등급",
+      "소고기",
+      "육회",
+      "갈비탕"
+    ],
+    "menu": [
+      "한우 모둠",
+      "육회",
+      "갈비탕 15,000원",
+      "육회비빔밥 15,000원",
+      "육개장 15,000원"
+    ],
+    "price": "150000",
+    "type": "restaurants",
+    "rating": 4.8,
+    "visitTime": "1-2시간",
+    "openingHours": "화~일 11:30~22:00 (브레이크타임 15:00~16:00, 라스트오더 21:00) / 월요일 휴무",
+    "phone": "051-254-1871",
+    "transport": "지하철 1호선 자갈치역 7번 출구 도보 5분"
+  },
+  {
+    "name": "하동 산해회식당 (Hadong Sanhae Seafood Restaurant)",
+    "latitude": 34.966429,
+    "longitude": 127.795404,
+    "address": "경상남도 하동군",
+    "description": "경남 하동에 위치한 회 전문 식당입니다.",
+    "features": [
+      "회",
+      "해산물",
+      "경남맛집"
+    ],
+    "type": "restaurants",
+    "rating": 4.5
+  },
+  {
+    "name": "앙또르과자점",
+    "latitude": 35.1058030891303,
+    "longitude": 128.974475624365,
+    "address": "부산광역시 사하구 제석로 57-1 (당리동)",
+    "description": "부산 당리동의 유명 과자점·베이커리. 다양한 수제 과자와 빵으로 현지인에게 인기 있는 맛집입니다.",
+    "features": [
+      "과자점",
+      "베이커리",
+      "디저트"
+    ],
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "30분",
+    "openingHours": "월~토 06:00~24:00",
+    "phone": "051-202-4060",
+    "transport": "지하철 1호선 당리역 도보 5분"
+  }
+]
