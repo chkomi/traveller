@@ -1,0 +1,44 @@
+name: Deploy & Telegram Notify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+
+      - name: Notify Telegram on success
+        if: success()
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          COMMIT_HASH=$(git log -1 --pretty=format:"%h")
+          TEXT="✅ 배포 완료!%0A%0A커밋: ${COMMIT_MSG} (${COMMIT_HASH})%0AURL: https://chkomi.github.io/traveller/"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=${TEXT}"
+
+      - name: Notify Telegram on failure
+        if: failure()
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+          TEXT="❌ 배포 실패!%0A%0A커밋: ${COMMIT_MSG}%0A확인: https://github.com/chkomi/traveller/actions"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=${TEXT}"
