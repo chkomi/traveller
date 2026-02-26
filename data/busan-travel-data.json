@@ -202,14 +202,14 @@
     "transport": "지하철 1호선 자갈치역 7번 출구 도보 5분"
   },
   {
-    "name": "하동 산해회식당 (Hadong Sanhae Seafood Restaurant)",
-    "latitude": 34.966429,
-    "longitude": 127.795404,
-    "address": "경상남도 하동군",
-    "description": "경남 하동에 위치한 회 전문 식당입니다.",
+    "name": "김가네토속식당",
+    "latitude": 34.9866128,
+    "longitude": 127.8364813,
+    "address": "경상남도 하동군 금남면 덕천리 1058-6",
+    "description": "경남 하동군 금남면 덕천리에 위치한 토속 음식 전문 식당입니다.",
     "features": [
-      "회",
-      "해산물",
+      "토속음식",
+      "한식",
       "경남맛집"
     ],
     "type": "restaurants",

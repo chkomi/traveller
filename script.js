@@ -21,28 +21,28 @@ let dispersalCache = {};   // { '3-0': { coords, distance, duration, ... }, ... 
 
 const DAY_COLORS = { 1: '#D4634A', 2: '#4A7FB5', 3: '#8B6D3F' };
 
-// 4가족 집결 경로 (각 출발지 → 산해회식당)
+// 4가족 집결 경로 (각 출발지 → 김가네토속식당)
 const GATHERING_ROUTES = {
     1: [
         {
             family: '나주팀',
             waypoints: [
                 { name: '나주 빛가람코오롱하늘채', lat: 35.031807, lng: 126.773710 },
-                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+                { name: '김가네토속식당', lat: 34.9866128, lng: 127.8364813 }
             ]
         },
         {
             family: '광주팀',
             waypoints: [
                 { name: '광주 그랜드센트럴', lat: 35.156172, lng: 126.915643 },
-                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+                { name: '김가네토속식당', lat: 34.9866128, lng: 127.8364813 }
             ]
         },
         {
             family: '광양팀',
             waypoints: [
                 { name: '광양', lat: 34.915321, lng: 127.639434 },
-                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+                { name: '김가네토속식당', lat: 34.9866128, lng: 127.8364813 }
             ]
         },
         {
@@ -50,7 +50,7 @@ const GATHERING_ROUTES = {
             waypoints: [
                 { name: 'TW바이오매스에너지', lat: 34.808775, lng: 127.655259 },
                 { name: '순천', lat: 34.934311, lng: 127.488927 },
-                { name: '산해회식당', lat: 34.966429, lng: 127.795404 }
+                { name: '김가네토속식당', lat: 34.9866128, lng: 127.8364813 }
             ]
         }
     ]
@@ -93,7 +93,7 @@ const DISPERSAL_ROUTES = {
 
 const DAY_ROUTES = {
     1: [
-        { name: '산해회식당', lat: 34.966429, lng: 127.795404 },
+        { name: '김가네토속식당', lat: 34.9866128, lng: 127.8364813 },
         { name: '브라운스위트', lat: 35.11639, lng: 129.046002 },
         { name: '송도해상케이블카', lat: 35.076833, lng: 129.022845 },
         { name: '하이디라오', lat: 35.113075, lng: 129.038314 }
@@ -573,7 +573,7 @@ async function fetchFanRoute(waypoints, logLabel) {
 }
 
 // ========================================
-// 집결 경로 (각 출발지 → 산해회식당)
+// 집결 경로 (각 출발지 → 김가네토속식당)
 // ========================================
 async function fetchRouteForFamily(day, index) {
     const route = GATHERING_ROUTES[day]?.[index];
@@ -730,7 +730,7 @@ function populateRoutePanel() {
                 segDiv.className = 'route-segment gathering-segment';
                 segDiv.innerHTML = `
                     <span class="segment-order gathering-order"><i class="fas fa-house"></i></span>
-                    <span class="segment-names">${route.family} → 산해회식당</span>
+                    <span class="segment-names">${route.family} → 김가네토속식당</span>
                     <span class="segment-info">${gData ? formatDistance(gData.distance) + ' · ' + formatDuration(gData.duration) : '-'}</span>
                 `;
                 segmentsDiv.appendChild(segDiv);
