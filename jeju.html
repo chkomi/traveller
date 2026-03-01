@@ -79,10 +79,11 @@
 
     // ===== 마커 데이터 =====
     const TYPE_CONFIG = {
-        makchang: { color: '#6B8E5A', label: '烤大肠', icon: 'fa-fire' },
-        bulgogi:  { color: '#6B8E5A', label: '烤肉',   icon: 'fa-drumstick-bite' },
-        mackerel: { color: '#6B8E5A', label: '炖鲭鱼', icon: 'fa-fish' },
-        crab:     { color: '#6B8E5A', label: '酱蟹',   icon: 'fa-shrimp' }
+        makchang:   { color: '#6B8E5A', label: '烤大肠', icon: 'fa-fire' },
+        bulgogi:    { color: '#6B8E5A', label: '烤肉',   icon: 'fa-drumstick-bite' },
+        mackerel:   { color: '#6B8E5A', label: '炖鲭鱼', icon: 'fa-fish' },
+        crab:       { color: '#6B8E5A', label: '酱蟹',   icon: 'fa-shrimp' },
+        attraction: { color: '#8B5A6B', label: '景点',   icon: 'fa-landmark' }
     };
 
     const PLACES = [
@@ -104,7 +105,18 @@
         // 酱蟹 (간장게장)
         { name: '장모식당',       lat: 33.496843, lng: 126.546897, type: 'crab',     addr: '济州市 延新路 51',              addrKo: '제주시 연신로 51',               desc: '酱蟹饭套餐丰盛，口碑极佳。', features: ['酱蟹', '套餐', '口碑好'] },
         { name: '제주로운청해원', lat: 33.449330, lng: 126.908310, type: 'crab',     addr: '西归浦市 城山邑 古城里 212-13', addrKo: '서귀포시 성산읍 고성리 212-13',  desc: '城山日出峰附近的酱蟹名店。', features: ['酱蟹', '城山日出峰', '名店'] },
-        { name: '종달수다녀',     lat: 33.489010, lng: 126.884620, type: 'crab',     addr: '济州市 旧左邑 终达里 2566-1',  addrKo: '제주시 구좌읍 종달리 2566-1',    desc: '终达里海边酱蟹餐厅，新鲜实惠。', features: ['酱蟹', '海边', '新鲜'] }
+        { name: '종달수다녀',     lat: 33.489010, lng: 126.884620, type: 'crab',     addr: '济州市 旧左邑 终达里 2566-1',  addrKo: '제주시 구좌읍 종달리 2566-1',    desc: '终达里海边酱蟹餐厅，新鲜实惠。', features: ['酱蟹', '海边', '新鲜'] },
+        // 景点 (관광지) - 2025년 중국인 관광객 인기 명소
+        { name: '성산일출봉',     lat: 33.458056, lng: 126.942500, type: 'attraction', addr: '西归浦市 城山邑 日出路 284-12',  addrKo: '서귀포시 성산읍 일출로 284-12',  desc: '联合国教科文组织世界自然遗产，火山口日出闻名天下。', features: ['世界遗产', '日出', '火山口'] },
+        { name: '한라산',         lat: 33.361700, lng: 126.533900, type: 'attraction', addr: '济州市 海安洞 1100路 2070-61',   addrKo: '제주시 해안동 1100로 2070-61',   desc: '韩国最高峰（1,947m），四季景色各异，壮观迷人。', features: ['世界遗产', '最高峰', '登山'] },
+        { name: '만장굴',         lat: 33.528400, lng: 126.771500, type: 'attraction', addr: '济州市 旧左邑 万丈굴路 182',      addrKo: '제주시 구좌읍 만장굴길 182',     desc: '世界上最长的熔岩洞窟之一，被列为世界自然遗产。', features: ['世界遗产', '熔岩洞窟', '地质公园'] },
+        { name: '협재해수욕장',   lat: 33.394300, lng: 126.239400, type: 'attraction', addr: '济州市 翰林邑 挟才里 2447-1',    addrKo: '제주시 한림읍 협재리 2447-1',   desc: '翡翠色海水配上白色沙滩，中国游客必去的美丽海滩。', features: ['蓝色海水', '白沙滩', '比扬岛'] },
+        { name: '주상절리',       lat: 33.239200, lng: 126.416900, type: 'attraction', addr: '西归浦市 中文观光路 154-17',     addrKo: '서귀포시 중문관광로 154-17',     desc: '数十万年前火山喷发形成的六角形玄武岩柱群，气势雄伟。', features: ['火山地形', '玄武岩', '壮观'] },
+        { name: '우도',           lat: 33.506500, lng: 126.953300, type: 'attraction', addr: '济州市 牛岛面 牛岛路 984',        addrKo: '제주시 우도면 우도로 984',       desc: '离岛小岛，花生冰淇淋和碧蓝海水让中国游客流连忘返。', features: ['离岛', '花生冰淇淋', '蓝色海水'] },
+        { name: '섭지코지',       lat: 33.426800, lng: 126.929900, type: 'attraction', addr: '西归浦市 城山邑 高城里 8',        addrKo: '서귀포시 성산읍 고성리 8',       desc: '突出海中的岬角，绝美海岸风景，曾是电视剧取景地。', features: ['海岸絶景', '岬角', '拍照胜地'] },
+        { name: '천지연폭포',     lat: 33.246000, lng: 126.551500, type: 'attraction', addr: '西归浦市 千地渊路 132',           addrKo: '서귀포시 천지연로 132',          desc: '壮观的天池渊瀑布，高22m宽12m，被称为"天地之渊"。', features: ['瀑布', '夜间开放', '자연'] },
+        { name: '용두암',         lat: 33.515700, lng: 126.501600, type: 'attraction', addr: '济州市 龙头路 15',               addrKo: '제주시 용두암길 15',             desc: '状如龙头的玄武岩奇石，高约10m，是제주의 대표적인 관광 명소。', features: ['奇岩', '玄武岩', '拍照胜地'] },
+        { name: '사려니숲길',     lat: 33.411600, lng: 126.652700, type: 'attraction', addr: '济州市 旧左邑 思连伊林路',        addrKo: '제주시 구좌읍 사려니숲길',       desc: '被誉为治愈系森林，清新的空气和美丽的红松林深受喜爱。', features: ['森林浴', '治愈', '健康散步'] }
     ];
 
     // ===== 마커 생성 함수 =====
