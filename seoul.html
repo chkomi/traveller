@@ -144,14 +144,51 @@
     }
 
     // ===== 마커 추가 =====
+    const allMarkers = [];
     const clusterGroup = L.markerClusterGroup();
     PLACES.forEach(p => {
         const cfg = TYPE_CONFIG[p.type];
         const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon) });
         marker.bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
         clusterGroup.addLayer(marker);
+        allMarkers.push({ marker, place: p });
     });
     map.addLayer(clusterGroup);
+
+    // ===== 줌 레벨에 따라 마커 크기 조절 =====
+    function updateMarkerSize() {
+        const currentZoom = map.getZoom();
+        if (currentZoom >= 16) {
+            allMarkers.forEach(({ marker }) => {
+                const el = marker.getElement();
+                if (el) { const cm = el.querySelector('.circle-marker'); if (cm) cm.classList.remove('small-dot'); }
+            });
+            return;
+        }
+        allMarkers.forEach(({ marker }) => {
+            const el = marker.getElement();
+            if (el) { const cm = el.querySelector('.circle-marker'); if (cm) cm.classList.remove('small-dot'); }
+        });
+        const checkRadius = Math.max(15, 80 - (currentZoom * 4));
+        allMarkers.forEach(({ marker, place }, index) => {
+            const el = marker.getElement();
+            if (!el) return;
+            const cm = el.querySelector('.circle-marker');
+            if (!cm) return;
+            const pos = map.latLngToContainerPoint([place.lat, place.lng]);
+            let hasNearby = false;
+            for (let i = 0; i < allMarkers.length; i++) {
+                if (i === index) continue;
+                const other = allMarkers[i].place;
+                const otherPos = map.latLngToContainerPoint([other.lat, other.lng]);
+                const dist = Math.sqrt(Math.pow(pos.x - otherPos.x, 2) + Math.pow(pos.y - otherPos.y, 2));
+                if (dist < checkRadius) { hasNearby = true; break; }
+            }
+            if (hasNearby) cm.classList.add('small-dot');
+        });
+    }
+    map.on('zoomend', updateMarkerSize);
+    clusterGroup.on('animationend', updateMarkerSize);
     </script>
 </body>
 </html>
