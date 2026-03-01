@@ -93,24 +93,24 @@
 
     const PLACES = [
         // 烤大肠 (막창)
-        { name: '연막창',         lat: 33.4890, lng: 126.4890, type: 'makchang', addr: '济州市 新大路16街 49号',          desc: '炭火烤大肠专门店，人气颇高。', features: ['炭火烧烤', '大肠', '人气店'] },
-        { name: '고향숯불막창',    lat: 33.5152, lng: 126.5527, type: 'makchang', addr: '济州市 一周东路 281号',            desc: '炭火风味浓郁，当地居民常去的大肠烤肉店。', features: ['炭火', '当地特色', '大肠'] },
-        { name: '용팔이막창',     lat: 33.4900, lng: 126.4870, type: 'makchang', addr: '济州市 月浪路4街 17号',            desc: '老字号大肠专门店，口感软糯。', features: ['老字号', '大肠', '软糯'] },
-        { name: '골목빈통구이',   lat: 33.2500, lng: 126.4140, type: 'makchang', addr: '西归浦市 天帝渊路185街 6号',       desc: '中文区人气烤肉餐厅，大肠新鲜美味。', features: ['中文区', '大肠', '人气'] },
+        { name: '연막창',         lat: 33.4890, lng: 126.4890, type: 'makchang', addr: '济州市 新大路16街 49号',        addrKo: '제주시 신대로16길 49',             desc: '炭火烤大肠专门店，人气颇高。', features: ['炭火烧烤', '大肠', '人气店'] },
+        { name: '고향숯불막창',    lat: 33.5152, lng: 126.5527, type: 'makchang', addr: '济州市 一周东路 281号',          addrKo: '제주시 일주동로 281',              desc: '炭火风味浓郁，当地居民常去的大肠烤肉店。', features: ['炭火', '当地特色', '大肠'] },
+        { name: '용팔이막창',     lat: 33.4900, lng: 126.4870, type: 'makchang', addr: '济州市 月浪路4街 17号',          addrKo: '제주시 월랑로4길 17',             desc: '老字号大肠专门店，口感软糯。', features: ['老字号', '大肠', '软糯'] },
+        { name: '골목빈통구이',   lat: 33.2500, lng: 126.4140, type: 'makchang', addr: '西归浦市 天帝渊路185街 6号',     addrKo: '서귀포시 천제연로185길 6',         desc: '中文区人气烤肉餐厅，大肠新鲜美味。', features: ['中文区', '大肠', '人气'] },
         // 烤肉 (불고기)
-        { name: '왕일번지식당',   lat: 33.3231, lng: 126.8445, type: 'bulgogi',  addr: '西归浦市 表善面 城岳里 547-1',     desc: '济州黑猪肉烤肉名店，肉质鲜嫩。', features: ['黑猪肉', '烤肉', '名店'] },
-        { name: '텔보식당',       lat: 33.5411, lng: 126.6713, type: 'bulgogi',  addr: '济州市 朝天邑 咸德里 1002-84',    desc: '咸德海岸边的烤肉餐厅，景观绝佳。', features: ['海景', '黑猪肉', '烤肉'] },
-        { name: '비자향',         lat: 33.5226, lng: 126.8528, type: 'bulgogi',  addr: '济州市 旧左邑 平岱里 3204-3',     desc: '旧左邑的本地人气烤肉店。', features: ['本地推荐', '黑猪肉', '烤肉'] },
-        { name: '금능녹원',       lat: 33.3874, lng: 126.2324, type: 'bulgogi',  addr: '济州市 翰林邑 金陵里 1716',       desc: '翰林地区的烤肉名店，食材新鲜。', features: ['翰林', '黑猪肉', '新鲜食材'] },
+        { name: '왕일번지식당',   lat: 33.3231, lng: 126.8445, type: 'bulgogi',  addr: '西归浦市 表善面 城邑里 547-1',   addrKo: '서귀포시 표선면 성읍리 547-1',    desc: '济州黑猪肉烤肉名店，肉质鲜嫩。', features: ['黑猪肉', '烤肉', '名店'] },
+        { name: '털보식당',       lat: 33.5411, lng: 126.6713, type: 'bulgogi',  addr: '济州市 朝天邑 咸德里 1002-84',  addrKo: '제주시 조천읍 함덕리 1002-84',    desc: '咸德海岸边的烤肉餐厅，景观绝佳。', features: ['海景', '黑猪肉', '烤肉'] },
+        { name: '비자향',         lat: 33.5226, lng: 126.8528, type: 'bulgogi',  addr: '济州市 旧左邑 平岱里 3204-3',   addrKo: '제주시 구좌읍 평대리 3204-3',     desc: '旧左邑的本地人气烤肉店。', features: ['本地推荐', '黑猪肉', '烤肉'] },
+        { name: '금능녹원',       lat: 33.3874, lng: 126.2324, type: 'bulgogi',  addr: '济州市 翰林邑 金陵里 1716',     addrKo: '제주시 한림읍 금능리 1716',       desc: '翰林地区的烤肉名店，食材新鲜。', features: ['翰林', '黑猪肉', '新鲜食材'] },
         // 炖鲭鱼 (고등어찜/조림)
-        { name: '맛나식당',       lat: 33.4332, lng: 126.9275, type: 'mackerel', addr: '西归浦市 城山邑 古城里 316-9',     desc: '城山地区炖鲭鱼老店，味道醇厚。', features: ['炖鲭鱼', '老店', '城山'] },
-        { name: '중문고등어조밥', lat: 33.2414, lng: 126.4244, type: 'mackerel', addr: '西归浦市 上礼洞 3706号 (中文)',   desc: '中文观光区附近的鲭鱼饭名店。', features: ['炖鲭鱼', '鲭鱼饭', '中文区'] },
-        { name: '이춘옥원조고등어조밥', lat: 33.4738, lng: 126.4058, type: 'mackerel', addr: '济州市 涯月邑 河道1里 266-1', desc: '涯月传统炖鲭鱼饭，原味正宗。', features: ['原味', '炖鲭鱼饭', '传统'] },
-        { name: '네거리식당',     lat: 33.2454, lng: 126.5664, type: 'mackerel', addr: '西归浦市 西归洞 320-9',          desc: '十字路口老食堂，炖鲭鱼深受好评。', features: ['老食堂', '炖鲭鱼', '好评'] },
+        { name: '맛나식당',       lat: 33.4332, lng: 126.9275, type: 'mackerel', addr: '西归浦市 城山邑 古城里 316-9',   addrKo: '서귀포시 성산읍 고성리 316-9',    desc: '城山地区炖鲭鱼老店，味道醇厚。', features: ['炖鲭鱼', '老店', '城山'] },
+        { name: '중문고등어조밥', lat: 33.2414, lng: 126.4244, type: 'mackerel', addr: '西归浦市 上礼洞 3706号 (中文)', addrKo: '서귀포시 상예동 3706',            desc: '中文观光区附近的鲭鱼饭名店。', features: ['炖鲭鱼', '鲭鱼饭', '中文区'] },
+        { name: '이춘옥원조 고등어쌈밥', lat: 33.4738, lng: 126.4058, type: 'mackerel', addr: '济州市 涯月邑 一周西路 7213', addrKo: '제주시 애월읍 일주서로 7213', desc: '涯月传统鲭鱼饭，原味正宗。', features: ['原味', '鲭鱼饭', '传统'] },
+        { name: '네거리식당',     lat: 33.2454, lng: 126.5664, type: 'mackerel', addr: '西归浦市 西归洞 320-9',         addrKo: '서귀포시 서귀동 320-9',           desc: '十字路口老食堂，炖鲭鱼深受好评。', features: ['老食堂', '炖鲭鱼', '好评'] },
         // 酱蟹 (간장게장)
-        { name: '장모식당',       lat: 33.5030, lng: 126.5361, type: 'crab',     addr: '济州市 二都二洞 257-6',          desc: '酱蟹饭套餐丰盛，口碑极佳。', features: ['酱蟹', '套餐', '口碑好'] },
-        { name: '제주로운청해원', lat: 33.4350, lng: 126.9270, type: 'crab',     addr: '西归浦市 城山邑 古城里 212-13',  desc: '城山日出峰附近的酱蟹名店。', features: ['酱蟹', '城山日出峰', '名店'] },
-        { name: '종달수다녀',     lat: 33.4644, lng: 126.8367, type: 'crab',     addr: '济州市 旧左邑 终达里 2566-1',   desc: '终达里海边酱蟹餐厅，新鲜实惠。', features: ['酱蟹', '海边', '新鲜'] }
+        { name: '장모식당',       lat: 33.5030, lng: 126.5361, type: 'crab',     addr: '济州市 二都二洞 257-6',         addrKo: '제주시 이도이동 257-6',           desc: '酱蟹饭套餐丰盛，口碑极佳。', features: ['酱蟹', '套餐', '口碑好'] },
+        { name: '제주로운청해원', lat: 33.4350, lng: 126.9270, type: 'crab',     addr: '西归浦市 城山邑 古城里 212-13', addrKo: '서귀포시 성산읍 고성리 212-13',  desc: '城山日出峰附近的酱蟹名店。', features: ['酱蟹', '城山日出峰', '名店'] },
+        { name: '종달수다녀',     lat: 33.4644, lng: 126.8367, type: 'crab',     addr: '济州市 旧左邑 终达里 2566-1',  addrKo: '제주시 구좌읍 종달리 2566-1',    desc: '终达里海边酱蟹餐厅，新鲜实惠。', features: ['酱蟹', '海边', '新鲜'] }
     ];
 
     // ===== 마커 생성 함수 =====
@@ -141,7 +141,7 @@
             <div class="popup-body">
                 <div class="popup-row">
                     <i class="fas fa-map-marker-alt popup-icon" style="color:${cfg.color};"></i>
-                    <span>${place.addr}</span>
+                    <span>${place.addrKo || ''}<br><small style="color:#888;">${place.addr}</small></span>
                 </div>
                 <div class="popup-row">
                     <i class="fas fa-info-circle popup-icon" style="color:${cfg.color};"></i>
