@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>제주 여행 계획 | Jeju Travel Map</title>
-    <meta name="description" content="제주 여행 계획 - 관광지, 맛집, 숙소를 한눈에">
+    <title>济州美食地图</title>
+    <meta name="description" content="济州岛美食地图 - 烤肠、烤肉、炖鲭鱼、酱蟹">
 
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
@@ -27,7 +24,7 @@
             border-radius: 10px;
             padding: 10px 16px;
             font-size: 0.9rem;
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             font-weight: 600;
             color: #333;
             cursor: pointer;
@@ -37,51 +34,89 @@
             gap: 6px;
             text-decoration: none;
         }
-
         .back-btn:hover { background: #f5f5f5; }
 
-        .coming-soon {
+        .legend-box {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 16px;
+            right: 16px;
             z-index: 1000;
-            background: rgba(255,255,255,0.92);
-            border-radius: 16px;
-            padding: 24px 36px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-            pointer-events: none;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            padding: 10px 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-size: 0.82rem;
+        }
+        .legend-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 3px 0;
+            color: #555;
+        }
+        .legend-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
-        .coming-soon .emoji { font-size: 2.5rem; }
-        .coming-soon h2 { font-size: 1.2rem; font-weight: 700; margin: 8px 0 4px; color: #222; }
-        .coming-soon p { font-size: 0.85rem; color: #777; }
+        .leaflet-popup-content {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            min-width: 180px;
+        }
+        .popup-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+        .popup-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .popup-addr {
+            font-size: 0.78rem;
+            color: #888;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> 메인으로
+        <i class="fas fa-arrow-left"></i> 返回主页
     </a>
 
-    <div class="coming-soon">
-        <div class="emoji">🍊</div>
-        <h2>제주 여행 지도</h2>
-        <p>여행지를 추가하면 여기에 표시됩니다</p>
+    <div class="legend-box">
+        <div class="legend-title">🍽 美食分类</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#E05A2B"></span>烤大肠 (막창)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#D4634A"></span>烤肉 (불고기)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#4A7FB5"></span>炖鲭鱼 (고등어찜)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#8B6D3F"></span>酱蟹 (간장게장)</div>
     </div>
 
     <div id="map"></div>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // 제주국제공항 중심 좌표
-        const jejuAirport = [33.5069, 126.4927];
+        // 济州国际机场 中心坐标
+        const jejuCenter = [33.4000, 126.5500];
 
         const map = L.map('map', {
-            center: jejuAirport,
-            zoom: 11,
+            center: jejuCenter,
+            zoom: 10,
             zoomControl: true,
             attributionControl: true
         });
@@ -92,18 +127,58 @@
             maxZoom: 19
         }).addTo(map);
 
-        // 제주공항 마커
-        const airportIcon = L.divIcon({
-            html: '<div style="background:#4A9B6F;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>',
-            className: '',
-            iconSize: [14, 14],
-            iconAnchor: [7, 7]
-        });
+        // 颜色配置
+        const TYPE_CONFIG = {
+            makchang: { color: '#E05A2B', label: '烤大肠', zh: '막창' },
+            bulgogi:  { color: '#D4634A', label: '烤肉',   zh: '불고기' },
+            mackerel: { color: '#4A7FB5', label: '炖鲭鱼', zh: '고등어찜' },
+            crab:     { color: '#8B6D3F', label: '酱蟹',   zh: '간장게장' }
+        };
 
-        L.marker(jejuAirport, { icon: airportIcon })
-            .addTo(map)
-            .bindPopup('<b>제주국제공항</b><br>제주 여행의 시작점')
-            .openPopup();
+        function makeIcon(color) {
+            return L.divIcon({
+                html: `<div style="background:${color};width:14px;height:14px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.35)"></div>`,
+                className: '',
+                iconSize: [14, 14],
+                iconAnchor: [7, 7],
+                popupAnchor: [0, -10]
+            });
+        }
+
+        function addMarker(name, lat, lng, type, addrZh) {
+            const cfg = TYPE_CONFIG[type];
+            const popup = `
+                <div class="popup-name">${name}</div>
+                <span class="popup-type" style="background:${cfg.color}">${cfg.label}</span>
+                <div class="popup-addr">${addrZh}</div>
+            `;
+            L.marker([lat, lng], { icon: makeIcon(cfg.color) })
+                .addTo(map)
+                .bindPopup(popup);
+        }
+
+        // ===== 烤大肠 (막창) =====
+        addMarker('연막창', 33.4890, 126.4890, 'makchang', '济州市 新大路16街 49号');
+        addMarker('고향숯불막창', 33.5152, 126.5527, 'makchang', '济州市 一周东路 281号');
+        addMarker('용팔이막창', 33.4900, 126.4870, 'makchang', '济州市 月浪路4街 17号 (老衡洞)');
+        addMarker('골목빈통구이', 33.2500, 126.4140, 'makchang', '西归浦市 天帝渊路185街 6号 (中文)');
+
+        // ===== 烤肉 / 불고기 =====
+        addMarker('왕일번지식당', 33.3231, 126.8445, 'bulgogi', '西归浦市 表善面 城岳里 547-1');
+        addMarker('텔보식당', 33.5411, 126.6713, 'bulgogi', '济州市 朝天邑 咸德里 1002-84');
+        addMarker('비자향', 33.5226, 126.8528, 'bulgogi', '济州市 旧左邑 平岱里 3204-3');
+        addMarker('금능녹원', 33.3874, 126.2324, 'bulgogi', '济州市 翰林邑 金陵里 1716');
+
+        // ===== 炖鲭鱼 (고등어찜/조림) =====
+        addMarker('맛나식당', 33.4332, 126.9275, 'mackerel', '西归浦市 城山邑 古城里 316-9');
+        addMarker('중문고등어조밥', 33.2414, 126.4244, 'mackerel', '西归浦市 上礼洞 3706号 (中文)');
+        addMarker('이춘옥원조고등어조밥', 33.4738, 126.4058, 'mackerel', '济州市 涯月邑 河道1里 266-1');
+        addMarker('네거리식당', 33.2454, 126.5664, 'mackerel', '西归浦市 西归洞 320-9');
+
+        // ===== 酱蟹 (간장게장) =====
+        addMarker('장모식당', 33.5030, 126.5361, 'crab', '济州市 二都二洞 257-6');
+        addMarker('제주로운청해원', 33.4350, 126.9270, 'crab', '西归浦市 城山邑 古城里 212-13');
+        addMarker('종달수다녀', 33.4644, 126.8367, 'crab', '济州市 旧左邑 终达里 2566-1');
     </script>
 </body>
 </html>
