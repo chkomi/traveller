@@ -2,86 +2,110 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>부산 여행 계획 | Busan Travel Map</title>
-    <meta name="description" content="부산 여행 계획 - 관광지, 맛집, 숙소를 한눈에">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리 가족 여행 지도</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a4a 0%, #2c4a7c 50%, #1a3a5c 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+        }
 
-    <!-- Leaflet MarkerCluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+        .title {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+        }
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css?v=20260224a">
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .dest-btn {
+            width: 160px;
+            height: 200px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dest-btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+        }
+
+        .dest-btn.busan {
+            background: linear-gradient(160deg, #4A7FB5 0%, #2c5f8f 100%);
+            box-shadow: 0 8px 24px rgba(74,127,181,0.4);
+        }
+
+        .dest-btn.jeju {
+            background: linear-gradient(160deg, #4A9B6F 0%, #2c7a50 100%);
+            box-shadow: 0 8px 24px rgba(74,155,111,0.4);
+        }
+
+        .dest-btn .emoji {
+            font-size: 3rem;
+        }
+
+        .dest-btn .label {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .dest-btn .desc {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem;
+        }
+
+        @media (max-width: 480px) {
+            .title { font-size: 1.5rem; }
+            .btn-group { gap: 1rem; }
+            .dest-btn { width: 140px; height: 180px; }
+        }
+    </style>
 </head>
 <body>
-    <!-- 전체화면 지도 -->
-    <div id="map"></div>
+    <div class="title">우리 가족 여행 지도</div>
+    <div class="subtitle">여행지를 선택하세요</div>
 
-    <!-- 내 위치 찾기 버튼 -->
-    <button id="locate-btn" class="locate-button" title="내 위치 찾기">
-        <i class="fas fa-location-crosshairs"></i>
-    </button>
-
-    <!-- 지도 타일 선택 -->
-    <div class="tile-selector">
-        <label for="tile-select">
-            <i class="fas fa-map"></i>
-            <span>지도 스타일</span>
-        </label>
-        <select id="tile-select" class="tile-select">
-            <option value="positron" selected>간결</option>
-            <option value="streets">거리</option>
-            <option value="satellite">위성</option>
-            <option value="transit">교통</option>
-        </select>
+    <div class="btn-group">
+        <a href="busan.html" class="dest-btn busan">
+            <span class="emoji">🌊</span>
+            <span class="label">부산</span>
+            <span class="desc">부산 여행 계획</span>
+        </a>
+        <a href="jeju.html" class="dest-btn jeju">
+            <span class="emoji">🍊</span>
+            <span class="label">제주</span>
+            <span class="desc">제주 여행 계획</span>
+        </a>
     </div>
-
-    <!-- 우측 상단 장소유형 범례 -->
-    <div class="legend-box">
-        <span class="legend-item">
-            <span class="legend-color" style="background: #8B5A6B;"></span>관광지
-        </span>
-        <span class="legend-item">
-            <span class="legend-color" style="background: #6B8E5A;"></span>맛집
-        </span>
-        <span class="legend-item">
-            <span class="legend-color" style="background: #7B9EA8;"></span>숙소
-        </span>
-    </div>
-
-    <!-- 우측 하단 컨트롤 -->
-    <div class="right-controls">
-        <!-- 경로 패널 -->
-        <div class="route-panel" id="route-panel">
-            <h3 id="route-panel-toggle">
-                <i class="fas fa-route"></i> 여행 경로
-                <i class="fas fa-chevron-down route-toggle-icon" id="route-toggle-icon"></i>
-            </h3>
-            <div class="route-panel-body">
-                <div id="route-days-container" class="route-days-container">
-                    <div class="route-loading"><i class="fas fa-spinner fa-spin"></i> 경로 로딩 중...</div>
-                </div>
-                <div id="route-remarks" class="route-remarks">
-                    <div class="route-loading"><i class="fas fa-spinner fa-spin"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- Leaflet MarkerCluster JS -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-
-    <!-- Custom JS -->
-    <script src="script.js?v=20260224b"></script>
 </body>
 </html>
