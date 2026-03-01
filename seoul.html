@@ -7,97 +7,151 @@
     <meta name="description" content="서울 여행 계획 - 관광지, 맛집, 숙소를 한눈에">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; width: 100%; overflow: hidden; }
-        #map { height: 100vh; width: 100vw; }
-
-        .back-btn {
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            z-index: 1000;
-            background: #fff;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: 0.9rem;
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-            font-weight: 600;
-            color: #333;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-        }
-        .back-btn:hover { background: #f5f5f5; }
-
-        .coming-soon {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            background: rgba(255,255,255,0.92);
-            border-radius: 16px;
-            padding: 24px 36px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-            pointer-events: none;
-        }
-        .coming-soon .emoji { font-size: 2.5rem; }
-        .coming-soon h2 { font-size: 1.2rem; font-weight: 700; margin: 8px 0 4px; color: #222; }
-        .coming-soon p { font-size: 0.85rem; color: #777; }
-    </style>
+    <link rel="stylesheet" href="styles.css?v=20260301a">
 </head>
 <body>
-    <a href="index.html" class="back-btn">
+    <div id="map"></div>
+
+    <!-- 메인으로 버튼 -->
+    <a href="index.html" style="position:fixed;top:16px;left:16px;z-index:1000;background:#fff;border-radius:10px;padding:10px 16px;font-size:0.9rem;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-weight:600;color:#333;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:6px;">
         <i class="fas fa-arrow-left"></i> 메인으로
     </a>
 
-    <div class="coming-soon">
-        <div class="emoji">🏙️</div>
-        <h2>서울 여행 지도</h2>
-        <p>여행지를 추가하면 여기에 표시됩니다</p>
+    <!-- 내 위치 찾기 버튼 -->
+    <button id="locate-btn" class="locate-button" title="내 위치 찾기">
+        <i class="fas fa-location-crosshairs"></i>
+    </button>
+
+    <!-- 지도 타일 선택 -->
+    <div class="tile-selector">
+        <label for="tile-select">
+            <i class="fas fa-map"></i>
+            <span>지도 스타일</span>
+        </label>
+        <select id="tile-select" class="tile-select">
+            <option value="positron" selected>간결</option>
+            <option value="streets">거리</option>
+            <option value="satellite">위성</option>
+            <option value="transit">교통</option>
+        </select>
     </div>
 
-    <div id="map"></div>
+    <!-- 범례 -->
+    <div class="legend-box">
+        <span class="legend-item">
+            <span class="legend-color" style="background:#8B5A6B;"></span>관광지
+        </span>
+        <span class="legend-item">
+            <span class="legend-color" style="background:#6B8E5A;"></span>맛집
+        </span>
+        <span class="legend-item">
+            <span class="legend-color" style="background:#7B9EA8;"></span>숙소
+        </span>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script>
-        // 서울시청 중심 좌표
-        const seoulCenter = [37.5665, 126.9780];
+    // ===== 지도 초기화 =====
+    const map = L.map('map', {
+        center: [37.5665, 126.9780],
+        zoom: 12,
+        zoomControl: true
+    });
 
-        const map = L.map('map', {
-            center: seoulCenter,
-            zoom: 12,
-            zoomControl: true,
-            attributionControl: true
-        });
+    const tileLayers = {
+        positron: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap, © CartoDB', subdomains: 'abcd', maxZoom: 19 }),
+        streets:  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors', maxZoom: 19 }),
+        satellite:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '© Esri', maxZoom: 19 }),
+        transit:  L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap, HOT', maxZoom: 19 })
+    };
+    tileLayers.positron.addTo(map);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap, © CartoDB',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
+    document.getElementById('tile-select').addEventListener('change', function() {
+        Object.values(tileLayers).forEach(l => map.removeLayer(l));
+        tileLayers[this.value].addTo(map);
+    });
 
-        // 서울시청 마커
-        const cityIcon = L.divIcon({
-            html: '<div style="background:#8B5A6B;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>',
+    // 내 위치
+    document.getElementById('locate-btn').addEventListener('click', function() {
+        map.locate({ setView: true, maxZoom: 14 });
+    });
+
+    // ===== 장소 유형 설정 =====
+    const TYPE_CONFIG = {
+        attractions: { color: '#8B5A6B', label: '관광지', icon: 'fa-landmark' },
+        restaurants:  { color: '#6B8E5A', label: '맛집',   icon: 'fa-utensils' },
+        hotels:       { color: '#7B9EA8', label: '숙소',   icon: 'fa-bed' }
+    };
+
+    // ===== 장소 데이터 =====
+    const PLACES = [
+        // 여행지를 추가하면 여기에 입력하세요
+        // { name: '경복궁', lat: 37.5796, lng: 126.9770, type: 'attractions', addr: '서울 종로구 사직로 161', desc: '조선의 정궁', features: ['유네스코', '궁궐', '역사'] }
+    ];
+
+    // ===== 마커 생성 함수 =====
+    function createIcon(color, iconClass) {
+        return L.divIcon({
+            html: `<div class="circle-marker" style="background:${color};">
+                       <i class="fas ${iconClass}"></i>
+                   </div>`,
             className: '',
-            iconSize: [14, 14],
-            iconAnchor: [7, 7]
+            iconSize: [25, 25],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -12]
         });
+    }
 
-        L.marker(seoulCenter, { icon: cityIcon })
-            .addTo(map)
-            .bindPopup('<b>서울시청</b><br>서울 여행의 중심')
-            .openPopup();
+    function createPopup(place) {
+        const cfg = TYPE_CONFIG[place.type];
+        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query=${place.lat},${place.lng}`;
+        const naverUrl  = `https://map.naver.com/v5/search/${encodeURIComponent(place.name)}`;
+        const features  = place.features ? place.features.join(', ') : '';
+
+        return `<div class="custom-popup" style="border-color:${cfg.color};">
+            <button class="popup-close-btn" style="color:${cfg.color};" onclick="this.closest('.leaflet-popup').querySelector('.leaflet-popup-close-button').click()"><i class="fas fa-times"></i></button>
+            <div class="popup-header" style="border-bottom-color:${cfg.color};">
+                <h3 class="popup-title" style="color:${cfg.color};">${place.name}</h3>
+                <span class="type-badge" style="background:${cfg.color};">${cfg.label}</span>
+            </div>
+            <div class="popup-body">
+                <div class="popup-row">
+                    <i class="fas fa-map-marker-alt popup-icon" style="color:${cfg.color};"></i>
+                    <span>${place.addr}</span>
+                </div>
+                <div class="popup-row">
+                    <i class="fas fa-info-circle popup-icon" style="color:${cfg.color};"></i>
+                    <span>${place.desc}</span>
+                </div>
+                ${features ? `<div class="popup-row">
+                    <i class="fas fa-star popup-icon" style="color:${cfg.color};"></i>
+                    <span>${features}</span>
+                </div>` : ''}
+            </div>
+            <div class="popup-footer">
+                <a href="${googleUrl}" target="_blank" class="map-btn" style="border-color:${cfg.color};color:${cfg.color};">
+                    <i class="fab fa-google" style="color:${cfg.color};"></i> 구글지도
+                </a>
+                <a href="${naverUrl}" target="_blank" class="map-btn" style="border-color:${cfg.color};color:${cfg.color};">
+                    <i class="fas fa-map" style="color:${cfg.color};"></i> 네이버지도
+                </a>
+            </div>
+        </div>`;
+    }
+
+    // ===== 마커 추가 =====
+    const clusterGroup = L.markerClusterGroup();
+    PLACES.forEach(p => {
+        const cfg = TYPE_CONFIG[p.type];
+        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon) });
+        marker.bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
+        clusterGroup.addLayer(marker);
+    });
+    map.addLayer(clusterGroup);
     </script>
 </body>
 </html>
