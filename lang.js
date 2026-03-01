@@ -5,6 +5,8 @@
             googleMap: '구글지도',
             naverMap: '네이버지도',
             backMain: '메인으로',
+            tileLabel: '지도 스타일',
+            tileOptions: { positron: '간결', streets: '거리', satellite: '위성', transit: '교통' },
             types: {
                 attractions: '관광지', restaurants: '맛집', hotels: '숙소', airports: '공항',
                 makchang: '막창', bulgogi: '불고기', mackerel: '고등어쌈밥',
@@ -15,6 +17,8 @@
             googleMap: 'Google Maps',
             naverMap: 'Naver Map',
             backMain: 'Home',
+            tileLabel: 'Map Style',
+            tileOptions: { positron: 'Simple', streets: 'Streets', satellite: 'Satellite', transit: 'Transit' },
             types: {
                 attractions: 'Attraction', restaurants: 'Restaurant', hotels: 'Hotel', airports: 'Airport',
                 makchang: 'BBQ Intestine', bulgogi: 'Grilled Pork', mackerel: 'Mackerel Rice',
@@ -25,6 +29,8 @@
             googleMap: '谷歌地图',
             naverMap: 'Naver地图',
             backMain: '返回主页',
+            tileLabel: '地图样式',
+            tileOptions: { positron: '简洁', streets: '街道', satellite: '卫星', transit: '交通' },
             types: {
                 attractions: '景点', restaurants: '餐厅', hotels: '酒店', airports: '机场',
                 makchang: '烤大肠', bulgogi: '烤肉', mackerel: '炖鲭鱼',
@@ -35,6 +41,8 @@
             googleMap: 'Googleマップ',
             naverMap: 'Naverマップ',
             backMain: 'メインへ',
+            tileLabel: '地図スタイル',
+            tileOptions: { positron: 'シンプル', streets: 'ストリート', satellite: '衛星', transit: '交通' },
             types: {
                 attractions: '観光地', restaurants: 'グルメ', hotels: 'ホテル', airports: '空港',
                 makchang: '焼き大腸', bulgogi: '焼き肉', mackerel: 'サバ包み飯',
@@ -45,6 +53,8 @@
             googleMap: 'Google Maps',
             naverMap: 'Naver Maps',
             backMain: 'Inicio',
+            tileLabel: 'Estilo',
+            tileOptions: { positron: 'Simple', streets: 'Calles', satellite: 'Satélite', transit: 'Tránsito' },
             types: {
                 attractions: 'Atracción', restaurants: 'Restaurante', hotels: 'Hotel', airports: 'Aeropuerto',
                 makchang: 'BBQ Intestino', bulgogi: 'Cerdo a la Parrilla', mackerel: 'Arroz con Caballa',

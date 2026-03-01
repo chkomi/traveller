@@ -27,13 +27,13 @@
     <div class="tile-selector">
         <label for="tile-select">
             <i class="fas fa-map"></i>
-            <span>地图样式</span>
+            <span id="tile-label-span">地图样式</span>
         </label>
         <select id="tile-select" class="tile-select">
-            <option value="positron" selected>简洁</option>
-            <option value="streets">街道</option>
-            <option value="satellite">卫星</option>
-            <option value="transit">交通</option>
+            <option value="positron" data-tile="positron" selected>简洁</option>
+            <option value="streets" data-tile="streets">街道</option>
+            <option value="satellite" data-tile="satellite">卫星</option>
+            <option value="transit" data-tile="transit">交通</option>
         </select>
     </div>
 
@@ -391,6 +391,16 @@
         if (legA) legA.textContent = types.attraction || types.attractions || '景点';
         if (legF) legF.textContent = types.restaurants || '美食';
         if (legH) legH.textContent = types.hotels || '住宿';
+        // 타일 패널 라벨
+        const tileSpan = document.getElementById('tile-label-span');
+        if (tileSpan && ui.tileLabel) tileSpan.textContent = ui.tileLabel;
+        // 타일 옵션 텍스트
+        if (ui.tileOptions) {
+            document.querySelectorAll('#tile-select option').forEach(o => {
+                const key = o.getAttribute('data-tile') || o.value;
+                if (ui.tileOptions[key]) o.textContent = ui.tileOptions[key];
+            });
+        }
         // 메인으로 버튼
         const backLink = document.querySelector('a[href="index.html"]');
         if (backLink) {

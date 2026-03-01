@@ -37,26 +37,26 @@
     <div class="tile-selector">
         <label for="tile-select">
             <i class="fas fa-map"></i>
-            <span>지도 스타일</span>
+            <span id="tile-label-span">지도 스타일</span>
         </label>
         <select id="tile-select" class="tile-select">
-            <option value="positron" selected>간결</option>
-            <option value="streets">거리</option>
-            <option value="satellite">위성</option>
-            <option value="transit">교통</option>
+            <option value="positron" data-tile="positron" selected>간결</option>
+            <option value="streets" data-tile="streets">거리</option>
+            <option value="satellite" data-tile="satellite">위성</option>
+            <option value="transit" data-tile="transit">교통</option>
         </select>
     </div>
 
     <!-- 우측 상단 장소유형 범례 -->
     <div class="legend-box">
         <span class="legend-item">
-            <span class="legend-color" style="background: #8B5A6B;"></span>관광지
+            <span class="legend-color" style="background: #8B5A6B;"></span><span id="leg-attraction">관광지</span>
         </span>
         <span class="legend-item">
-            <span class="legend-color" style="background: #6B8E5A;"></span>맛집
+            <span class="legend-color" style="background: #6B8E5A;"></span><span id="leg-food">맛집</span>
         </span>
         <span class="legend-item">
-            <span class="legend-color" style="background: #7B9EA8;"></span>숙소
+            <span class="legend-color" style="background: #7B9EA8;"></span><span id="leg-hotel">숙소</span>
         </span>
     </div>
 
