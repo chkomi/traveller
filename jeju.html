@@ -114,12 +114,13 @@
     ];
 
     // ===== 마커 생성 함수 =====
-    function createIcon(color, iconClass) {
+    function createIcon(color, iconClass, name) {
         return L.divIcon({
             html: `<div class="circle-marker" style="background:${color};">
                        <i class="fas ${iconClass}"></i>
-                   </div>`,
-            className: '',
+                   </div>
+                   <div class="marker-label" style="color:${color};">${name}</div>`,
+            className: 'custom-marker-icon',
             iconSize: [25, 25],
             iconAnchor: [12, 12],
             popupAnchor: [0, -12]
@@ -168,7 +169,7 @@
     const clusterGroup = L.markerClusterGroup();
     PLACES.forEach(p => {
         const cfg = TYPE_CONFIG[p.type];
-        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon) });
+        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon, p.name) });
         marker.bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
         clusterGroup.addLayer(marker);
         allMarkers.push({ marker, place: p });
