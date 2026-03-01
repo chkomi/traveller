@@ -344,15 +344,28 @@ function createPopupContent(place) {
     const typeLabel = TravelLang.getTypeLabel(place.type || 'attractions', lang);
 
     // 특징 태그 (언어별 선택, 쉼표로 구분)
-    const featuresArr = (lang === 'zh' && place.featuresZh) ? place.featuresZh
-                      : (lang === 'ko' || !place.featuresZh) ? place.features
+    const featuresArr = lang === 'zh' ? (place.featuresZh || place.features)
+                      : lang === 'ko' ? place.features
+                      : lang === 'ja' ? (place.featuresJa || place.featuresZh || place.features)
+                      : lang === 'en' ? (place.featuresEn || place.features)
+                      : lang === 'es' ? (place.featuresEs || place.featuresEn || place.features)
                       : place.features;
     const features = featuresArr ? featuresArr.join(', ') : '';
 
-    // 주소 (언어별: 한국어 + 로컬)
+    // 주소 (언어별: 번역 주소 + 한국어 병기)
     const addrKo = place.address || '';
-    const addrDisplay = lang === 'ko' ? addrKo
-        : (addrKo ? addrKo : '');
+    const addrZh = place.addressZh || '';
+    const addrEn = place.addressEn || '';
+    let addrDisplay;
+    if (lang === 'ko') {
+        addrDisplay = addrKo;
+    } else if (lang === 'zh' || lang === 'ja') {
+        const local = addrZh;
+        addrDisplay = local ? `${local}<br><small style="color:#888;">${addrKo}</small>` : addrKo;
+    } else {
+        const local = addrEn;
+        addrDisplay = local ? `${local}<br><small style="color:#888;">${addrKo}</small>` : addrKo;
+    }
 
     // 지도 링크
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koreanName)}&query=${place.latitude},${place.longitude}`;
