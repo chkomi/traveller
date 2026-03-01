@@ -190,11 +190,8 @@ function displayMarkers(data) {
     allMarkers = [];
 
     data.forEach(place => {
-        // 한글 이름 추출
-        const koreanName = extractKorean(place.name);
-
-        // 마커 아이콘 생성 (한글 이름 포함)
-        const icon = getMarkerIcon(place.type, koreanName);
+        // 마커 아이콘 생성
+        const icon = getMarkerIcon(place);
 
         // 마커 생성하고 지도에 바로 추가
         const marker = L.marker([place.latitude, place.longitude], { icon })
@@ -290,7 +287,10 @@ function updateMarkerSize() {
 // ========================================
 // 마커 아이콘 생성 (KRC-Global 스타일)
 // ========================================
-function getMarkerIcon(type, koreanName) {
+function getMarkerIcon(place) {
+    const lang = TravelLang.getLang();
+    const displayName = TravelLang.getName(place, lang);
+
     const iconMap = {
         attractions: 'fa-landmark',
         restaurants: 'fa-utensils',
@@ -305,15 +305,15 @@ function getMarkerIcon(type, koreanName) {
         airports: '#B87A8F'
     };
 
-    const color = typeColors[type] || typeColors.attractions;
+    const color = typeColors[place.type] || typeColors.attractions;
 
     return L.divIcon({
         className: 'custom-marker-icon',
         html: `
-            <div class="circle-marker ${type}-bg">
-                <i class="fas ${iconMap[type] || 'fa-landmark'}"></i>
+            <div class="circle-marker ${place.type}-bg">
+                <i class="fas ${iconMap[place.type] || 'fa-landmark'}"></i>
             </div>
-            <div class="marker-label" style="color: ${color};">${koreanName}</div>
+            <div class="marker-label" style="color: ${color};">${displayName}</div>
         `,
         iconSize: [25, 25],
         iconAnchor: [12, 12],
@@ -334,11 +334,14 @@ function createPopupContent(place) {
     };
     const signatureColor = typeColors[place.type] || typeColors.attractions;
 
-    // 이름 추출
-    const koreanName = extractKorean(place.name);
-    const englishName = extractEnglishName(place.name);
-
-    const typeLabel = getTypeLabel(place.type || 'attractions');
+    // 언어 및 이름
+    const lang = TravelLang.getLang();
+    const ui = TravelLang.getUI(lang);
+    const displayName = TravelLang.getName(place, lang);
+    const koreanName = TravelLang.getName(place, 'ko');
+    const subtitleName = lang !== 'ko' ? koreanName : (TravelLang.getName(place, 'en') || extractEnglishName(place.name));
+    const desc = TravelLang.getDesc(place, lang);
+    const typeLabel = TravelLang.getTypeLabel(place.type || 'attractions', lang);
 
     // 특징 태그 (쉼표로 구분)
     const features = place.features ? place.features.join(', ') : '';
@@ -352,11 +355,11 @@ function createPopupContent(place) {
     // 닫기 버튼
     html += `<button class='popup-close-btn' style='color: ${signatureColor};'><i class="fas fa-times"></i></button>`;
 
-    // 헤더 (한글명 + 영문명)
+    // 헤더 (표시명 + 서브타이틀)
     html += `<div class='popup-header' style='border-bottom-color: ${signatureColor};'>`;
-    html += `<h3 class='popup-title' style='color: ${signatureColor};'>${koreanName}</h3>`;
-    if (englishName) {
-        html += `<p class='popup-subtitle' style='color: ${signatureColor};'>${englishName}</p>`;
+    html += `<h3 class='popup-title' style='color: ${signatureColor};'>${displayName}</h3>`;
+    if (subtitleName && subtitleName !== displayName) {
+        html += `<p class='popup-subtitle' style='color: ${signatureColor};'>${subtitleName}</p>`;
     }
     html += `<span class='type-badge' style='background: ${signatureColor};'>${typeLabel}</span>`;
     html += `</div>`;
@@ -373,7 +376,7 @@ function createPopupContent(place) {
     // 설명
     html += `<div class='popup-row'>`;
     html += `<i class="fas fa-info-circle popup-icon" style='color: ${signatureColor};'></i>`;
-    html += `<span>${place.description}</span>`;
+    html += `<span>${desc}</span>`;
     html += `</div>`;
 
     // 특징
@@ -397,9 +400,9 @@ function createPopupContent(place) {
     // 푸터 (지도 버튼)
     html += `<div class='popup-footer'>`;
     html += `<a href="${googleMapsUrl}" target="_blank" class="map-btn" style='border-color: ${signatureColor}; color: ${signatureColor};'>`;
-    html += `<i class="fab fa-google" style='color: ${signatureColor};'></i> 구글지도</a>`;
+    html += `<i class="fab fa-google" style='color: ${signatureColor};'></i> ${ui.googleMap}</a>`;
     html += `<a href="${naverMapsUrl}" target="_blank" class="map-btn" style='border-color: ${signatureColor}; color: ${signatureColor};'>`;
-    html += `<i class="fas fa-map" style='color: ${signatureColor};'></i> 네이버지도</a>`;
+    html += `<i class="fas fa-map" style='color: ${signatureColor};'></i> ${ui.naverMap}</a>`;
     html += `</div>`;
 
     html += `</div>`;
@@ -419,16 +422,6 @@ function extractEnglishName(name) {
     return match ? match[1].trim() : '';
 }
 
-// 타입 라벨
-function getTypeLabel(type) {
-    const labels = {
-        attractions: '관광지',
-        restaurants: '맛집',
-        hotels: '숙소',
-        airports: '공항'
-    };
-    return labels[type] || '관광지';
-}
 
 // ========================================
 // 타일 변경

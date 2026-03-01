@@ -89,6 +89,32 @@
             font-size: 0.7rem;
         }
 
+        .lang-selector {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.12);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 5px 9px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .lang-btn.active {
+            background: rgba(255,255,255,0.28);
+            border-color: rgba(255,255,255,0.75);
+        }
+
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
         @media (max-width: 480px) {
             .title { font-size: 1.3rem; }
             .btn-group { gap: 0.7rem; }
@@ -101,6 +127,14 @@
 <body>
     <div class="title">우리 가족 여행 지도</div>
     <div class="subtitle">여행지를 선택하세요</div>
+
+    <div class="lang-selector">
+        <button class="lang-btn" data-lang="ko" onclick="selectLang(this)" title="한국어">🇰🇷</button>
+        <button class="lang-btn" data-lang="en" onclick="selectLang(this)" title="English">🇺🇸</button>
+        <button class="lang-btn" data-lang="zh" onclick="selectLang(this)" title="中文">🇨🇳</button>
+        <button class="lang-btn" data-lang="ja" onclick="selectLang(this)" title="日本語">🇯🇵</button>
+        <button class="lang-btn" data-lang="es" onclick="selectLang(this)" title="Español">🇪🇸</button>
+    </div>
 
     <div class="btn-group">
         <a href="busan.html" class="dest-btn busan">
@@ -119,5 +153,19 @@
             <span class="desc">서울 여행 계획</span>
         </a>
     </div>
+    <script>
+        (function() {
+            var lang = localStorage.getItem('travellang') || 'ko';
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                if (btn.dataset.lang === lang) btn.classList.add('active');
+            });
+        })();
+
+        function selectLang(btn) {
+            document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            localStorage.setItem('travellang', btn.dataset.lang);
+        }
+    </script>
 </body>
 </html>
