@@ -984,4 +984,35 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.popup-close')?.addEventListener('click', () => {
         document.getElementById('itinerary-popup').classList.remove('active');
     });
+
+    // ===== UI 언어 초기화 =====
+    (function() {
+        const lang = TravelLang.getLang();
+        const ui = TravelLang.getUI(lang);
+        const types = ui.types;
+        // 범례 텍스트
+        const legA = document.getElementById('leg-attraction');
+        const legF = document.getElementById('leg-food');
+        const legH = document.getElementById('leg-hotel');
+        if (legA) legA.textContent = types.attraction || types.attractions || '관광지';
+        if (legF) legF.textContent = types.restaurants || '맛집';
+        if (legH) legH.textContent = types.hotels || '숙소';
+        // 타일 패널 라벨
+        const tileSpan = document.getElementById('tile-label-span');
+        if (tileSpan && ui.tileLabel) tileSpan.textContent = ui.tileLabel;
+        // 타일 옵션 텍스트
+        if (ui.tileOptions) {
+            document.querySelectorAll('#tile-select option').forEach(o => {
+                const key = o.getAttribute('data-tile') || o.value;
+                if (ui.tileOptions[key]) o.textContent = ui.tileOptions[key];
+            });
+        }
+        // 메인으로 버튼
+        const backLink = document.querySelector('a[href="index.html"]');
+        if (backLink) {
+            const icon = backLink.querySelector('i');
+            backLink.textContent = ' ' + ui.backMain;
+            if (icon) backLink.prepend(icon);
+        }
+    })();
 });

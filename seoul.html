@@ -7,17 +7,15 @@
     <meta name="description" content="서울 여행 계획 - 관광지, 맛집, 숙소를 한눈에">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260301a">
+    <link rel="stylesheet" href="styles.css?v=20260301d">
 </head>
 <body>
     <div id="map"></div>
 
     <!-- 메인으로 버튼 -->
-    <a href="index.html" style="position:fixed;top:16px;left:16px;z-index:1000;background:#fff;border-radius:10px;padding:10px 16px;font-size:0.9rem;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-weight:600;color:#333;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:6px;">
-        <i class="fas fa-arrow-left"></i> 메인으로
+    <a href="index.html" id="back-main-btn" style="position:fixed;top:16px;left:16px;z-index:1000;background:#fff;border-radius:10px;padding:10px 16px;font-size:0.9rem;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-weight:600;color:#333;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:6px;">
+        <i class="fas fa-arrow-left"></i> <span id="back-main-text">메인으로</span>
     </a>
 
     <!-- 내 위치 찾기 버튼 -->
@@ -29,31 +27,30 @@
     <div class="tile-selector">
         <label for="tile-select">
             <i class="fas fa-map"></i>
-            <span>지도 스타일</span>
+            <span id="tile-label-span">지도 스타일</span>
         </label>
         <select id="tile-select" class="tile-select">
-            <option value="positron" selected>간결</option>
-            <option value="streets">거리</option>
-            <option value="satellite">위성</option>
-            <option value="transit">교통</option>
+            <option value="positron" data-tile="positron" selected>간결</option>
+            <option value="streets" data-tile="streets">거리</option>
+            <option value="satellite" data-tile="satellite">위성</option>
+            <option value="transit" data-tile="transit">교통</option>
         </select>
     </div>
 
     <!-- 범례 -->
     <div class="legend-box">
         <span class="legend-item">
-            <span class="legend-color" style="background:#8B5A6B;"></span>관광지
+            <span class="legend-color" style="background:#8B5A6B;"></span><span id="leg-attraction">관광지</span>
         </span>
         <span class="legend-item">
-            <span class="legend-color" style="background:#6B8E5A;"></span>맛집
+            <span class="legend-color" style="background:#6B8E5A;"></span><span id="leg-food">맛집</span>
         </span>
         <span class="legend-item">
-            <span class="legend-color" style="background:#7B9EA8;"></span>숙소
+            <span class="legend-color" style="background:#7B9EA8;"></span><span id="leg-hotel">숙소</span>
         </span>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script src="lang.js"></script>
     <script>
     // ===== 지도 초기화 =====
@@ -83,62 +80,211 @@
 
     // ===== 장소 유형 설정 =====
     const TYPE_CONFIG = {
-        attractions: { color: '#8B5A6B', label: '관광지', icon: 'fa-landmark' },
-        restaurants:  { color: '#6B8E5A', label: '맛집',   icon: 'fa-utensils' },
-        hotels:       { color: '#7B9EA8', label: '숙소',   icon: 'fa-bed' }
+        attractions: { color: '#8B5A6B', icon: 'fa-landmark' },
+        restaurants:  { color: '#6B8E5A', icon: 'fa-utensils' },
+        hotels:       { color: '#7B9EA8', icon: 'fa-bed' }
     };
 
-    // ===== 장소 데이터 =====
+    // ===== 장소 데이터 (2025년 외국인 인기 관광지) =====
     const PLACES = [
-        // 여행지를 추가하면 여기에 입력하세요
-        // { name: '경복궁', lat: 37.5796, lng: 126.9770, type: 'attractions', addr: '서울 종로구 사직로 161', desc: '조선의 정궁', features: ['유네스코', '궁궐', '역사'] }
+        {
+            name: '경복궁', names: { ko: '경복궁', en: 'Gyeongbokgung Palace', zh: '景福宫', ja: '景福宮', es: 'Palacio Gyeongbokgung' },
+            lat: 37.5796, lng: 126.9770, type: 'attractions',
+            addr: '서울 종로구 사직로 161',
+            descs: { ko: '조선왕조의 정궁. 근정전, 경회루, 수문장교대식이 유명', en: 'Main royal palace of the Joseon dynasty. Famous for Geunjeongjeon Hall and Gyeonghoeru Pavilion', zh: '朝鲜王朝的正宫，近政殿与庆会楼闻名遐迩', ja: '朝鮮王朝の正宮。勤政殿と慶会楼が有名', es: 'Palacio principal de la dinastía Joseon' },
+            featuresKo: ['궁궐', '역사', '조선시대', '수문장교대식', '유네스코'],
+            features: ['宫殿', '历史', '朝鲜王朝', '守门将换岗', '世界遗产']
+        },
+        {
+            name: '창덕궁', names: { ko: '창덕궁', en: 'Changdeokgung Palace', zh: '昌德宫', ja: '昌徳宮', es: 'Palacio Changdeokgung' },
+            lat: 37.5794, lng: 126.9912, type: 'attractions',
+            addr: '서울 종로구 율곡로 99',
+            descs: { ko: '유네스코 세계문화유산. 비원(후원)이 아름다운 조선 궁궐', en: 'UNESCO World Heritage palace with the beautiful Huwon Secret Garden', zh: '联合国教科文组织世界文化遗产，秘苑景色优美', ja: 'ユネスコ世界遺産。後苑（ビウォン）が美しい朝鮮宮殿', es: 'Patrimonio de la UNESCO con el hermoso jardín secreto' },
+            featuresKo: ['유네스코', '세계문화유산', '비원', '후원', '궁궐'],
+            features: ['UNESCO', '世界遗产', '秘苑', '宫殿']
+        },
+        {
+            name: '북촌한옥마을', names: { ko: '북촌한옥마을', en: 'Bukchon Hanok Village', zh: '北村韩屋村', ja: '北村韓屋村', es: 'Aldea Hanok de Bukchon' },
+            lat: 37.5824, lng: 126.9850, type: 'attractions',
+            addr: '서울 종로구 계동길 37',
+            descs: { ko: '600여 채의 전통 한옥이 밀집한 마을. 인스타그램 핫스팟', en: 'Historic neighborhood with over 600 traditional Korean hanok houses', zh: '汇聚600余栋传统韩屋的村落，Instagram热门打卡地', ja: '600棟以上の伝統的な韓屋が密集する村。インスタ人気スポット', es: 'Barrio histórico con más de 600 casas hanok tradicionales' },
+            featuresKo: ['한옥', '전통문화', '사진명소', '골목길', '종로'],
+            features: ['韩屋', '传统文化', '拍照圣地', '小巷']
+        },
+        {
+            name: '남산서울타워', names: { ko: '남산서울타워', en: 'N Seoul Tower', zh: 'N首尔塔', ja: 'Nソウルタワー', es: 'Torre N de Seúl' },
+            lat: 37.5512, lng: 126.9882, type: 'attractions',
+            addr: '서울 용산구 남산공원길 105',
+            descs: { ko: '서울 전경을 360° 조망하는 랜드마크 전망대', en: '360° panoramic view of Seoul from iconic landmark tower', zh: '首尔标志性景点，俯瞰360°全景', ja: 'ソウルの全景を360°見渡せるランドマーク展望台', es: 'Torre emblemática con vistas panorámicas de 360° de Seúl' },
+            featuresKo: ['전망대', '남산', '야경', '사랑의자물쇠', '케이블카'],
+            features: ['展望台', '南山', '夜景', '爱情锁', '缆车']
+        },
+        {
+            name: '인사동', names: { ko: '인사동', en: 'Insadong', zh: '仁寺洞', ja: '仁寺洞', es: 'Insadong' },
+            lat: 37.5738, lng: 126.9848, type: 'attractions',
+            addr: '서울 종로구 인사동길',
+            descs: { ko: '전통 공예품, 갤러리, 찻집이 즐비한 문화 거리', en: 'Cultural street lined with traditional crafts, galleries and tea houses', zh: '传统工艺品、画廊与茶馆林立的文化街', ja: '伝統工芸品・ギャラリー・茶屋が並ぶ文化の通り', es: 'Calle cultural con artesanías tradicionales, galerías y casas de té' },
+            featuresKo: ['전통공예', '갤러리', '찻집', '문화거리', '기념품'],
+            features: ['传统工艺', '画廊', '茶室', '文化街', '纪念品']
+        },
+        {
+            name: '홍대', names: { ko: '홍대', en: 'Hongdae', zh: '弘大', ja: '弘大', es: 'Hongdae' },
+            lat: 37.5563, lng: 126.9236, type: 'attractions',
+            addr: '서울 마포구 와우산로 94',
+            descs: { ko: '젊음과 예술의 거리. K팝·클럽·스트리트 퍼포먼스로 유명', en: 'Vibrant youth & art district famous for K-pop, clubs and street performances', zh: '年轻人的艺术聚集地，K-pop文化、夜店与街头表演聚集于此', ja: '若者とアートの街。K-POPやクラブ、ストリートパフォーマンスで有名', es: 'Animado barrio artístico famoso por el K-pop, clubes y actuaciones callejeras' },
+            featuresKo: ['K팝', '클럽', '스트리트아트', '쇼핑', '젊음의거리'],
+            features: ['K-pop', '夜店', '街头艺术', '购物', '年轻文化']
+        },
+        {
+            name: '광장시장', names: { ko: '광장시장', en: 'Gwangjang Market', zh: '广藏市场', ja: '広蔵市場', es: 'Mercado Gwangjang' },
+            lat: 37.5699, lng: 126.9999, type: 'attractions',
+            addr: '서울 종로구 창경궁로 88',
+            descs: { ko: '100년 역사의 전통시장. 빈대떡·마약김밥·순대로 유명', en: 'Century-old traditional market famous for bindaetteok, gimbap and sundae', zh: '拥有百年历史的传统市场，以绿豆煎饼、紫菜包饭和血肠著称', ja: '100年の歴史を誇る伝統市場。ビンデトック・マヤクキンパプ・スンデで有名', es: 'Mercado tradicional centenario famoso por bindaetteok y gimbap' },
+            featuresKo: ['전통시장', '빈대떡', '마약김밥', '순대', '먹거리'],
+            features: ['传统市场', '绿豆煎饼', '紫菜包饭', '小吃天堂']
+        },
+        {
+            name: '동대문디자인플라자', names: { ko: '동대문디자인플라자', en: 'Dongdaemun Design Plaza', zh: '东大门设计广场', ja: '東大門デザインプラザ', es: 'Plaza de Diseño Dongdaemun' },
+            lat: 37.5670, lng: 127.0095, type: 'attractions',
+            addr: '서울 중구 을지로 281',
+            descs: { ko: '자하 하디드가 설계한 미래지향적 문화복합공간', en: 'Futuristic cultural complex designed by Zaha Hadid', zh: '由扎哈·哈迪德设计的未来主义文化综合体', ja: 'ザハ・ハディドが設計した未来志向の複合文化施設', es: 'Complejo cultural futurista diseñado por Zaha Hadid' },
+            featuresKo: ['자하하디드', '건축명소', '문화공간', '야경', '전시'],
+            features: ['扎哈哈迪德', '建筑地标', '文化空间', '夜景', '展览']
+        },
+        {
+            name: '명동', names: { ko: '명동', en: 'Myeongdong', zh: '明洞', ja: '明洞', es: 'Myeongdong' },
+            lat: 37.5636, lng: 126.9869, type: 'attractions',
+            addr: '서울 중구 명동길',
+            descs: { ko: '서울 최대 쇼핑·먹거리 거리. K뷰티 브랜드 집결지', en: "Seoul's biggest shopping and street food district, hub of K-beauty brands", zh: '首尔最大的购物美食街，K-Beauty品牌云集', ja: 'ソウル最大のショッピングとB級グルメの街。K-BEAUTYの聖地', es: 'El mayor distrito comercial y gastronómico de Seúl' },
+            featuresKo: ['쇼핑', 'K뷰티', '길거리음식', '화장품', '면세점'],
+            features: ['购物', 'K-Beauty', '街头美食', '化妆品', '免税店']
+        },
+        {
+            name: '한강공원 여의도', names: { ko: '한강공원 여의도', en: 'Yeouido Han River Park', zh: '汝矣岛汉江公园', ja: '汝矣島漢江公園', es: 'Parque del Río Han en Yeouido' },
+            lat: 37.5283, lng: 126.9327, type: 'attractions',
+            addr: '서울 영등포구 여의동로 330',
+            descs: { ko: '한강 야경과 치맥이 유명한 서울 대표 공원. 봄 벚꽃 명소', en: 'Famous for Han River night views, chimaek (chicken & beer), and spring cherry blossoms', zh: '以汉江夜景、炸鸡啤酒和春季樱花著称的首尔代表性公园', ja: '漢江の夜景とチメク（チキン＆ビール）で有名。春の桜の名所', es: 'Famoso por las vistas nocturnas del río Han, pollo con cerveza y cerezos en flor' },
+            featuresKo: ['한강', '치맥', '벚꽃', '야경', '여의도'],
+            features: ['汉江', '炸鸡啤酒', '樱花', '夜景', '汝矣岛']
+        },
+        {
+            name: '롯데월드타워', names: { ko: '롯데월드타워', en: 'Lotte World Tower', zh: '乐天世界塔', ja: 'ロッテワールドタワー', es: 'Torre Lotte World' },
+            lat: 37.5126, lng: 127.1026, type: 'attractions',
+            addr: '서울 송파구 올림픽로 300',
+            descs: { ko: '세계 5위 초고층 빌딩(123층). 전망대 서울스카이 인기', en: "World's 5th tallest skyscraper (123 floors). Famous for Seoul Sky observatory", zh: '世界第五高楼（123层），首尔天空展望台人气超高', ja: '世界第5位の超高層ビル（123階）。展望台「ソウルスカイ」が人気', es: 'El 5.º rascacielos más alto del mundo (123 plantas), famoso por el mirador Seoul Sky' },
+            featuresKo: ['초고층빌딩', '전망대', '서울스카이', '롯데월드', '송파'],
+            features: ['超高层建筑', '展望台', '首尔天空', '乐天世界', '松坡']
+        },
+        {
+            name: '이태원', names: { ko: '이태원', en: 'Itaewon', zh: '梨泰院', ja: '梨泰院', es: 'Itaewon' },
+            lat: 37.5346, lng: 126.9949, type: 'attractions',
+            addr: '서울 용산구 이태원로',
+            descs: { ko: '서울의 다국적 문화 중심지. 다양한 외국 음식점과 클럽', en: 'Seoul\'s multicultural hub with diverse international restaurants and nightlife', zh: '首尔多元文化中心，汇聚各国餐厅与夜店', ja: 'ソウルの多国籍文化の中心地。多様な外国料理店やクラブが集まる', es: 'Centro multicultural de Seúl con restaurantes internacionales y vida nocturna' },
+            featuresKo: ['다국적문화', '이국적분위기', '클럽', '용산', '다양한음식'],
+            features: ['多元文化', '异国风情', '夜店', '龙山', '各国美食']
+        },
+        {
+            name: '서울숲', names: { ko: '서울숲', en: 'Seoul Forest', zh: '首尔林', ja: 'ソウルの森', es: 'Bosque de Seúl' },
+            lat: 37.5444, lng: 127.0374, type: 'attractions',
+            addr: '서울 성동구 뚝섬로 273',
+            descs: { ko: '뚝섬에 조성된 도심 속 공원. 사슴방사장과 산책로로 유명', en: 'Urban park in Ttukseom with deer park and popular walking trails', zh: '뚝섬岛上的城市公园，以鹿苑和步行道著称', ja: '뚝섬に造られた都心の公園。鹿の放し飼いと遊歩道で有名', es: 'Parque urbano en Ttukseom con ciervo en libertad y senderos populares' },
+            featuresKo: ['공원', '사슴', '산책로', '성동구', '피크닉'],
+            features: ['公园', '鹿苑', '步行道', '城东区', '野餐']
+        },
+        {
+            name: '남대문시장', names: { ko: '남대문시장', en: 'Namdaemun Market', zh: '南大门市场', ja: '南大門市場', es: 'Mercado Namdaemun' },
+            lat: 37.5597, lng: 126.9766, type: 'attractions',
+            addr: '서울 중구 남대문시장길 21',
+            descs: { ko: '600년 역사의 서울 최대 전통시장. 갈치조림·만두·의류 인기', en: '600-year-old market, Seoul\'s largest. Famous for cutlassfish stew, dumplings and clothing', zh: '拥有600年历史，首尔最大传统市场，以带鱼烧和饺子闻名', ja: '600年の歴史を誇るソウル最大の伝統市場。タチウオ煮と餃子・衣類が人気', es: 'El mercado más grande de Seúl con 600 años de historia' },
+            featuresKo: ['전통시장', '갈치조림', '만두', '의류', '600년역사'],
+            features: ['传统市场', '带鱼烧', '饺子', '服装', '600年历史']
+        },
+        {
+            name: '국립중앙박물관', names: { ko: '국립중앙박물관', en: 'National Museum of Korea', zh: '国立中央博物馆', ja: '国立中央博物館', es: 'Museo Nacional de Corea' },
+            lat: 37.5239, lng: 126.9810, type: 'attractions',
+            addr: '서울 용산구 서빙고로 137',
+            descs: { ko: '아시아 최대 규모의 국립박물관. 반가사유상 등 국보급 유물 전시', en: 'One of Asia\'s largest museums, housing national treasures including the Pensive Bodhisattva', zh: '亚洲规模最大的国立博物馆，展有半跏思惟像等国宝级文物', ja: 'アジア最大級の国立博物館。半跏思惟像などの国宝を展示', es: 'Uno de los museos más grandes de Asia con tesoros nacionales' },
+            featuresKo: ['박물관', '국보', '반가사유상', '무료입장', '용산'],
+            features: ['博物馆', '国宝', '半跏思惟像', '免费入场', '龙山']
+        }
     ];
 
-    // ===== 마커 생성 함수 =====
-    function createIcon(color, iconClass) {
+    // ===== 헬퍼 함수 =====
+    function getFeaturesList(place, lang) {
+        if (lang === 'ko' && place.featuresKo) return place.featuresKo;
+        if (lang === 'zh') return place.features || place.featuresKo || [];
+        return place.featuresKo || place.features || [];
+    }
+
+    function getAddrLine(place, lang) {
+        const ko = place.addr || '';
+        if (lang === 'ko') return ko;
+        return ko;
+    }
+
+    // ===== 마커 아이콘 생성 =====
+    function createIcon(place) {
+        const cfg = TYPE_CONFIG[place.type] || TYPE_CONFIG.attractions;
+        const lang = TravelLang.getLang();
+        const label = TravelLang.getName(place, lang);
         return L.divIcon({
-            html: `<div class="circle-marker" style="background:${color};">
-                       <i class="fas ${iconClass}"></i>
-                   </div>`,
+            html: `<div class="circle-marker" style="background:${cfg.color};">
+                       <i class="fas ${cfg.icon}"></i>
+                   </div>
+                   <div class="marker-label">${label}</div>`,
             className: '',
             iconSize: [25, 25],
             iconAnchor: [12, 12],
-            popupAnchor: [0, -12]
+            popupAnchor: [0, -20]
         });
     }
 
+    // ===== 팝업 생성 =====
     function createPopup(place) {
-        const cfg = TYPE_CONFIG[place.type];
-        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query=${place.lat},${place.lng}`;
-        const naverUrl  = `https://map.naver.com/v5/search/${encodeURIComponent(place.name)}`;
-        const features  = place.features ? place.features.join(', ') : '';
+        const lang = TravelLang.getLang();
+        const ui = TravelLang.getUI(lang);
+        const cfg = TYPE_CONFIG[place.type] || TYPE_CONFIG.attractions;
+        const displayName = TravelLang.getName(place, lang);
+        const koName = TravelLang.getName(place, 'ko');
+        const desc = TravelLang.getDesc(place, lang) || TravelLang.getDesc(place, 'ko') || '';
+        const typeLabel = TravelLang.getTypeLabel(place.type, lang);
+        const addr = getAddrLine(place, lang);
+        const featuresArr = getFeaturesList(place, lang);
+        const featuresStr = featuresArr.length ? featuresArr.join(', ') : '';
+
+        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koName)}&query=${place.lat},${place.lng}`;
+        const naverUrl  = `https://map.naver.com/v5/search/${encodeURIComponent(koName)}`;
+
+        const nameLine = (lang !== 'ko' && displayName !== koName)
+            ? `${koName}<br><small style="color:#888;">${displayName}</small>`
+            : koName;
 
         return `<div class="custom-popup" style="border-color:${cfg.color};">
             <button class="popup-close-btn" style="color:${cfg.color};" onclick="this.closest('.leaflet-popup').querySelector('.leaflet-popup-close-button').click()"><i class="fas fa-times"></i></button>
             <div class="popup-header" style="border-bottom-color:${cfg.color};">
-                <h3 class="popup-title" style="color:${cfg.color};">${place.name}</h3>
-                <span class="type-badge" style="background:${cfg.color};">${cfg.label}</span>
+                <h3 class="popup-title" style="color:${cfg.color};">${nameLine}</h3>
+                <span class="type-badge" style="background:${cfg.color};">${typeLabel}</span>
             </div>
             <div class="popup-body">
                 <div class="popup-row">
                     <i class="fas fa-map-marker-alt popup-icon" style="color:${cfg.color};"></i>
-                    <span>${place.addr}</span>
+                    <span>${addr}</span>
                 </div>
                 <div class="popup-row">
                     <i class="fas fa-info-circle popup-icon" style="color:${cfg.color};"></i>
-                    <span>${place.desc}</span>
+                    <span>${desc}</span>
                 </div>
-                ${features ? `<div class="popup-row">
+                ${featuresStr ? `<div class="popup-row">
                     <i class="fas fa-star popup-icon" style="color:${cfg.color};"></i>
-                    <span>${features}</span>
+                    <span>${featuresStr}</span>
                 </div>` : ''}
             </div>
             <div class="popup-footer">
                 <a href="${googleUrl}" target="_blank" class="map-btn" style="border-color:${cfg.color};color:${cfg.color};">
-                    <i class="fab fa-google" style="color:${cfg.color};"></i> 구글지도
+                    <i class="fab fa-google" style="color:${cfg.color};"></i> ${ui.googleMap}
                 </a>
                 <a href="${naverUrl}" target="_blank" class="map-btn" style="border-color:${cfg.color};color:${cfg.color};">
-                    <i class="fas fa-map" style="color:${cfg.color};"></i> 네이버지도
+                    <i class="fas fa-map" style="color:${cfg.color};"></i> ${ui.naverMap}
                 </a>
             </div>
         </div>`;
@@ -146,30 +292,22 @@
 
     // ===== 마커 추가 =====
     const allMarkers = [];
-    const clusterGroup = L.markerClusterGroup();
     PLACES.forEach(p => {
-        const cfg = TYPE_CONFIG[p.type];
-        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon) });
+        const cfg = TYPE_CONFIG[p.type] || TYPE_CONFIG.attractions;
+        const marker = L.marker([p.lat, p.lng], { icon: createIcon(p) });
         marker.bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
-        clusterGroup.addLayer(marker);
+        marker.addTo(map);
         allMarkers.push({ marker, place: p });
     });
-    map.addLayer(clusterGroup);
 
     // ===== 줌 레벨에 따라 마커 크기 조절 =====
     function updateMarkerSize() {
         const currentZoom = map.getZoom();
-        if (currentZoom >= 16) {
-            allMarkers.forEach(({ marker }) => {
-                const el = marker.getElement();
-                if (el) { const cm = el.querySelector('.circle-marker'); if (cm) cm.classList.remove('small-dot'); }
-            });
-            return;
-        }
         allMarkers.forEach(({ marker }) => {
             const el = marker.getElement();
             if (el) { const cm = el.querySelector('.circle-marker'); if (cm) cm.classList.remove('small-dot'); }
         });
+        if (currentZoom >= 16) return;
         const checkRadius = Math.max(15, 80 - (currentZoom * 4));
         allMarkers.forEach(({ marker, place }, index) => {
             const el = marker.getElement();
@@ -189,7 +327,34 @@
         });
     }
     map.on('zoomend', updateMarkerSize);
-    clusterGroup.on('animationend', updateMarkerSize);
+    updateMarkerSize();
+
+    // ===== UI 언어 초기화 =====
+    (function() {
+        const lang = TravelLang.getLang();
+        const ui = TravelLang.getUI(lang);
+        const types = ui.types;
+        // 범례 텍스트
+        const legA = document.getElementById('leg-attraction');
+        const legF = document.getElementById('leg-food');
+        const legH = document.getElementById('leg-hotel');
+        if (legA) legA.textContent = types.attraction || types.attractions || '관광지';
+        if (legF) legF.textContent = types.restaurants || '맛집';
+        if (legH) legH.textContent = types.hotels || '숙소';
+        // 타일 패널 라벨
+        const tileSpan = document.getElementById('tile-label-span');
+        if (tileSpan && ui.tileLabel) tileSpan.textContent = ui.tileLabel;
+        // 타일 옵션 텍스트
+        if (ui.tileOptions) {
+            document.querySelectorAll('#tile-select option').forEach(o => {
+                const key = o.getAttribute('data-tile') || o.value;
+                if (ui.tileOptions[key]) o.textContent = ui.tileOptions[key];
+            });
+        }
+        // 메인으로 버튼
+        const backText = document.getElementById('back-main-text');
+        if (backText) backText.textContent = ui.backMain;
+    })();
     </script>
 </body>
 </html>
