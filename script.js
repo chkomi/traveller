@@ -343,8 +343,16 @@ function createPopupContent(place) {
     const desc = TravelLang.getDesc(place, lang);
     const typeLabel = TravelLang.getTypeLabel(place.type || 'attractions', lang);
 
-    // 특징 태그 (쉼표로 구분)
-    const features = place.features ? place.features.join(', ') : '';
+    // 특징 태그 (언어별 선택, 쉼표로 구분)
+    const featuresArr = (lang === 'zh' && place.featuresZh) ? place.featuresZh
+                      : (lang === 'ko' || !place.featuresZh) ? place.features
+                      : place.features;
+    const features = featuresArr ? featuresArr.join(', ') : '';
+
+    // 주소 (언어별: 한국어 + 로컬)
+    const addrKo = place.address || '';
+    const addrDisplay = lang === 'ko' ? addrKo
+        : (addrKo ? addrKo : '');
 
     // 지도 링크
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koreanName)}&query=${place.latitude},${place.longitude}`;
@@ -370,7 +378,7 @@ function createPopupContent(place) {
     // 주소
     html += `<div class='popup-row'>`;
     html += `<i class="fas fa-map-marker-alt popup-icon" style='color: ${signatureColor};'></i>`;
-    html += `<span>${place.address}</span>`;
+    html += `<span>${addrDisplay}</span>`;
     html += `</div>`;
 
     // 설명
