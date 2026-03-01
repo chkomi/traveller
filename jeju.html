@@ -7,8 +7,6 @@
     <meta name="description" content="济州岛美食地图 - 烤肠、烤肉、炖鲭鱼、酱蟹">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=20260301a">
 </head>
@@ -53,8 +51,7 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-    <script>
+<script>
     // ===== 지도 초기화 =====
     const map = L.map('map', {
         center: [33.4000, 126.5500],
@@ -161,21 +158,20 @@
         </div>`;
     }
 
-    // ===== 마커 추가 =====
+    // ===== 마커 추가 (부산 방식: 지도에 직접 추가) =====
     const allMarkers = [];
-    const clusterGroup = L.markerClusterGroup();
     PLACES.forEach(p => {
         const cfg = TYPE_CONFIG[p.type];
-        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon, p.name) });
-        marker.bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
-        clusterGroup.addLayer(marker);
+        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon, p.name) })
+            .addTo(map)
+            .bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
         allMarkers.push({ marker, place: p });
     });
-    map.addLayer(clusterGroup);
 
-    // ===== 줌 레벨에 따라 마커 크기 조절 =====
+    // ===== 줌 레벨에 따라 마커 크기 조절 (부산과 동일) =====
     function updateMarkerSize() {
         const currentZoom = map.getZoom();
+
         if (currentZoom >= 16) {
             allMarkers.forEach(({ marker }) => {
                 const el = marker.getElement();
@@ -183,11 +179,14 @@
             });
             return;
         }
+
         allMarkers.forEach(({ marker }) => {
             const el = marker.getElement();
             if (el) { const cm = el.querySelector('.circle-marker'); if (cm) cm.classList.remove('small-dot'); }
         });
+
         const checkRadius = Math.max(15, 80 - (currentZoom * 4));
+
         allMarkers.forEach(({ marker, place }, index) => {
             const el = marker.getElement();
             if (!el) return;
@@ -206,7 +205,7 @@
         });
     }
     map.on('zoomend', updateMarkerSize);
-    clusterGroup.on('animationend', updateMarkerSize);
+    updateMarkerSize();
     </script>
 </body>
 </html>
