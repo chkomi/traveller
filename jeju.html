@@ -40,17 +40,18 @@
     <!-- 범례 -->
     <div class="legend-box">
         <span class="legend-item">
-            <span class="legend-color" style="background:#8B5A6B;"></span>景点
+            <span class="legend-color" style="background:#8B5A6B;"></span><span id="leg-attraction">景点</span>
         </span>
         <span class="legend-item">
-            <span class="legend-color" style="background:#6B8E5A;"></span>美食
+            <span class="legend-color" style="background:#6B8E5A;"></span><span id="leg-food">美食</span>
         </span>
         <span class="legend-item">
-            <span class="legend-color" style="background:#7B9EA8;"></span>住宿
+            <span class="legend-color" style="background:#7B9EA8;"></span><span id="leg-hotel">住宿</span>
         </span>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="lang.js"></script>
 <script>
     // ===== 지도 초기화 =====
     const map = L.map('map', {
@@ -79,53 +80,175 @@
 
     // ===== 마커 데이터 =====
     const TYPE_CONFIG = {
-        makchang:   { color: '#6B8E5A', label: '烤大肠', icon: 'fa-fire' },
-        bulgogi:    { color: '#6B8E5A', label: '烤肉',   icon: 'fa-drumstick-bite' },
-        mackerel:   { color: '#6B8E5A', label: '炖鲭鱼', icon: 'fa-fish' },
-        crab:       { color: '#6B8E5A', label: '酱蟹',   icon: 'fa-shrimp' },
-        attraction: { color: '#8B5A6B', label: '景点',   icon: 'fa-landmark' }
+        makchang:   { color: '#6B8E5A', icon: 'fa-fire' },
+        bulgogi:    { color: '#6B8E5A', icon: 'fa-drumstick-bite' },
+        mackerel:   { color: '#6B8E5A', icon: 'fa-fish' },
+        crab:       { color: '#6B8E5A', icon: 'fa-shrimp' },
+        attraction: { color: '#8B5A6B', icon: 'fa-landmark' }
     };
 
     const PLACES = [
-        // 烤大肠 (막창)
-        { name: '연막창',         lat: 33.486800, lng: 126.493218, type: 'makchang', addr: '济州市 新大路16街 49号',        addrKo: '제주시 신대로16길 49',             desc: '炭火烤大肠专门店，人气颇高。', features: ['炭火烧烤', '大肠', '人气店'] },
-        { name: '고향숯불막창',    lat: 33.514945, lng: 126.873350, type: 'makchang', addr: '济州市 一周东路 281号',          addrKo: '제주시 일주동로 281',              desc: '炭火风味浓郁，当地居民常去的大肠烤肉店。', features: ['炭火', '当地特色', '大肠'] },
-        { name: '용팔이막창',     lat: 33.488872, lng: 126.479508, type: 'makchang', addr: '济州市 月浪路4街 17号',          addrKo: '제주시 월랑로4길 17',             desc: '老字号大肠专门店，口感软糯。', features: ['老字号', '大肠', '软糯'] },
-        { name: '골목빈통구이',   lat: 33.2500,   lng: 126.4140,   type: 'makchang', addr: '西归浦市 天帝渊路185街 6号',     addrKo: '서귀포시 천제연로185길 6',         desc: '中文区人气烤肉餐厅，大肠新鲜美味。', features: ['中文区', '大肠', '人气'] },
-        // 烤肉 (불고기)
-        { name: '왕일번지식당',   lat: 33.403730, lng: 126.785400, type: 'bulgogi',  addr: '西归浦市 表善面 城邑里 547-1',   addrKo: '서귀포시 표선면 성읍리 547-1',    desc: '济州黑猪肉烤肉名店，肉质鲜嫩。', features: ['黑猪肉', '烤肉', '名店'] },
-        { name: '털보식당',       lat: 33.543575, lng: 126.660804, type: 'bulgogi',  addr: '济州市 朝天邑 新北路 554',       addrKo: '제주시 조천읍 신북로 554',         desc: '咸德海岸边的烤肉餐厅，景观绝佳。', features: ['海景', '黑猪肉', '烤肉'] },
-        { name: '비자향',         lat: 33.495174, lng: 126.809235, type: 'bulgogi',  addr: '济州市 旧左邑 榧子林路 2270',   addrKo: '제주시 구좌읍 비자림로 2270',     desc: '旧左邑的本地人气烤肉店。', features: ['本地推荐', '黑猪肉', '烤肉'] },
-        { name: '금능낙원',       lat: 33.375030, lng: 126.235870, type: 'bulgogi',  addr: '济州市 翰林邑 金陵里 1716',     addrKo: '제주시 한림읍 금능리 1716',       desc: '翰林地区的烤肉名店，食材新鲜。', features: ['翰林', '黑猪肉', '新鲜食材'] },
-        // 炖鲭鱼 (고등어찜/조림)
-        { name: '맛나식당',       lat: 33.448579, lng: 126.916071, type: 'mackerel', addr: '西归浦市 城山邑 东流岩路 41',    addrKo: '서귀포시 성산읍 동류암로 41',     desc: '城山地区炖鲭鱼老店，味道醇厚。', features: ['炖鲭鱼', '老店', '城山'] },
-        { name: '중문고등어조밥', lat: 33.2414,   lng: 126.4244,   type: 'mackerel', addr: '西归浦市 上礼洞 3706号 (中文)', addrKo: '서귀포시 상예동 3706',            desc: '中文观光区附近的鲭鱼饭名店。', features: ['炖鲭鱼', '鲭鱼饭', '中文区'] },
-        { name: '이춘옥원조 고등어쌈밥', lat: 33.484416, lng: 126.408295, type: 'mackerel', addr: '济州市 涯月邑 一周西路 7213', addrKo: '제주시 애월읍 일주서로 7213', desc: '涯月传统鲭鱼饭，原味正宗。', features: ['原味', '鲭鱼饭', '传统'] },
-        { name: '네거리식당',     lat: 33.248523, lng: 126.559253, type: 'mackerel', addr: '西归浦市 西门路29街 20',         addrKo: '서귀포시 서문로29번길 20',         desc: '十字路口老食堂，炖鲭鱼深受好评。', features: ['老食堂', '炖鲭鱼', '好评'] },
-        // 酱蟹 (간장게장)
-        { name: '장모식당',       lat: 33.496843, lng: 126.546897, type: 'crab',     addr: '济州市 延新路 51',              addrKo: '제주시 연신로 51',               desc: '酱蟹饭套餐丰盛，口碑极佳。', features: ['酱蟹', '套餐', '口碑好'] },
-        { name: '제주로운청해원', lat: 33.449330, lng: 126.908310, type: 'crab',     addr: '西归浦市 城山邑 古城里 212-13', addrKo: '서귀포시 성산읍 고성리 212-13',  desc: '城山日出峰附近的酱蟹名店。', features: ['酱蟹', '城山日出峰', '名店'] },
-        { name: '종달수다녀',     lat: 33.489010, lng: 126.884620, type: 'crab',     addr: '济州市 旧左邑 终达里 2566-1',  addrKo: '제주시 구좌읍 종달리 2566-1',    desc: '终达里海边酱蟹餐厅，新鲜实惠。', features: ['酱蟹', '海边', '新鲜'] },
-        // 景点 (관광지) - 2025년 중국인 관광객 인기 명소
-        { name: '성산일출봉',     lat: 33.458056, lng: 126.942500, type: 'attraction', addr: '西归浦市 城山邑 日出路 284-12',  addrKo: '서귀포시 성산읍 일출로 284-12',  desc: '联合国教科文组织世界自然遗产，火山口日出闻名天下。', features: ['世界遗产', '日出', '火山口'] },
-        { name: '한라산',         lat: 33.361700, lng: 126.533900, type: 'attraction', addr: '济州市 海安洞 1100路 2070-61',   addrKo: '제주시 해안동 1100로 2070-61',   desc: '韩国最高峰（1,947m），四季景色各异，壮观迷人。', features: ['世界遗产', '最高峰', '登山'] },
-        { name: '만장굴',         lat: 33.528400, lng: 126.771500, type: 'attraction', addr: '济州市 旧左邑 万丈굴路 182',      addrKo: '제주시 구좌읍 만장굴길 182',     desc: '世界上最长的熔岩洞窟之一，被列为世界自然遗产。', features: ['世界遗产', '熔岩洞窟', '地质公园'] },
-        { name: '협재해수욕장',   lat: 33.394300, lng: 126.239400, type: 'attraction', addr: '济州市 翰林邑 挟才里 2447-1',    addrKo: '제주시 한림읍 협재리 2447-1',   desc: '翡翠色海水配上白色沙滩，中国游客必去的美丽海滩。', features: ['蓝色海水', '白沙滩', '比扬岛'] },
-        { name: '주상절리',       lat: 33.239200, lng: 126.416900, type: 'attraction', addr: '西归浦市 中文观光路 154-17',     addrKo: '서귀포시 중문관광로 154-17',     desc: '数十万年前火山喷发形成的六角形玄武岩柱群，气势雄伟。', features: ['火山地形', '玄武岩', '壮观'] },
-        { name: '우도',           lat: 33.506500, lng: 126.953300, type: 'attraction', addr: '济州市 牛岛面 牛岛路 984',        addrKo: '제주시 우도면 우도로 984',       desc: '离岛小岛，花生冰淇淋和碧蓝海水让中国游客流连忘返。', features: ['离岛', '花生冰淇淋', '蓝色海水'] },
-        { name: '섭지코지',       lat: 33.426800, lng: 126.929900, type: 'attraction', addr: '西归浦市 城山邑 高城里 8',        addrKo: '서귀포시 성산읍 고성리 8',       desc: '突出海中的岬角，绝美海岸风景，曾是电视剧取景地。', features: ['海岸絶景', '岬角', '拍照胜地'] },
-        { name: '천지연폭포',     lat: 33.246000, lng: 126.551500, type: 'attraction', addr: '西归浦市 千地渊路 132',           addrKo: '서귀포시 천지연로 132',          desc: '壮观的天池渊瀑布，高22m宽12m，被称为"天地之渊"。', features: ['瀑布', '夜间开放', '자연'] },
-        { name: '용두암',         lat: 33.515700, lng: 126.501600, type: 'attraction', addr: '济州市 龙头路 15',               addrKo: '제주시 용두암길 15',             desc: '状如龙头的玄武岩奇石，高约10m，是제주의 대표적인 관광 명소。', features: ['奇岩', '玄武岩', '拍照胜地'] },
-        { name: '사려니숲길',     lat: 33.411600, lng: 126.652700, type: 'attraction', addr: '济州市 旧左邑 思连伊林路',        addrKo: '제주시 구좌읍 사려니숲길',       desc: '被誉为治愈系森林，清新的空气和美丽的红松林深受喜爱。', features: ['森林浴', '治愈', '健康散步'] }
+        // 막창 (Makchang)
+        { name: '연막창', nameEn: 'Yeon Makchang', nameZh: '연막창', nameJa: 'ヨンマクチャン', nameEs: 'Yeon Makchang',
+          lat: 33.486800, lng: 126.493218, type: 'makchang',
+          addr: '济州市 新大路16街 49号', addrKo: '제주시 신대로16길 49',
+          desc: '炭火烤大肠专门店，人气颇高。', descKo: '숯불에 구운 막창 전문점으로 제주에서 인기 있는 맛집입니다.',
+          descEn: 'Popular charcoal BBQ intestine restaurant in Jeju.', descJa: '炭火で焼く大腸専門店、済州で人気の飲食店。', descEs: 'Popular restaurante de intestino a la brasa en Jeju.',
+          features: ['炭火烧烤', '大肠', '人气店'] },
+        { name: '고향숯불막창', nameEn: 'Gohyang Charcoal Makchang', nameZh: '故乡炭火大肠', nameJa: '故郷炭火大腸', nameEs: 'Gohyang Makchang',
+          lat: 33.514945, lng: 126.873350, type: 'makchang',
+          addr: '济州市 一周东路 281号', addrKo: '제주시 일주동로 281',
+          desc: '炭火风味浓郁，当地居民常去的大肠烤肉店。', descKo: '숯불 향이 진한, 현지인들이 즐겨 찾는 대창구이 전문점입니다.',
+          descEn: 'A local favorite for charcoal-grilled intestine with rich smoky flavor.', descJa: '炭火の香りが豊かな地元人気の大腸焼き専門店。', descEs: 'Local favorito para intestino a la brasa con sabor ahumado.',
+          features: ['炭火', '当地特色', '大肠'] },
+        { name: '용팔이막창', nameEn: 'Yongpari Makchang', nameZh: '龙八大肠', nameJa: 'ヨンパリ大腸', nameEs: 'Yongpari Makchang',
+          lat: 33.488872, lng: 126.479508, type: 'makchang',
+          addr: '济州市 月浪路4街 17号', addrKo: '제주시 월랑로4길 17',
+          desc: '老字号大肠专门店，口感软糯。', descKo: '오랜 역사를 지닌 막창 전문점으로 부드럽고 쫄깃한 식감이 특징입니다.',
+          descEn: 'Longstanding intestine BBQ spot known for tender and chewy texture.', descJa: '長い歴史を持つ大腸専門店、柔らかくモチモチした食感が特徴。', descEs: 'Restaurante de makchang con larga historia, conocido por su textura tierna.',
+          features: ['老字号', '大肠', '软糯'] },
+        { name: '골목빈통구이', nameEn: 'Golmok BBQ', nameZh: '골목빈통구이', nameJa: 'ゴルモクBBQ', nameEs: 'Golmok BBQ',
+          lat: 33.2500, lng: 126.4140, type: 'makchang',
+          addr: '西归浦市 天帝渊路185街 6号', addrKo: '서귀포시 천제연로185길 6',
+          desc: '中文区人气烤肉餐厅，大肠新鲜美味。', descKo: '중문 지역의 인기 통구이 전문점입니다.',
+          descEn: 'Popular charcoal BBQ restaurant in the Jungmun area.', descJa: '中文地区の人気炭火焼き専門店。', descEs: 'Popular restaurante BBQ en la zona de Jungmun.',
+          features: ['中文区', '大肠', '人气'] },
+        // 불고기 (Bulgogi)
+        { name: '왕일번지식당', nameEn: 'Wangil Restaurant', nameZh: '王一番地食堂', nameJa: 'ワンイル番地食堂', nameEs: 'Restaurante Wangil',
+          lat: 33.403730, lng: 126.785400, type: 'bulgogi',
+          addr: '西归浦市 表善面 城邑里 547-1', addrKo: '서귀포시 표선면 성읍리 547-1',
+          desc: '济州黑猪肉烤肉名店，肉质鲜嫩。', descKo: '제주 흑돼지 구이 명소로 고기가 신선하고 부드럽습니다.',
+          descEn: 'Famous Jeju black pork BBQ, known for fresh and tender meat.', descJa: '済州黒豚の名店、新鮮で柔らかい肉が自慢。', descEs: 'Famoso BBQ de cerdo negro de Jeju, carne fresca y tierna.',
+          features: ['黑猪肉', '烤肉', '名店'] },
+        { name: '털보식당', nameEn: 'Teobo Restaurant', nameZh: '털보食堂', nameJa: 'テルボ食堂', nameEs: 'Restaurante Teobo',
+          lat: 33.543575, lng: 126.660804, type: 'bulgogi',
+          addr: '济州市 朝天邑 新北路 554', addrKo: '제주시 조천읍 신북로 554',
+          desc: '咸德海岸边的烤肉餐厅，景观绝佳。', descKo: '함덕 해안가에 위치한 경치 좋은 고기 구이 식당입니다.',
+          descEn: 'BBQ restaurant with beautiful ocean views near Hamdeok Beach.', descJa: '咸徳海岸沿いの絶景焼肉レストラン。', descEs: 'Restaurante BBQ con hermosas vistas al mar cerca de Hamdeok.',
+          features: ['海景', '黑猪肉', '烤肉'] },
+        { name: '비자향', nameEn: 'Bija Hyang', nameZh: '榧子香', nameJa: 'ビジャヒャン', nameEs: 'Bija Hyang',
+          lat: 33.495174, lng: 126.809235, type: 'bulgogi',
+          addr: '济州市 旧左邑 榧子林路 2270', addrKo: '제주시 구좌읍 비자림로 2270',
+          desc: '旧左邑的本地人气烤肉店。', descKo: '구좌읍 현지인들이 추천하는 흑돼지 전문 식당입니다.',
+          descEn: 'Locally recommended black pork BBQ in Gujwa-eup.', descJa: '旧左邑の地元民おすすめの黒豚専門店。', descEs: 'BBQ de cerdo negro recomendado por locales en Gujwa-eup.',
+          features: ['本地推荐', '黑猪肉', '烤肉'] },
+        { name: '금능낙원', nameEn: 'Geumneung Paradise', nameZh: '金陵乐园', nameJa: 'クムヌン楽園', nameEs: 'Paraíso Geumneung',
+          lat: 33.375030, lng: 126.235870, type: 'bulgogi',
+          addr: '济州市 翰林邑 金陵里 1716', addrKo: '제주시 한림읍 금능리 1716',
+          desc: '翰林地区的烤肉名店，食材新鲜。', descKo: '한림 지역의 고기 구이 명소로 신선한 식재료를 사용합니다.',
+          descEn: 'Famous BBQ spot in Hallim using fresh local ingredients.', descJa: '翰林地区の人気焼肉店、新鮮な食材を使用。', descEs: 'Famoso restaurante BBQ en Hallim con ingredientes frescos.',
+          features: ['翰林', '黑猪肉', '新鲜食材'] },
+        // 고등어 (Mackerel)
+        { name: '맛나식당', nameEn: 'Matna Restaurant', nameZh: '맛나食堂', nameJa: 'マトナ食堂', nameEs: 'Restaurante Matna',
+          lat: 33.448579, lng: 126.916071, type: 'mackerel',
+          addr: '西归浦市 城山邑 东流岩路 41', addrKo: '서귀포시 성산읍 동류암로 41',
+          desc: '城山地区炖鲭鱼老店，味道醇厚。', descKo: '성산 지역에서 오랫동안 사랑받아온 고등어 조림 전문 노포입니다.',
+          descEn: 'Long-established mackerel stew restaurant loved in the Seongsan area.', descJa: '城山地区で長年愛されているサバ煮込み専門の老舗。', descEs: 'Restaurante de caballa estofada con larga trayectoria en Seongsan.',
+          features: ['炖鲭鱼', '老店', '城山'] },
+        { name: '이춘옥원조 고등어쌈밥', nameEn: 'Ichunok Original Mackerel Rice', nameZh: '李春玉原祖鲭鱼包饭', nameJa: '李春玉元祖サバ包み飯', nameEs: 'Ichunok Arroz con Caballa Original',
+          lat: 33.484416, lng: 126.408295, type: 'mackerel',
+          addr: '济州市 涯月邑 一周西路 7213', addrKo: '제주시 애월읍 일주서로 7213',
+          desc: '涯月传统鲭鱼饭，原味正宗。', descKo: '애월 전통 고등어쌈밥 원조 맛집으로 진짜 맛을 느낄 수 있습니다.',
+          descEn: 'The original mackerel rice wrap in Aewol, authentic and traditional taste.', descJa: '涯月の元祖サバ包み飯、本場の味が楽しめます。', descEs: 'El arroz original con caballa en Aewol, sabor auténtico y tradicional.',
+          features: ['原味', '鲭鱼饭', '传统'] },
+        { name: '네거리식당', nameEn: 'Crossroads Restaurant', nameZh: '十字路口食堂', nameJa: 'ネゴリ食堂', nameEs: 'Restaurante Cruce',
+          lat: 33.248523, lng: 126.559253, type: 'mackerel',
+          addr: '西归浦市 西门路29街 20', addrKo: '서귀포시 서문로29번길 20',
+          desc: '十字路口老食堂，炖鲭鱼深受好评。', descKo: '서귀포 오래된 식당으로 고등어 조림이 특히 맛있습니다.',
+          descEn: 'Old restaurant in Seogwipo, especially praised for mackerel stew.', descJa: '西帰浦の老舗食堂、サバの煮物が絶品と評判。', descEs: 'Viejo restaurante en Seogwipo, elogiado por el estofado de caballa.',
+          features: ['老食堂', '炖鲭鱼', '好评'] },
+        // 간장게장 (Crab)
+        { name: '장모식당', nameEn: 'Jangmo Restaurant', nameZh: '丈母食堂', nameJa: 'チャンモ食堂', nameEs: 'Restaurante Jangmo',
+          lat: 33.496843, lng: 126.546897, type: 'crab',
+          addr: '济州市 延新路 51', addrKo: '제주시 연신로 51',
+          desc: '酱蟹饭套餐丰盛，口碑极佳。', descKo: '간장게장 정식이 푸짐하고 맛있기로 유명한 식당입니다.',
+          descEn: 'Famous for generous and delicious soy sauce crab set meals.', descJa: '醤油蟹定食が豊富で美味しいと有名な食堂。', descEs: 'Famoso por generosas y deliciosas comidas de cangrejo en salsa de soja.',
+          features: ['酱蟹', '套餐', '口碑好'] },
+        { name: '제주로운청해원', nameEn: 'Jejuroun Cheonghaewon', nameZh: '济州乐清海园', nameJa: 'チェジュロウン清海園', nameEs: 'Jejuroun Cheonghaewon',
+          lat: 33.449330, lng: 126.908310, type: 'crab',
+          addr: '西归浦市 城山邑 古城里 212-13', addrKo: '서귀포시 성산읍 고성리 212-13',
+          desc: '城山日出峰附近的酱蟹名店。', descKo: '성산일출봉 인근의 간장게장 명소입니다.',
+          descEn: 'Soy sauce crab restaurant near Seongsan Ilchulbong.', descJa: '城山日出峰近くの醤油蟹の名店。', descEs: 'Restaurante de cangrejo en salsa de soja cerca de Seongsan.',
+          features: ['酱蟹', '城山日出峰', '名店'] },
+        { name: '종달수다녀', nameEn: 'Jongdal Sudanyeo', nameZh: '终达聚会处', nameJa: 'チョンダルスダニョ', nameEs: 'Jongdal Sudanyeo',
+          lat: 33.489010, lng: 126.884620, type: 'crab',
+          addr: '济州市 旧左邑 终达里 2566-1', addrKo: '제주시 구좌읍 종달리 2566-1',
+          desc: '终达里海边酱蟹餐厅，新鲜实惠。', descKo: '종달리 바닷가의 신선한 간장게장 식당으로 가격도 합리적입니다.',
+          descEn: 'Fresh soy sauce crab restaurant by the sea in Jongdal-ri, reasonably priced.', descJa: '終達里の海辺にある新鮮な醤油蟹食堂、リーズナブルな価格。', descEs: 'Restaurante de cangrejo fresco junto al mar en Jongdal-ri, precio razonable.',
+          features: ['酱蟹', '海边', '新鲜'] },
+        // 관광지 (Attractions) - 2025년 중국인 관광객 인기 명소
+        { name: '성산일출봉', nameEn: 'Seongsan Sunrise Peak', nameZh: '城山日出峰', nameJa: '城山日出峰', nameEs: 'Pico del Amanecer Seongsan',
+          lat: 33.458056, lng: 126.942500, type: 'attraction',
+          addr: '西归浦市 城山邑 日出路 284-12', addrKo: '서귀포시 성산읍 일출로 284-12',
+          desc: '联合国教科文组织世界自然遗产，火山口日出闻名天下。', descKo: '유네스코 세계자연유산으로, 화구 위에서 바라보는 일출 풍경이 장관입니다.',
+          descEn: 'UNESCO World Heritage site, famous for breathtaking sunrise views from the crater.', descJa: 'ユネスコ世界自然遺産、火口から眺める日の出が絶景。', descEs: 'Patrimonio Natural de la UNESCO, famoso por las vistas del amanecer desde el cráter.',
+          features: ['世界遗产', '日出', '火山口'] },
+        { name: '한라산', nameEn: 'Hallasan Mountain', nameZh: '汉拿山', nameJa: '漢拏山', nameEs: 'Monte Hallasan',
+          lat: 33.361700, lng: 126.533900, type: 'attraction',
+          addr: '济州市 海安洞 1100路 2070-61', addrKo: '제주시 해안동 1100로 2070-61',
+          desc: '韩国最高峰（1,947m），四季景色各异，壮观迷人。', descKo: '한국 최고봉(1,947m)으로 유네스코 세계자연유산에 등재된 제주의 상징입니다.',
+          descEn: 'Korea\'s highest peak (1,947m), a UNESCO World Heritage site and symbol of Jeju.', descJa: '韓国最高峰（1,947m）、ユネスコ世界自然遺産に登録された済州の象徴。', descEs: 'El pico más alto de Corea (1,947m), Patrimonio Natural de la UNESCO y símbolo de Jeju.',
+          features: ['世界遗产', '最高峰', '登山'] },
+        { name: '만장굴', nameEn: 'Manjanggul Lava Tube', nameZh: '万丈窟', nameJa: '万丈窟', nameEs: 'Cueva Manjanggul',
+          lat: 33.528400, lng: 126.771500, type: 'attraction',
+          addr: '济州市 旧左邑 万丈굴路 182', addrKo: '제주시 구좌읍 만장굴길 182',
+          desc: '世界上最长的熔岩洞窟之一，被列为世界自然遗产。', descKo: '세계에서 가장 긴 용암 동굴 중 하나로 유네스코 세계자연유산입니다.',
+          descEn: 'One of the world\'s longest lava tubes, designated a UNESCO World Heritage site.', descJa: '世界最長クラスの溶岩洞窟、ユネスコ世界自然遺産に指定。', descEs: 'Uno de los tubos de lava más largos del mundo, Patrimonio Natural de la UNESCO.',
+          features: ['世界遗产', '熔岩洞窟', '地质公园'] },
+        { name: '협재해수욕장', nameEn: 'Hyeopjae Beach', nameZh: '挟才海水浴场', nameJa: '挟才海水浴場', nameEs: 'Playa Hyeopjae',
+          lat: 33.394300, lng: 126.239400, type: 'attraction',
+          addr: '济州市 翰林邑 挟才里 2447-1', addrKo: '제주시 한림읍 협재리 2447-1',
+          desc: '翡翠色海水配上白色沙滩，中国游客必去的美丽海滩。', descKo: '에메랄드빛 바다와 흰 모래사장이 아름다운 제주 대표 해수욕장입니다.',
+          descEn: 'Jeju\'s iconic beach with emerald waters and white sandy shores.', descJa: 'エメラルドの海と白砂浜が美しい済州を代表するビーチ。', descEs: 'La icónica playa de Jeju con aguas esmeralda y arenas blancas.',
+          features: ['蓝色海水', '白沙滩', '比扬岛'] },
+        { name: '주상절리', nameEn: 'Jusangjeolli Cliffs', nameZh: '柱状节理', nameJa: '柱状節理', nameEs: 'Acantilados Jusangjeolli',
+          lat: 33.239200, lng: 126.416900, type: 'attraction',
+          addr: '西归浦市 中文观光路 154-17', addrKo: '서귀포시 중문관광로 154-17',
+          desc: '数十万年前火山喷发形成的六角形玄武岩柱群，气势雄伟。', descKo: '수십만 년 전 화산 분출로 형성된 육각형 현무암 주상절리가 장관을 이룹니다.',
+          descEn: 'Majestic hexagonal basalt columns formed by volcanic eruptions hundreds of thousands of years ago.', descJa: '数十万年前の火山噴火で形成された六角形の玄武岩柱群が壮観。', descEs: 'Majestuosas columnas de basalto hexagonales formadas por erupciones volcánicas.',
+          features: ['火山地形', '玄武岩', '壮观'] },
+        { name: '우도', nameEn: 'Udo Island', nameZh: '牛岛', nameJa: '牛島', nameEs: 'Isla Udo',
+          lat: 33.506500, lng: 126.953300, type: 'attraction',
+          addr: '济州市 牛岛面 牛岛路 984', addrKo: '제주시 우도면 우도로 984',
+          desc: '离岛小岛，花生冰淇淋和碧蓝海水让中国游客流连忘返。', descKo: '땅콩 아이스크림과 투명한 바다가 유명한 제주 부속 섬입니다.',
+          descEn: 'A small island off Jeju, famous for peanut ice cream and crystal-clear waters.', descJa: 'ピーナッツアイスクリームと透明な海が有名な済州の離島。', descEs: 'Una pequeña isla frente a Jeju, famosa por el helado de maní y aguas cristalinas.',
+          features: ['离岛', '花生冰淇淋', '蓝色海水'] },
+        { name: '섭지코지', nameEn: 'Seopjikoji Cape', nameZh: '涉地可支', nameJa: 'ソプチコジ', nameEs: 'Cabo Seopjikoji',
+          lat: 33.426800, lng: 126.929900, type: 'attraction',
+          addr: '西归浦市 城山邑 高城里 8', addrKo: '서귀포시 성산읍 고성리 8',
+          desc: '突出海中的岬角，绝美海岸风景，曾是电视剧取景地。', descKo: '바다로 돌출된 곶으로 아름다운 해안 절경을 자랑하며 드라마 촬영지로도 유명합니다.',
+          descEn: 'A cape jutting into the sea, known for stunning coastal scenery and as a TV drama location.', descJa: '海に突き出した岬、美しい海岸の絶景とドラマの撮影地として有名。', descEs: 'Un cabo que se adentra en el mar, famoso por paisajes costeros y como lugar de grabación.',
+          features: ['海岸絶景', '岬角', '拍照胜地'] },
+        { name: '천지연폭포', nameEn: 'Cheonjiyeon Waterfall', nameZh: '天地渊瀑布', nameJa: '天地淵の滝', nameEs: 'Cascada Cheonjiyeon',
+          lat: 33.246000, lng: 126.551500, type: 'attraction',
+          addr: '西归浦市 千地渊路 132', addrKo: '서귀포시 천지연로 132',
+          desc: '壮观的天池渊瀑布，高22m宽12m，被称为"天地之渊"。', descKo: '높이 22m, 너비 12m의 웅장한 폭포로 \'하늘과 땅이 만나는 연못\'이라는 의미입니다.',
+          descEn: 'A majestic waterfall 22m high and 12m wide, meaning "Pond where Heaven and Earth meet."', descJa: '高さ22m、幅12mの雄大な滝、「天と地が出会う池」という意味。', descEs: 'Una majestuosa cascada de 22m, que significa "Estanque donde el Cielo y la Tierra se encuentran".',
+          features: ['瀑布', '夜间开放', '자연'] },
+        { name: '용두암', nameEn: 'Dragon Head Rock', nameZh: '龙头岩', nameJa: '竜頭岩', nameEs: 'Roca Cabeza de Dragón',
+          lat: 33.515700, lng: 126.501600, type: 'attraction',
+          addr: '济州市 龙头路 15', addrKo: '제주시 용두암길 15',
+          desc: '状如龙头的玄武岩奇石，高约10m，是济州的代表性观光名胜。', descKo: '용의 머리를 닮은 높이 약 10m의 현무암 기암으로 제주의 대표 관광 명소입니다.',
+          descEn: 'A basalt rock formation resembling a dragon\'s head, about 10m high, one of Jeju\'s iconic attractions.', descJa: '竜の頭に似た高さ約10mの玄武岩の奇石、済州を代表する観光スポット。', descEs: 'Una formación de basalto parecida a una cabeza de dragón, de unos 10m, atracción icónica de Jeju.',
+          features: ['奇岩', '玄武岩', '拍照胜地'] },
+        { name: '사려니숲길', nameEn: 'Saryeoni Forest Path', nameZh: '思恋伊森林路', nameJa: 'サリョニ森林路', nameEs: 'Sendero del Bosque Saryeoni',
+          lat: 33.411600, lng: 126.652700, type: 'attraction',
+          addr: '济州市 旧左邑 思连伊林路', addrKo: '제주시 구좌읍 사려니숲길',
+          desc: '被誉为治愈系森林，清新的空气和美丽的红松林深受喜爱。', descKo: '힐링 숲으로 불리며 맑은 공기와 아름다운 삼나무 숲이 사랑받는 산책 코스입니다.',
+          descEn: 'Known as a healing forest, loved for its fresh air and beautiful cedar trees.', descJa: '癒しの森として知られ、清涼な空気と美しい杉林が人気の散策コース。', descEs: 'Conocido como bosque sanador, amado por su aire fresco y hermosos cedros.',
+          features: ['森林浴', '治愈', '健康散步'] }
     ];
 
     // ===== 마커 생성 함수 =====
-    function createIcon(color, iconClass, name) {
+    function createIcon(place) {
+        const lang = TravelLang.getLang();
+        const displayName = TravelLang.getName(place, lang);
+        const cfg = TYPE_CONFIG[place.type];
         return L.divIcon({
-            html: `<div class="circle-marker" style="background:${color};">
-                       <i class="fas ${iconClass}"></i>
+            html: `<div class="circle-marker" style="background:${cfg.color};">
+                       <i class="fas ${cfg.icon}"></i>
                    </div>
-                   <div class="marker-label" style="color:${color};">${name}</div>`,
+                   <div class="marker-label" style="color:${cfg.color};">${displayName}</div>`,
             className: 'custom-marker-icon',
             iconSize: [25, 25],
             iconAnchor: [12, 12],
@@ -133,26 +256,45 @@
         });
     }
 
+    function getPlaceDesc(place, lang) {
+        if (lang === 'ko' && place.descKo) return place.descKo;
+        if (lang === 'en' && place.descEn) return place.descEn;
+        if (lang === 'ja' && place.descJa) return place.descJa;
+        if (lang === 'es' && place.descEs) return place.descEs;
+        return place.desc || '';
+    }
+
     function createPopup(place) {
+        const lang = TravelLang.getLang();
+        const ui = TravelLang.getUI(lang);
         const cfg = TYPE_CONFIG[place.type];
-        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}&query=${place.lat},${place.lng}`;
-        const naverUrl  = `https://map.naver.com/v5/search/${encodeURIComponent(place.name)}`;
+        const displayName = TravelLang.getName(place, lang);
+        const koName = TravelLang.getName(place, 'ko');
+        const subtitle = lang !== 'ko' ? koName : (place.nameEn || '');
+        const desc = getPlaceDesc(place, lang);
+        const typeLabel = TravelLang.getTypeLabel(place.type, lang);
+        const googleUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koName)}&query=${place.lat},${place.lng}`;
+        const naverUrl  = `https://map.naver.com/v5/search/${encodeURIComponent(koName)}`;
         const features  = place.features ? place.features.join('、') : '';
+        const addrLine  = lang === 'ko'
+            ? place.addrKo || place.addr
+            : (lang === 'zh' ? place.addr : (place.addrKo ? `${place.addrKo}<br><small style="color:#888;">${place.addr}</small>` : place.addr));
 
         return `<div class="custom-popup" style="border-color:${cfg.color};">
             <button class="popup-close-btn" style="color:${cfg.color};" onclick="this.closest('.leaflet-popup').querySelector('.leaflet-popup-close-button').click()"><i class="fas fa-times"></i></button>
             <div class="popup-header" style="border-bottom-color:${cfg.color};">
-                <h3 class="popup-title" style="color:${cfg.color};">${place.name}</h3>
-                <span class="type-badge" style="background:${cfg.color};">${cfg.label}</span>
+                <h3 class="popup-title" style="color:${cfg.color};">${displayName}</h3>
+                ${subtitle && subtitle !== displayName ? `<p class="popup-subtitle" style="color:${cfg.color};">${subtitle}</p>` : ''}
+                <span class="type-badge" style="background:${cfg.color};">${typeLabel}</span>
             </div>
             <div class="popup-body">
                 <div class="popup-row">
                     <i class="fas fa-map-marker-alt popup-icon" style="color:${cfg.color};"></i>
-                    <span>${place.addrKo || ''}<br><small style="color:#888;">${place.addr}</small></span>
+                    <span>${addrLine}</span>
                 </div>
                 <div class="popup-row">
                     <i class="fas fa-info-circle popup-icon" style="color:${cfg.color};"></i>
-                    <span>${place.desc}</span>
+                    <span>${desc}</span>
                 </div>
                 ${features ? `<div class="popup-row">
                     <i class="fas fa-star popup-icon" style="color:${cfg.color};"></i>
@@ -161,10 +303,10 @@
             </div>
             <div class="popup-footer">
                 <a href="${googleUrl}" target="_blank" class="map-btn" style="border-color:${cfg.color};color:${cfg.color};">
-                    <i class="fab fa-google" style="color:${cfg.color};"></i> 谷歌地图
+                    <i class="fab fa-google" style="color:${cfg.color};"></i> ${ui.googleMap}
                 </a>
                 <a href="${naverUrl}" target="_blank" class="map-btn" style="border-color:${cfg.color};color:${cfg.color};">
-                    <i class="fas fa-map" style="color:${cfg.color};"></i> Naver地图
+                    <i class="fas fa-map" style="color:${cfg.color};"></i> ${ui.naverMap}
                 </a>
             </div>
         </div>`;
@@ -173,8 +315,7 @@
     // ===== 마커 추가 (부산 방식: 지도에 직접 추가) =====
     const allMarkers = [];
     PLACES.forEach(p => {
-        const cfg = TYPE_CONFIG[p.type];
-        const marker = L.marker([p.lat, p.lng], { icon: createIcon(cfg.color, cfg.icon, p.name) })
+        const marker = L.marker([p.lat, p.lng], { icon: createIcon(p) })
             .addTo(map)
             .bindPopup(createPopup(p), { maxWidth: 300, minWidth: 240 });
         allMarkers.push({ marker, place: p });
@@ -218,6 +359,27 @@
     }
     map.on('zoomend', updateMarkerSize);
     updateMarkerSize();
+
+    // ===== UI 언어 초기화 =====
+    (function() {
+        const lang = TravelLang.getLang();
+        const ui = TravelLang.getUI(lang);
+        const types = ui.types;
+        // 범례 텍스트
+        const legA = document.getElementById('leg-attraction');
+        const legF = document.getElementById('leg-food');
+        const legH = document.getElementById('leg-hotel');
+        if (legA) legA.textContent = types.attraction || types.attractions || '景点';
+        if (legF) legF.textContent = types.restaurants || '美食';
+        if (legH) legH.textContent = types.hotels || '住宿';
+        // 메인으로 버튼
+        const backLink = document.querySelector('a[href="index.html"]');
+        if (backLink) {
+            const icon = backLink.querySelector('i');
+            backLink.textContent = ' ' + ui.backMain;
+            if (icon) backLink.prepend(icon);
+        }
+    })();
     </script>
 </body>
 </html>
