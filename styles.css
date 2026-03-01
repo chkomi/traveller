@@ -95,8 +95,9 @@ body {
    ==================== */
 .tile-selector {
     position: fixed;
-    top: 10px;
-    left: 52px;
+    top: 76px;
+    right: 16px;
+    left: auto;
     background: white;
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
@@ -991,8 +992,9 @@ body {
     }
 
     .tile-selector {
-        top: 10px;
-        left: 46px;
+        top: 64px;
+        right: 12px;
+        left: auto;
         padding: 5px 10px;
         gap: 6px;
     }
