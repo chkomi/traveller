@@ -1,186 +1,80 @@
 [
   {
-    "name": "경복궁 (Gyeongbokgung Palace, 景福宮)",
-    "latitude": 37.5796,
-    "longitude": 126.977,
-    "address": "서울특별시 종로구 사직로 161",
-    "description": "조선 왕조의 법궁으로 가장 아름다운 궁궐입니다. 수문장 교대식과 전통 건축미를 감상할 수 있습니다.",
-    "features": [
-      "역사",
-      "문화재",
-      "포토스팟"
-    ],
-    "price": "3000",
-    "type": "attractions",
-    "rating": 4.7,
-    "visitTime": "2-3시간"
-  },
-  {
-    "name": "남산타워 (N Seoul Tower, 南山塔)",
-    "latitude": 37.5512,
-    "longitude": 126.9882,
-    "address": "서울특별시 용산구 남산공원길 105",
-    "description": "서울의 랜드마크이자 최고의 야경 명소입니다. 전망대에서 서울 전경을 한눈에 볼 수 있습니다.",
-    "features": [
-      "전망대",
-      "야경",
-      "데이트"
-    ],
-    "price": "16000",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "2시간"
-  },
-  {
-    "name": "광장시장 (Gwangjang Market, 広蔵市場)",
-    "latitude": 37.5703,
-    "longitude": 126.9995,
-    "address": "서울특별시 종로구 창경궁로 88",
-    "description": "100년 전통의 재래시장으로 빈대떡, 마약김밥 등 다양한 먹거리를 즐길 수 있습니다.",
-    "features": [
-      "길거리음식",
-      "현지식",
-      "전통시장"
-    ],
-    "menu": [
-      "빈대떡",
-      "마약김밥",
-      "육회"
-    ],
-    "price": "15000",
-    "type": "restaurants",
-    "rating": 4.6,
-    "visitTime": "1-2시간"
-  },
-  {
-    "name": "명동거리 (Myeongdong Street, 明洞)",
-    "latitude": 37.5636,
-    "longitude": 126.9853,
-    "address": "서울특별시 중구 명동길",
-    "description": "쇼핑과 먹거리의 천국! K-뷰티 제품과 다양한 길거리 음식을 즐길 수 있습니다.",
-    "features": [
-      "쇼핑",
-      "길거리음식",
-      "화장품"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.3,
-    "visitTime": "2-3시간"
-  },
-  {
-    "name": "북촌한옥마을 (Bukchon Hanok Village, 北村韓屋村)",
-    "latitude": 37.5822,
-    "longitude": 126.9831,
-    "address": "서울특별시 종로구 계동길 37",
-    "description": "전통 한옥이 보존된 마을로 한국 전통 문화를 체험할 수 있습니다.",
-    "features": [
-      "전통문화",
-      "한옥",
-      "포토스팟"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "1-2시간"
-  },
-  {
     "name": "브라운스위트 부산역 (Brown Suite Busan Station, 布朗套房釜山站)",
-    "latitude": 35.1152,
-    "longitude": 129.041,
+    "names": {
+      "ko": "브라운스위트 부산역",
+      "en": "Brown Suite Busan Station",
+      "zh": "棕色套房釜山站",
+      "ja": "ブラウンスイート釜山駅",
+      "es": "Brown Suite Estación Busan"
+    },
+    "latitude": 35.11639,
+    "longitude": 129.046002,
     "address": "부산광역시 동구 충장대로 160 협성마리나G7 STORE B 2층",
     "description": "KTX부산역 10번 출구 연결통로 도보 5분 거리의 오션뷰 레지던스 타입 숙박시설입니다.",
+    "descEn": "Ocean view residence hotel, 5 min walk from KTX Busan Station Exit 10.",
+    "descZh": "距釜山KTX火车站10号出口步行5分钟的海景公寓式酒店。",
+    "descJa": "KTX釜山駅10番出口から徒歩5分のオーシャンビューレジデンス型宿泊施設。",
+    "descEs": "Hotel residencia con vista al mar, a 5 min a pie de la salida 10 de la estación KTX.",
     "features": [
       "오션뷰",
       "역세권",
       "레지던스"
     ],
+    "featuresZh": [
+      "海景",
+      "地铁站附近",
+      "公寓式"
+    ],
     "price": "0",
     "type": "hotels",
     "rating": 4.5,
     "visitTime": "숙박",
-    "distance": "부산역 도보 5분"
-  },
-  {
-    "name": "안목 부산역점 (Anmok Busan Station, 安目釜山站店)",
-    "latitude": 35.1147,
-    "longitude": 129.0427,
-    "address": "부산 동구 중앙대로214번길 3-10 1층",
-    "description": "미쉐린 부산 선정 돼지국밥 맛집. 부산역에서 도보 5분 거리에 위치해 있습니다.",
-    "features": [
-      "미쉐린",
-      "돼지국밥",
-      "현지맛집"
-    ],
-    "menu": [
-      "돼지국밥"
-    ],
-    "price": "10000",
-    "type": "restaurants",
-    "rating": 4.7,
-    "visitTime": "1시간",
-    "openingHours": "11:00-21:00 (LO 20:30)",
-    "phone": "0507-1385-4515",
-    "distance": "부산역 도보 5분"
-  },
-  {
-    "name": "본전돼지국밥 (Bonjeon Pork Soup, 本钱猪肉汤饭)",
-    "latitude": 35.1148,
-    "longitude": 129.0428,
-    "address": "부산광역시 동구 중앙대로214번길 3-8",
-    "description": "45년 전통의 돼지국밥 전문점. 부산 대표 로컬 맛집으로 현지인들이 즐겨 찾는 곳입니다.",
-    "features": [
-      "전통맛집",
-      "돼지국밥",
-      "45년전통"
-    ],
-    "menu": [
-      "돼지국밥",
-      "수육"
-    ],
-    "price": "9000",
-    "type": "restaurants",
-    "rating": 4.6,
-    "visitTime": "1시간",
-    "openingHours": "09:00-20:30",
-    "phone": "051-441-2946",
-    "distance": "부산역 도보 4분"
-  },
-  {
-    "name": "초량밀면 본점 (Choryang Milmyeon Main, 草梁荞麦面本店)",
-    "latitude": 35.1153,
-    "longitude": 129.0435,
-    "address": "부산 동구 중앙대로 225",
-    "description": "부산 대표 밀면 맛집. 시원하고 담백한 밀면을 맛볼 수 있습니다.",
-    "features": [
-      "밀면",
-      "부산대표",
-      "현지맛집"
-    ],
-    "menu": [
-      "물밀면",
-      "비빔밀면",
-      "만두"
-    ],
-    "price": "8000",
-    "type": "restaurants",
-    "rating": 4.5,
-    "visitTime": "1시간",
-    "openingHours": "10:00-22:00",
-    "phone": "051-462-1575",
     "distance": "부산역 도보 5분",
-    "parking": "불가"
+    "addressZh": "釜山广域市 东区 忠壮大路 160",
+    "addressEn": "160 Chungjang-daero, Dong-gu, Busan",
+    "featuresEn": [
+      "Ocean View",
+      "Near Station",
+      "Residence Hotel"
+    ],
+    "featuresJa": [
+      "オーシャンビュー",
+      "駅近",
+      "レジデンス"
+    ],
+    "featuresEs": [
+      "Vista al Mar",
+      "Cerca Estación",
+      "Hotel Residencia"
+    ]
   },
   {
     "name": "하이디라오 부산역점 (Haidilao Busan Station, 海底捞釜山站店)",
-    "latitude": 35.115,
-    "longitude": 129.042,
+    "names": {
+      "ko": "하이디라오 부산역점",
+      "en": "Haidilao Hot Pot Busan Station",
+      "zh": "海底捞釜山站店",
+      "ja": "海底撈釜山駅店",
+      "es": "Haidilao Busan Station"
+    },
+    "latitude": 35.113075,
+    "longitude": 129.038314,
     "address": "부산광역시 동구 중앙대로 175",
     "description": "중국 훠궈 전문점. 다양한 식재료와 친절한 서비스로 유명합니다.",
+    "descEn": "Famous Chinese hot pot chain renowned for diverse ingredients and excellent service.",
+    "descZh": "中国著名火锅连锁店，食材丰富，服务贴心。",
+    "descJa": "中国の有名な火鍋チェーン店。多様な食材と丁寧なサービスで知られています。",
+    "descEs": "Famosa cadena de hot pot chino, conocida por sus ingredientes variados y excelente servicio.",
     "features": [
       "훠궈",
       "중식",
       "24시"
+    ],
+    "featuresZh": [
+      "火锅",
+      "中餐",
+      "24小时"
     ],
     "menu": [
       "훠궈",
@@ -193,275 +87,588 @@
     "openingHours": "10:00-익일 03:00",
     "phone": "051-466-8880",
     "distance": "부산역 도보 1분",
-    "parking": "무료"
-  },
-  {
-    "name": "부산 차이나타운 상해거리 (Busan Chinatown Shanghai Street, 釜山中华街上海街)",
-    "latitude": 35.1168,
-    "longitude": 129.0419,
-    "address": "부산광역시 동구 중앙대로179번길 1",
-    "description": "2007년 국내 유일의 차이나타운특구 지정. 상해문 조형물과 중국 문화 및 먹거리를 즐길 수 있습니다.",
-    "features": [
-      "차이나타운",
-      "문화체험",
-      "먹거리"
+    "parking": "무료",
+    "addressZh": "釜山广域市 东区 中央大路 175",
+    "addressEn": "175 Jungang-daero, Dong-gu, Busan",
+    "featuresEn": [
+      "Hot Pot",
+      "Chinese Food",
+      "24 Hours"
     ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.2,
-    "visitTime": "1-2시간",
-    "transport": "지하철 1호선 부산역 1/5번 출구, 버스 2/26/27/41/59/67/87/167"
-  },
-  {
-    "name": "용두산공원 (Yongdusan Park, 龙头山公园)",
-    "latitude": 35.0988,
-    "longitude": 129.0361,
-    "address": "부산광역시 중구 용두산길 37-55",
-    "description": "부산타워(120m)가 위치한 공원으로 부산 시내 전경을 한눈에 감상할 수 있습니다.",
-    "features": [
-      "부산타워",
-      "전망대",
-      "공원"
+    "featuresJa": [
+      "火鍋",
+      "中華料理",
+      "24時間"
     ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.4,
-    "visitTime": "1-2시간",
-    "phone": "051-860-7820"
+    "featuresEs": [
+      "Fondue China",
+      "Comida China",
+      "24 Horas"
+    ]
   },
   {
-    "name": "영도대교 (Yeongdo Bridge, 影岛大桥)",
-    "latitude": 35.0964,
-    "longitude": 129.0353,
-    "address": "부산광역시 영도구 대교동1가",
-    "description": "부산 중구와 영도구를 연결하는 역사적인 교량. 도보로 걸으며 부산항 풍경을 감상할 수 있습니다.",
-    "features": [
-      "다리",
-      "야경",
-      "산책"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.3,
-    "visitTime": "30분-1시간",
-    "transport": "지하철 1호선 남포역 6/8번 출구 도보 4분, 버스 6/7/8/9/17/30/71/82/85/88/113/186/190/508",
-    "phone": "051-780-0062"
-  },
-  {
-    "name": "자갈치시장 (Jagalchi Market, 札嘎其市场)",
-    "latitude": 35.0967,
-    "longitude": 129.0306,
-    "address": "부산광역시 중구 자갈치해안로 52",
-    "description": "대한민국 최대 수산시장. 신선한 해산물을 직접 구매하고 즉석에서 회를 즐길 수 있습니다.",
-    "features": [
-      "수산시장",
-      "해산물",
-      "현지체험"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "1-2시간",
-    "transport": "지하철 1호선 남포역 2번 출구/자갈치역 10번 출구 도보 6분, 버스 27/41/5-1/61/113/30/6/7/71/86"
-  },
-  {
-    "name": "국제시장 (Gukje Market, 国际市场)",
-    "latitude": 35.0993,
-    "longitude": 129.03,
-    "address": "부산광역시 중구 신창로4가 일원",
-    "description": "전통시장으로 다양한 물품과 먹거리를 즐길 수 있습니다. 부산의 역사가 살아있는 곳입니다.",
-    "features": [
-      "전통시장",
-      "쇼핑",
-      "먹거리"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.4,
-    "visitTime": "1-2시간",
-    "openingHours": "09:30-19:30 (첫째/셋째 일요일 휴무)",
-    "phone": "051-245-7389",
-    "transport": "지하철 1호선 자갈치역 7번 출구 도보 4분"
-  },
-  {
-    "name": "BIFF광장 (BIFF Square, BIFF广场)",
-    "latitude": 35.0988,
-    "longitude": 129.0289,
-    "address": "부산광역시 중구 비프광장로 4",
-    "description": "부산국제영화제의 중심무대이자 남포동 대표 먹거리 거리. 호떡, 씨앗호떡 등 다양한 길거리 음식을 즐길 수 있습니다.",
-    "features": [
-      "영화제",
-      "길거리음식",
-      "관광명소"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.3,
-    "visitTime": "1시간",
-    "transport": "지하철 1호선 자갈치역"
-  },
-  {
-    "name": "감천문화마을 (Gamcheon Culture Village, 甘川文化村)",
-    "latitude": 35.0975,
-    "longitude": 129.0104,
-    "address": "부산광역시 사하구 감내2로 203",
-    "description": "연간 185만명이 방문하는 부산 대표 관광명소. 알록달록한 집들이 계단식으로 이루어진 예술마을입니다.",
-    "features": [
-      "예술마을",
-      "포토스팟",
-      "관광명소"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.6,
-    "visitTime": "2-3시간",
-    "openingHours": "3-10월 09:00-18:00, 11-2월 09:00-17:00",
-    "phone": "051-220-4000"
-  },
-  {
-    "name": "해운대해수욕장 (Haeundae Beach, 海云台海水浴场)",
-    "latitude": 35.1587,
-    "longitude": 129.1604,
-    "address": "부산광역시 해운대구 해운대해변로 264",
-    "description": "백사장 길이 1.5km, 너비 30-50m의 한국 대표 해수욕장. 여름철 피서지로 최고의 인기를 자랑합니다.",
-    "features": [
-      "해수욕장",
-      "백사장",
-      "여름"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.6,
-    "visitTime": "2-3시간",
-    "transport": "지하철 2호선 해운대역 5번 출구 도보 15분, 버스 139/307/1003"
-  },
-  {
-    "name": "송정해수욕장 (Songjeong Beach, 松亭海水浴场)",
-    "latitude": 35.1785,
-    "longitude": 129.1997,
-    "address": "부산광역시 해운대구 송정해변로 62",
-    "description": "백사장 길이 1.2km, 너비 57m. 서핑 명소로 유명하며 한적하게 바다를 즐기기 좋습니다.",
-    "features": [
-      "해수욕장",
-      "서핑",
-      "카페거리"
-    ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "2-3시간",
-    "phone": "051-749-5800"
-  },
-  {
-    "name": "씨라이프 부산 아쿠아리움 (SEA LIFE Busan Aquarium, 釜山海洋生物水族馆)",
-    "latitude": 35.1587,
-    "longitude": 129.1603,
+    "name": "씨라이프 부산 아쿠아리움 (SEA LIFE Busan Aquarium, 釜山SEA LIFE水族馆)",
+    "names": {
+      "ko": "씨라이프 부산 아쿠아리움",
+      "en": "SEA LIFE Busan Aquarium",
+      "zh": "釜山SEA LIFE水族馆",
+      "ja": "シーライフ釜山水族館",
+      "es": "Acuario SEA LIFE Busan"
+    },
+    "latitude": 35.159162,
+    "longitude": 129.160875,
     "address": "부산광역시 해운대구 해운대해변로 266",
     "description": "해운대 대표 아쿠아리움. 다양한 해양생물을 관람할 수 있으며 4세, 7세 아이들에게 특히 추천합니다.",
+    "descEn": "Haeundae's premier aquarium featuring diverse marine life. Highly recommended for young children.",
+    "descZh": "海云台代表性水族馆，可观赏各种海洋生物，特别推荐带孩子前来。",
+    "descJa": "海雲台を代表する水族館。様々な海洋生物を観覧でき、小さなお子様に特におすすめ。",
+    "descEs": "Acuario principal de Haeundae con gran variedad de vida marina. Ideal para niños pequeños.",
     "features": [
       "아쿠아리움",
       "어린이",
       "실내체험"
     ],
+    "featuresZh": [
+      "水族馆",
+      "儿童",
+      "室内体验"
+    ],
     "price": "29000",
     "type": "attractions",
     "rating": 4.4,
     "visitTime": "2-3시간",
-    "openingHours": "평일 10:00-19:00, 주말 10:00-20:00 (입장마감 1시간 전)",
+    "openingHours": "평일 10:00-19:00, 주말 10:00-20:00",
     "phone": "051-740-1700",
     "transport": "지하철 2호선 해운대역 3/5번 출구 도보 10분",
-    "ageGroup": "4세, 7세"
+    "addressZh": "釜山广域市 海云台区 海云台海边路 266",
+    "addressEn": "266 Haeundaehaebyeon-ro, Haeundae-gu, Busan",
+    "featuresEn": [
+      "Aquarium",
+      "Children",
+      "Indoor Experience"
+    ],
+    "featuresJa": [
+      "水族館",
+      "お子様",
+      "屋内体験"
+    ],
+    "featuresEs": [
+      "Acuario",
+      "Niños",
+      "Experiencia Interior"
+    ]
   },
   {
-    "name": "부산 어린이대공원 (Busan Children's Grand Park, 釜山儿童大公园)",
-    "latitude": 35.1678,
-    "longitude": 129.0596,
-    "address": "부산광역시 부산진구 새싹로 295",
-    "description": "백양산 기슭의 종합 공원. 동물원, 놀이기구, 산책로를 무료로 즐길 수 있어 4세, 7세 아이들과 가족 나들이에 최적입니다.",
+    "name": "딘타이펑 광복점 (Din Tai Fung Gwangbok, 鼎泰豐光復店)",
+    "names": {
+      "ko": "딘타이펑 광복점",
+      "en": "Din Tai Fung Gwangbok",
+      "zh": "鼎泰豐光復店",
+      "ja": "ディンタイフォン光復店",
+      "es": "Din Tai Fung Gwangbok"
+    },
+    "latitude": 35.097535,
+    "longitude": 129.036834,
+    "address": "부산 해운대구 센텀남대로 35 신세계백화점 센텀시티점 8층",
+    "description": "미쉐린 1스타 대만 딤섬 전문점. 얇은 피와 육즙이 풍부한 샤오롱바오로 유명합니다.",
+    "descEn": "Michelin 1-star Taiwanese dim sum restaurant, famous for its thin-skinned juicy xiaolongbao.",
+    "descZh": "米其林一星台湾点心专门店，以皮薄汁多的小笼包闻名。",
+    "descJa": "ミシュラン1スターの台湾点心専門店。薄皮でジューシーな小籠包が有名。",
+    "descEs": "Restaurante de dim sum taiwanés con 1 estrella Michelin, famoso por sus xiaolongbao.",
     "features": [
-      "공원",
-      "동물원",
-      "놀이기구"
+      "샤오롱바오",
+      "딤섬",
+      "미쉐린"
+    ],
+    "featuresZh": [
+      "小笼包",
+      "点心",
+      "米其林"
+    ],
+    "price": "20000",
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "1-2시간",
+    "openingHours": "11:00-22:00",
+    "phone": "051-745-1234",
+    "addressZh": "釜山 海云台区 Centum南大路 35 新世界百货8楼",
+    "addressEn": "35 Centum Nam-daero (Shinsegae Centum City 8F), Haeundae-gu, Busan",
+    "featuresEn": [
+      "Xiaolongbao",
+      "Dim Sum",
+      "Michelin Star"
+    ],
+    "featuresJa": [
+      "小籠包",
+      "点心",
+      "ミシュラン"
+    ],
+    "featuresEs": [
+      "Xiaolongbao",
+      "Dim Sum",
+      "Estrella Michelin"
+    ]
+  },
+  {
+    "name": "블루라인파크 송정정거장",
+    "names": {
+      "ko": "블루라인파크 송정정거장",
+      "en": "Blue Line Park Songjung Station",
+      "zh": "蓝线公园松亭站",
+      "ja": "ブルーラインパーク松亭駅",
+      "es": "Blue Line Park Estación Songjung"
+    },
+    "latitude": 35.180882,
+    "longitude": 129.200172,
+    "address": "부산광역시 해운대구 송정중앙로6번길 60",
+    "description": "폐선된 동해남부선 철로를 활용한 해안 관광열차 블루라인파크의 송정 종착역.",
+    "descEn": "Terminal station of Blue Line Park, a coastal tourist train using a former railway line along the sea.",
+    "descZh": "利用废弃铁路打造的海岸观光列车蓝线公园的松亭终点站。",
+    "descJa": "廃線になった鉄道を活用した海岸観光列車ブルーラインパークの松亭終着駅。",
+    "descEs": "Estación terminal del tren turístico costero Blue Line Park, construido en vías ferroviarias en desuso.",
+    "features": [
+      "해변열차",
+      "송정해수욕장",
+      "해안절경"
+    ],
+    "featuresZh": [
+      "海岸列车",
+      "海水浴场",
+      "海景"
+    ],
+    "price": "35000",
+    "type": "attractions",
+    "rating": 4.7,
+    "visitTime": "1-2시간",
+    "openingHours": "09:00-18:00 (계절별 상이)",
+    "transport": "동해선 송정역 도보 5분",
+    "addressZh": "釜山广域市 海云台区 松亭中央路6番街 60",
+    "addressEn": "60 Songjung-jungang-ro 6beon-gil, Haeundae-gu, Busan",
+    "featuresEn": [
+      "Coastal Train",
+      "Songjung Beach",
+      "Coastal Scenery"
+    ],
+    "featuresJa": [
+      "海岸列車",
+      "松亭海水浴場",
+      "海岸の絶景"
+    ],
+    "featuresEs": [
+      "Tren Costero",
+      "Playa Songjung",
+      "Paisaje Costero"
+    ]
+  },
+  {
+    "name": "더파티 센텀점 (The Party Centum, 德派对Centum店)",
+    "names": {
+      "ko": "더파티 센텀점",
+      "en": "The Party Centum Buffet",
+      "zh": "德派对Centum店",
+      "ja": "ザ・パーティ センタム店",
+      "es": "The Party Centum"
+    },
+    "latitude": 35.173989,
+    "longitude": 129.126247,
+    "address": "부산광역시 해운대구 센텀동로 일대",
+    "description": "다양한 요리를 즐길 수 있는 프리미엄 뷔페 레스토랑입니다.",
+    "descEn": "Premium buffet restaurant offering a wide variety of cuisines in Centum City.",
+    "descZh": "在Centum市区内，可以享用各种美食的高档自助餐厅。",
+    "descJa": "センタム内に位置するプレミアムビュッフェレストラン。様々な料理を楽しめます。",
+    "descEs": "Restaurante bufé premium que ofrece gran variedad de cocinas en Centum City.",
+    "features": [
+      "뷔페",
+      "프리미엄",
+      "센텀"
+    ],
+    "featuresZh": [
+      "自助餐",
+      "高档",
+      "Centum"
+    ],
+    "price": "50000",
+    "type": "restaurants",
+    "rating": 4.4,
+    "visitTime": "2시간",
+    "addressZh": "釜山广域市 海云台区 Centum东路",
+    "addressEn": "Centum-dong-ro, Haeundae-gu, Busan",
+    "featuresEn": [
+      "Buffet",
+      "Premium",
+      "Centum City"
+    ],
+    "featuresJa": [
+      "ビュッフェ",
+      "プレミアム",
+      "センタム"
+    ],
+    "featuresEs": [
+      "Bufé",
+      "Premium",
+      "Centum City"
+    ]
+  },
+  {
+    "name": "부산근현대역사관 (Busan Museum of Modern History, 釜山近現代歷史館)",
+    "names": {
+      "ko": "부산근현대역사관",
+      "en": "Busan Museum of Modern History",
+      "zh": "釜山近现代历史馆",
+      "ja": "釜山近現代歴史館",
+      "es": "Museo de Historia Moderna de Busan"
+    },
+    "latitude": 35.102423,
+    "longitude": 129.032152,
+    "address": "부산광역시 중구 대청로 104",
+    "description": "일제강점기 미국문화원으로 사용된 건물을 리모델링한 역사박물관. 무료입장.",
+    "descEn": "History museum remodeled from a building used as the US Cultural Center during Japanese colonial era. Free admission.",
+    "descZh": "将日占时期用作美国文化院的建筑改建而成的历史博物馆。免费参观。",
+    "descJa": "日本統治時代に米国文化院として使用された建物をリノベーションした歴史博物館。入場無料。",
+    "descEs": "Museo histórico remodelado desde el antiguo Centro Cultural Americano de la era colonial japonesa. Entrada gratuita.",
+    "features": [
+      "역사박물관",
+      "무료입장",
+      "근현대사"
+    ],
+    "featuresZh": [
+      "历史博物馆",
+      "免费入场",
+      "近现代史"
     ],
     "price": "0",
     "type": "attractions",
-    "rating": 4.5,
-    "visitTime": "3-4시간",
-    "openingHours": "09:00-18:00",
-    "phone": "051-860-7848",
-    "ageGroup": "4세, 7세"
+    "rating": 4.4,
+    "visitTime": "1-2시간",
+    "openingHours": "화~일 09:00~18:00 (월요일 휴관)",
+    "phone": "051-607-8001",
+    "transport": "지하철 1호선 중앙역 7번 출구 도보 5분",
+    "addressZh": "釜山广域市 中区 大厅路 104",
+    "addressEn": "104 Daecheong-ro, Jung-gu, Busan",
+    "featuresEn": [
+      "History Museum",
+      "Free Admission",
+      "Modern History"
+    ],
+    "featuresJa": [
+      "歴史博物館",
+      "無料入場",
+      "近現代史"
+    ],
+    "featuresEs": [
+      "Museo Histórico",
+      "Entrada Gratuita",
+      "Historia Moderna"
+    ]
   },
   {
-    "name": "롯데월드 어드벤처 부산 (Lotte World Adventure Busan, 乐天世界釜山)",
-    "latitude": 35.1889,
-    "longitude": 129.2123,
-    "address": "부산광역시 기장군 기장읍 동부산관광로 42",
-    "description": "부산 대표 테마파크. 키즈존과 다양한 놀이기구로 4세, 7세 아이들에게 큰 인기입니다.",
+    "name": "피아크 카페385 (P.ARK Cafe & Bakery, P.ARK咖啡烘焙坊)",
+    "names": {
+      "ko": "피아크 카페385",
+      "en": "P.ARK Cafe 385",
+      "zh": "P.ARK咖啡烘焙坊",
+      "ja": "ピアクカフェ385",
+      "es": "P.ARK Café 385"
+    },
+    "latitude": 35.084237,
+    "longitude": 129.076404,
+    "address": "부산광역시 영도구 해양로195번길 180",
+    "description": "영도 해변에 위치한 6층 규모의 대형 베이커리 카페. 파노라마 오션뷰와 80여 종의 빵·음료를 제공합니다.",
+    "descEn": "Large 6-floor bakery cafe on Yeongdo coast, offering panoramic ocean views and 80+ varieties of bread and drinks.",
+    "descZh": "位于影岛海边的6层大型烘焙咖啡馆，提供全景海景和80余种面包饮品。",
+    "descJa": "影島の海岸に位置する6階建ての大型ベーカリーカフェ。パノラマ海景と80種以上のパン・飲み物を提供。",
+    "descEs": "Gran cafetería panadería de 6 pisos en la costa de Yeongdo, con vistas panorámicas al mar y más de 80 variedades.",
     "features": [
-      "테마파크",
-      "놀이기구",
-      "키즈존"
+      "오션뷰",
+      "베이커리카페",
+      "복합문화공간"
     ],
-    "price": "56000",
+    "featuresZh": [
+      "海景",
+      "烘焙咖啡",
+      "文化空间"
+    ],
+    "price": "10000",
+    "type": "restaurants",
+    "rating": 4.5,
+    "visitTime": "1-2시간",
+    "openingHours": "매일 10:00~23:00",
+    "transport": "버스 66, 186번 영도구청 방면",
+    "addressZh": "釜山广域市 影岛区 海洋路195番街 180",
+    "addressEn": "180 Haeyang-ro 195beon-gil, Yeongdo-gu, Busan",
+    "featuresEn": [
+      "Ocean View",
+      "Bakery Cafe",
+      "Cultural Complex"
+    ],
+    "featuresJa": [
+      "オーシャンビュー",
+      "ベーカリーカフェ",
+      "複合文化施設"
+    ],
+    "featuresEs": [
+      "Vista al Mar",
+      "Cafetería Panadería",
+      "Complejo Cultural"
+    ]
+  },
+  {
+    "name": "송도해상케이블카 (Songdo Ocean Cable Car, 松島海上空中缆车)",
+    "names": {
+      "ko": "송도해상케이블카",
+      "en": "Songdo Ocean Cable Car",
+      "zh": "松島海上空中缆车",
+      "ja": "松島海上ケーブルカー",
+      "es": "Teleférico Marino Songdo"
+    },
+    "latitude": 35.076833,
+    "longitude": 129.022845,
+    "address": "부산광역시 서구 송도해변로 171",
+    "description": "송도해수욕장과 암남공원을 잇는 국내 최초 해상 케이블카. 바다 위를 가로지르며 아름다운 해안 전경을 감상할 수 있습니다.",
+    "descEn": "Korea's first ocean cable car connecting Songdo Beach and Amnam Park, offering stunning coastal views over the sea.",
+    "descZh": "韩国首条海上空中缆车，连接松岛海水浴场和岩南公园，可欣赏壮美的海岸风光。",
+    "descJa": "韓国初の海上ケーブルカー。松島海水浴場と岩南公園を繋ぎ、海の上から美しい海岸の絶景を楽しめます。",
+    "descEs": "Primer teleférico marino de Corea que conecta la playa de Songdo con el parque Amnam, con vistas costeras espectaculares.",
+    "features": [
+      "케이블카",
+      "오션뷰",
+      "해상어트랙션"
+    ],
+    "featuresZh": [
+      "缆车",
+      "海景",
+      "海上景点"
+    ],
+    "price": "17000",
     "type": "attractions",
     "rating": 4.6,
-    "visitTime": "4시간 이상",
-    "transport": "동해선 오시리아역 1번 출구 도보 10분, 버스 139/183/185/1001",
-    "ageGroup": "4세, 7세"
+    "visitTime": "1시간",
+    "openingHours": "09:00~20:00 (동절기) / 09:00~22:00 (여름)",
+    "phone": "051-247-9900",
+    "transport": "버스 7, 71, 96번 송도해수욕장 정류장",
+    "addressZh": "釜山广域市 西区 松岛海边路 171",
+    "addressEn": "171 Songdo-haebyeon-ro, Seo-gu, Busan",
+    "featuresEn": [
+      "Cable Car",
+      "Ocean View",
+      "Ocean Attraction"
+    ],
+    "featuresJa": [
+      "ケーブルカー",
+      "海景",
+      "海上アトラクション"
+    ],
+    "featuresEs": [
+      "Teleférico",
+      "Vista al Mar",
+      "Atracción Marina"
+    ]
   },
   {
-    "name": "국립부산과학관 (National Science Museum Busan, 国立釜山科学馆)",
-    "latitude": 35.1892,
-    "longitude": 129.2085,
-    "address": "부산광역시 기장군 기장읍 동부산관광6로 59",
-    "description": "어린이 과학체험 박물관. 다양한 과학 체험 프로그램으로 4세, 7세 아이들의 과학적 호기심을 자극합니다.",
+    "name": "일신명품한우 (Ilsin Premium Korean Beef, 一信名品韓牛)",
+    "names": {
+      "ko": "일신명품한우",
+      "en": "Ilsin Premium Korean Beef",
+      "zh": "一信名品韓牛",
+      "ja": "一信名品韓牛",
+      "es": "Ilsin Res Coreana Premium"
+    },
+    "latitude": 35.101948,
+    "longitude": 129.025667,
+    "address": "부산광역시 중구 중구로43번길 42",
+    "description": "부평깡통시장 인근 최고급 암소 한우 1++(9)등급 전문점. 1층에서 직접 고기를 선택·구매 후 2층에서 식사합니다.",
+    "descEn": "Premium Korean beef (1++ grade) restaurant near Bupyeong Market. Select your cut downstairs and dine upstairs.",
+    "descZh": "位于富平罐头市场附近的顶级韩牛（1++级）专门店。在一楼挑选购买，二楼用餐。",
+    "descJa": "釜平カン詰市場近くの最高級韓牛1++等級専門店。1階で肉を選んで購入し、2階で食事します。",
+    "descEs": "Especialidad en carne coreana premium (grado 1++) cerca del mercado Bupyeong. Se elige el corte abajo y se come arriba.",
     "features": [
-      "과학관",
-      "체험학습",
-      "교육"
+      "한우 1++ 등급",
+      "소고기",
+      "육회",
+      "갈비탕"
     ],
-    "price": "4000",
-    "type": "attractions",
+    "featuresZh": [
+      "韩牛1++等级",
+      "牛肉",
+      "生拌牛肉",
+      "排骨汤"
+    ],
+    "price": "150000",
+    "type": "restaurants",
+    "rating": 4.8,
+    "visitTime": "1-2시간",
+    "openingHours": "화~일 11:30~22:00 (월요일 휴무)",
+    "phone": "051-254-1871",
+    "transport": "지하철 1호선 자갈치역 7번 출구 도보 5분",
+    "addressZh": "釜山广域市 中区 中区路43番街 42",
+    "addressEn": "42 Junggu-ro 43beon-gil, Jung-gu, Busan",
+    "featuresEn": [
+      "Korean Beef 1++ Grade",
+      "Beef",
+      "Beef Tartare",
+      "Galbi Soup"
+    ],
+    "featuresJa": [
+      "韓牛1++等級",
+      "牛肉",
+      "ユッケ",
+      "カルビスープ"
+    ],
+    "featuresEs": [
+      "Res Coreana 1++",
+      "Carne de Res",
+      "Yukhoe",
+      "Sopa de Costillas"
+    ]
+  },
+  {
+    "name": "김가네토속식당",
+    "names": {
+      "ko": "김가네토속식당",
+      "en": "Kimgane Traditional Restaurant",
+      "zh": "金家土俗食堂",
+      "ja": "キムガネ土俗食堂",
+      "es": "Restaurante Tradicional Kimgane"
+    },
+    "latitude": 34.9866128,
+    "longitude": 127.8364813,
+    "address": "경상남도 하동군 금남면 덕천리 1058-6",
+    "description": "경남 하동군 금남면 덕천리에 위치한 토속 음식 전문 식당입니다.",
+    "descEn": "Traditional Korean cuisine restaurant located in Deokcheon-ri, Hadong-gun, Gyeongnam.",
+    "descZh": "位于庆南河东郡金南面德川里的土俗料理专门店。",
+    "descJa": "慶南河東郡金南面徳川里に位置する郷土料理専門店です。",
+    "descEs": "Restaurante de cocina tradicional coreana ubicado en Deokcheon-ri, Hadong-gun.",
+    "features": [
+      "토속음식",
+      "한식",
+      "경남맛집"
+    ],
+    "featuresZh": [
+      "土俗料理",
+      "韩食",
+      "庆南美食"
+    ],
+    "type": "restaurants",
     "rating": 4.5,
-    "visitTime": "2-3시간",
-    "openingHours": "09:30-17:30 (입장마감 16:30), 월요일·1월1일·명절 당일 휴관",
-    "transport": "동해선 오시리아역 1번 출구 → 버스 185번",
-    "ageGroup": "4세, 7세"
+    "addressZh": "庆尚南道 河东郡 金南面 德川里 1058-6",
+    "addressEn": "1058-6 Deokcheon-ri, Geumnam-myeon, Hadong-gun, Gyeongnam",
+    "featuresEn": [
+      "Traditional Food",
+      "Korean Cuisine",
+      "Gyeongnam Restaurant"
+    ],
+    "featuresJa": [
+      "郷土料理",
+      "韓食",
+      "慶南グルメ"
+    ],
+    "featuresEs": [
+      "Comida Tradicional",
+      "Cocina Coreana",
+      "Restaurante Gyeongnam"
+    ]
   },
   {
-    "name": "태종대 유원지 (Taejongdae Resort Park, 太宗台游园地)",
-    "latitude": 35.0514,
-    "longitude": 129.0831,
-    "address": "부산광역시 영도구 전망로 24",
-    "description": "등대, 전망대, 다누비열차가 있는 자연경관 명소. 가족 나들이 장소로 인기가 높습니다.",
+    "name": "앙또르과자점",
+    "names": {
+      "ko": "앙또르과자점",
+      "en": "Antteur Bakery",
+      "zh": "昂图尔糕点店",
+      "ja": "アントゥル菓子店",
+      "es": "Pastelería Antteur"
+    },
+    "latitude": 35.1058030891303,
+    "longitude": 128.974475624365,
+    "address": "부산광역시 사하구 제석로 57-1 (당리동)",
+    "description": "부산 당리동의 유명 과자점·베이커리. 다양한 수제 과자와 빵으로 현지인에게 인기 있는 맛집입니다.",
+    "descEn": "Popular bakery in Dangnri-dong, Busan, loved by locals for handmade sweets and freshly baked bread.",
+    "descZh": "位于釜山堂里洞的知名糕点店，以各种手工点心和面包深受当地人喜爱。",
+    "descJa": "釜山堂里洞の有名なお菓子屋・ベーカリー。様々な手作りお菓子とパンで地元民に人気。",
+    "descEs": "Popular pastelería en Dangnri-dong, Busan, amada por los locales por sus dulces artesanales y pan fresco.",
     "features": [
-      "자연경관",
-      "전망대",
-      "등대"
+      "과자점",
+      "베이커리",
+      "디저트"
     ],
-    "price": "0",
-    "type": "attractions",
-    "rating": 4.6,
-    "visitTime": "2-3시간",
-    "openingHours": "하절기 04:00-24:00, 동절기 05:00-24:00",
-    "phone": "051-860-7866"
-  },
-  {
-    "name": "키위키즈랜드 (Kiwi Kids Land, 奇异果儿童乐园)",
-    "latitude": 35.2867,
-    "longitude": 129.2156,
-    "address": "부산광역시 기장군 장안읍 좌천리 497-9",
-    "description": "부산 최대 규모 키즈카페. 트램폴린, 정글짐, 범퍼카, 실내썰매 등 다양한 놀이시설을 추가요금 없이 즐길 수 있어 4세, 7세 아이들에게 최적입니다.",
-    "features": [
-      "키즈카페",
-      "실내놀이",
-      "트램폴린"
+    "featuresZh": [
+      "糕点店",
+      "烘焙",
+      "甜点"
     ],
-    "price": "15000",
-    "type": "attractions",
+    "type": "restaurants",
     "rating": 4.5,
-    "visitTime": "2-3시간",
-    "openingHours": "평일 11:00-19:00, 주말 10:00-19:00",
-    "ageGroup": "4세, 7세"
+    "visitTime": "30분",
+    "openingHours": "월~토 06:00~24:00",
+    "phone": "051-202-4060",
+    "transport": "지하철 1호선 당리역 도보 5분",
+    "addressZh": "釜山广域市 沙下区 霁石路 57-1",
+    "addressEn": "57-1 Jeseok-ro, Saha-gu, Busan",
+    "featuresEn": [
+      "Bakery",
+      "Pastry Shop",
+      "Dessert"
+    ],
+    "featuresJa": [
+      "菓子店",
+      "ベーカリー",
+      "デザート"
+    ],
+    "featuresEs": [
+      "Panadería",
+      "Pastelería",
+      "Postre"
+    ]
+  },
+  {
+    "name": "트레이더스 홀세일 클럽 서면점",
+    "names": {
+      "ko": "트레이더스 홀세일 클럽 서면점",
+      "en": "Traders Wholesale Club Seomyeon",
+      "zh": "易买得量贩超市西面店",
+      "ja": "トレーダーズ西面店",
+      "es": "Traders Wholesale Club Seomyeon"
+    },
+    "latitude": 35.163841734569,
+    "longitude": 129.05255473706,
+    "address": "부산광역시 부산진구 시민공원로 31 (부암동)",
+    "description": "이마트 트레이더스 서면점. 창고형 대형마트로 식품, 생활용품을 대용량으로 저렴하게 구매할 수 있습니다.",
+    "descEn": "E-Mart Traders Seomyeon warehouse-style supermarket offering bulk food and household goods at low prices.",
+    "descZh": "易买得量贩超市西面店，仓储式大型超市，可以低价大量购买食品和生活用品。",
+    "descJa": "イーマートトレーダーズ西面店。倉庫型大型スーパーで食品・生活用品をまとめ買いできます。",
+    "descEs": "Supermercado tipo almacén Traders de E-Mart, donde se pueden comprar alimentos y artículos del hogar a granel.",
+    "features": [
+      "창고형마트",
+      "대형마트",
+      "쇼핑"
+    ],
+    "featuresZh": [
+      "仓储超市",
+      "大型超市",
+      "购物"
+    ],
+    "type": "attractions",
+    "rating": 4.3,
+    "visitTime": "1-2시간",
+    "openingHours": "10:00~23:00 (둘째·넷째 월요일 휴무)",
+    "phone": "051-718-1052",
+    "transport": "지하철 1호선 부암역 도보 5분",
+    "parking": "무료",
+    "addressZh": "釜山广域市 釜山镇区 市民公园路 31",
+    "addressEn": "31 Siminpark-ro, Busanjin-gu, Busan",
+    "featuresEn": [
+      "Warehouse Supermarket",
+      "Large Supermarket",
+      "Shopping"
+    ],
+    "featuresJa": [
+      "倉庫型スーパー",
+      "大型スーパー",
+      "ショッピング"
+    ],
+    "featuresEs": [
+      "Supermercado Almacén",
+      "Supermercado Grande",
+      "Compras"
+    ]
   }
 ]
