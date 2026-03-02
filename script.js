@@ -164,7 +164,7 @@ function initMap() {
 // ========================================
 async function loadData() {
     try {
-        const response = await fetch('data/busan-travel-data.json');
+        const response = await fetch('data/korea-travel-data.json');
         busanData = await response.json();
 
         console.log(`✅ 데이터 로드 완료: ${busanData.length}개 장소`);

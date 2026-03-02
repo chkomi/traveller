@@ -125,8 +125,8 @@
     </style>
 </head>
 <body>
-    <div class="title">우리 가족 여행 지도</div>
-    <div class="subtitle">여행지를 선택하세요</div>
+    <div class="title" id="page-title">우리 가족 여행 지도</div>
+    <div class="subtitle" id="page-subtitle">여행지를 선택하세요</div>
 
     <div class="lang-selector">
         <button class="lang-btn" data-lang="ko" onclick="selectLang(this)" title="한국어">🇰🇷</button>
@@ -139,32 +139,65 @@
     <div class="btn-group">
         <a href="busan.html" class="dest-btn busan">
             <span class="emoji">🌊</span>
-            <span class="label">부산</span>
-            <span class="desc">부산 여행 계획</span>
+            <span class="label" id="label-busan">부산</span>
+            <span class="desc" id="desc-busan">부산 여행 계획</span>
         </a>
         <a href="jeju.html" class="dest-btn jeju">
             <span class="emoji">🍊</span>
-            <span class="label">济州</span>
-            <span class="desc">제주 여행 계획</span>
+            <span class="label" id="label-jeju">제주</span>
+            <span class="desc" id="desc-jeju">제주 여행 계획</span>
         </a>
         <a href="seoul.html" class="dest-btn seoul">
             <span class="emoji">🏙️</span>
-            <span class="label">서울</span>
-            <span class="desc">서울 여행 계획</span>
+            <span class="label" id="label-seoul">서울</span>
+            <span class="desc" id="desc-seoul">서울 여행 계획</span>
         </a>
     </div>
     <script>
+        var i18n = {
+            ko: { title: '우리 가족 여행 지도', subtitle: '여행지를 선택하세요',
+                  busan: '부산', jeju: '제주', seoul: '서울',
+                  descBusan: '부산 여행 계획', descJeju: '제주 여행 계획', descSeoul: '서울 여행 계획' },
+            en: { title: 'Family Travel Map', subtitle: 'Choose your destination',
+                  busan: 'Busan', jeju: 'Jeju', seoul: 'Seoul',
+                  descBusan: 'Busan Trip', descJeju: 'Jeju Trip', descSeoul: 'Seoul Trip' },
+            zh: { title: '家庭旅行地图', subtitle: '请选择旅行目的地',
+                  busan: '釜山', jeju: '济州', seoul: '首尔',
+                  descBusan: '釜山旅行计划', descJeju: '济州旅行计划', descSeoul: '首尔旅行计划' },
+            ja: { title: '家族旅行マップ', subtitle: '旅行先を選んでください',
+                  busan: '釜山', jeju: '済州', seoul: 'ソウル',
+                  descBusan: '釜山旅行プラン', descJeju: '済州旅行プラン', descSeoul: 'ソウル旅行プラン' },
+            es: { title: 'Mapa de Viaje Familiar', subtitle: 'Elige tu destino',
+                  busan: 'Busan', jeju: 'Jeju', seoul: 'Seúl',
+                  descBusan: 'Plan Busan', descJeju: 'Plan Jeju', descSeoul: 'Plan Seúl' }
+        };
+
+        function applyLang(lang) {
+            var t = i18n[lang] || i18n.ko;
+            document.getElementById('page-title').textContent = t.title;
+            document.getElementById('page-subtitle').textContent = t.subtitle;
+            document.getElementById('label-busan').textContent = t.busan;
+            document.getElementById('label-jeju').textContent = t.jeju;
+            document.getElementById('label-seoul').textContent = t.seoul;
+            document.getElementById('desc-busan').textContent = t.descBusan;
+            document.getElementById('desc-jeju').textContent = t.descJeju;
+            document.getElementById('desc-seoul').textContent = t.descSeoul;
+        }
+
         (function() {
             var lang = localStorage.getItem('travellang') || 'ko';
             document.querySelectorAll('.lang-btn').forEach(function(btn) {
                 if (btn.dataset.lang === lang) btn.classList.add('active');
             });
+            applyLang(lang);
         })();
 
         function selectLang(btn) {
             document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
             btn.classList.add('active');
-            localStorage.setItem('travellang', btn.dataset.lang);
+            var lang = btn.dataset.lang;
+            localStorage.setItem('travellang', lang);
+            applyLang(lang);
         }
     </script>
 </body>
