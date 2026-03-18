@@ -673,7 +673,7 @@ async function loadAllRoutes() {
             const result = await fetchRouteForDay(day);
             if (result) {
                 routeCache[day] = result;
-                drawRoute(day, result.coords);
+                // drawRoute(day, result.coords); // 경로 선 표시 비활성화
             }
         }),
         ...Object.keys(GATHERING_ROUTES).flatMap(dayKey => {
@@ -683,7 +683,7 @@ async function loadAllRoutes() {
                 if (result) {
                     const key = `${day}-${index}`;
                     gatheringCache[key] = { ...result, ...route };
-                    drawGatheringRoute(day, index, result.coords);
+                    // drawGatheringRoute(day, index, result.coords); // 경로 선 표시 비활성화
                     addDepartureMarker(route.waypoints[0], day);
                 }
             });
@@ -695,7 +695,7 @@ async function loadAllRoutes() {
                 if (result) {
                     const key = `${day}-${index}`;
                     dispersalCache[key] = { ...result, ...route };
-                    drawDispersalRoute(day, index, result.coords);
+                    // drawDispersalRoute(day, index, result.coords); // 경로 선 표시 비활성화
                     addArrivalMarker(route.waypoints[route.waypoints.length - 1], day);
                 }
             });
